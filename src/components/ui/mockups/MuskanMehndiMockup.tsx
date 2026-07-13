@@ -4,14 +4,15 @@ import { Star, Calendar, Award, CheckCircle, Globe, Users, Heart, BookOpen, Cloc
 
 export const MuskanMehndiMockup = () => {
   return (
-    <div className="w-full bg-[#0a0f1c] text-amber-50 font-sans overflow-hidden">
+    <div className="relative w-full h-full overflow-y-auto bg-[#0a0f1c] text-amber-50 font-sans">
       {/* Decorative Background Elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-amber-600/10 blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-rose-600/10 blur-[120px]" />
         {/* CSS Mandalas in background */}
         <div className="absolute top-[20%] right-[10%] opacity-[0.03]">
           <div className="w-[600px] h-[600px] rounded-full border-[1px] border-amber-500 flex items-center justify-center animate-[spin_60s_linear_infinite]">
+
             <div className="w-[500px] h-[500px] rounded-full border-[1px] border-amber-500/50 rotate-45" />
             <div className="w-[500px] h-[500px] rounded-full border-[1px] border-amber-500/50 -rotate-45 absolute" />
             <div className="w-[400px] h-[400px] rounded-full border-[1px] border-amber-500 absolute" />
@@ -20,7 +21,7 @@ export const MuskanMehndiMockup = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1c]/80 backdrop-blur-md border-b border-amber-500/10">
+      <nav className="sticky top-0 left-0 right-0 z-50 bg-[#0a0f1c]/80 backdrop-blur-md border-b border-amber-500/10">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}

@@ -15,7 +15,7 @@ export interface ProjectData {
   learnings: string;
   liveDemoUrl: string;
   githubUrl?: string;
-  mockupId: 'chatcv' | 'vtry' | 'fintrack' | 'ai-paisee' | 'business' | 'portfolio' | 'finance' | 'harini-dental' | 'nidhi-dental' | 'confident-clinic' | 'priti-dental';
+  mockupId: 'chatcv' | 'vtry' | 'fintrack' | 'ai-paisee' | 'business' | 'portfolio' | 'finance' | 'harini-dental' | 'nidhi-dental' | 'confident-clinic' | 'priti-dental' | 'muskan-mehndi';
 }
 
 export const projectsData: ProjectData[] = [
@@ -167,7 +167,7 @@ export const projectsData: ProjectData[] = [
     challenges: "Optimizing dozens of high-resolution images to ensure the site loaded quickly without sacrificing visual quality.",
     learnings: "Mastered modern image optimization techniques, lazy loading, and implementing masonry layouts in React.",
     liveDemoUrl: "https://muskanmehndiart.netlify.app/",
-    mockupId: "business"
+    mockupId: "muskan-mehndi"
   },
   {
     id: "dj-brothers",
