@@ -15,7 +15,7 @@ export interface ProjectData {
   learnings: string;
   liveDemoUrl: string;
   githubUrl?: string;
-  mockupId: 'chatcv' | 'vtry' | 'fintrack' | 'ai-paisee' | 'business' | 'portfolio' | 'finance';
+  mockupId: 'chatcv' | 'vtry' | 'fintrack' | 'ai-paisee' | 'business' | 'portfolio' | 'finance' | 'harini-dental' | 'nidhi-dental' | 'confident-clinic' | 'priti-dental';
 }
 
 export const projectsData: ProjectData[] = [
@@ -92,7 +92,7 @@ export const projectsData: ProjectData[] = [
     challenges: "Balancing a professional, medical aesthetic with an approachable, friendly tone through typography and color palette choices.",
     learnings: "Learned how critical page load speed and direct contact accessibility are for local business conversion rates.",
     liveDemoUrl: "https://harinidentalcare.netlify.app/",
-    mockupId: "business"
+    mockupId: "harini-dental"
   },
   {
     id: "expense-manager",
@@ -122,7 +122,7 @@ export const projectsData: ProjectData[] = [
     challenges: "Organizing a large amount of medical text into scannable, non-intimidating UI blocks.",
     learnings: "Improved my ability to use whitespace and typographic hierarchy to make dense information easily digestible.",
     liveDemoUrl: "https://nidhidentalclinic.netlify.app/",
-    mockupId: "business"
+    mockupId: "nidhi-dental"
   },
   {
     id: "confident-clinic",
@@ -137,7 +137,7 @@ export const projectsData: ProjectData[] = [
     challenges: "Achieving smooth, high-performance scroll animations without causing layout shifts or jank on mobile devices.",
     learnings: "Gained practical experience optimizing hardware-accelerated CSS properties and managing animation timelines.",
     liveDemoUrl: "https://confidentclinic.netlify.app/",
-    mockupId: "business"
+    mockupId: "confident-clinic"
   },
   {
     id: "priti-dental",
@@ -152,7 +152,7 @@ export const projectsData: ProjectData[] = [
     challenges: "Creating a completely custom aesthetic without relying on heavy frontend frameworks, focusing on pure CSS architecture.",
     learnings: "Reinforced core CSS fundamentals, including Flexbox, Grid, and semantic HTML structure.",
     liveDemoUrl: "https://pritidentalclinic.netlify.app/",
-    mockupId: "business"
+    mockupId: "priti-dental"
   },
   {
     id: "muskan-mehndi",
