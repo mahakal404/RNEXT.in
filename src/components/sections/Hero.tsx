@@ -27,7 +27,7 @@ export function Hero() {
           
           {/* Badge */}
           <motion.div 
-            className="inline-flex items-center justify-center px-4 py-1.5 mb-8 rounded-full border border-border-hover bg-bg-elevated text-caption text-text-secondary uppercase tracking-widest"
+            className="inline-flex items-center justify-center px-4 py-1.5 mb-10 rounded-full border border-border-hover bg-bg-elevated text-caption text-text-secondary uppercase tracking-widest"
             initial="initial"
             animate="animate"
             variants={animations.badge}
@@ -37,17 +37,17 @@ export function Hero() {
           </motion.div>
 
           {/* Heading */}
-          <h1 className="text-display-xl text-white mb-6 w-full max-w-4xl mx-auto">
-            <motion.span initial="initial" animate="animate" variants={animations.headingLine(0)} className="inline-block">We Build </motion.span>
+          <h1 className="text-display-xl text-white mb-8 w-full max-w-4xl mx-auto leading-[1.08] md:leading-[1.12]">
+            <motion.span initial="initial" animate="animate" variants={animations.headingLine(0)} className="inline-block pb-1">We Build </motion.span>
             <br className="hidden md:block" />
-            <motion.span initial="initial" animate="animate" variants={animations.headingLine(1)} className="inline-block">Smart Digital </motion.span>
+            <motion.span initial="initial" animate="animate" variants={animations.headingLine(1)} className="inline-block pb-1">Smart Digital </motion.span>
             <br className="hidden md:block" />
-            <motion.span initial="initial" animate="animate" variants={animations.headingLine(2)} className="inline-block">Experiences</motion.span>
+            <motion.span initial="initial" animate="animate" variants={animations.headingLine(2)} className="inline-block pb-1">Experiences</motion.span>
           </h1>
 
           {/* Description */}
           <motion.p 
-            className="text-body-lg text-text-secondary mb-8 w-full max-w-[650px] mx-auto"
+            className="text-body-lg text-text-secondary mb-10 w-full max-w-[650px] mx-auto"
             initial="initial"
             animate="animate"
             variants={animations.description}

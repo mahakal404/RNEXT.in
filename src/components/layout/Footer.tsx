@@ -3,7 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 export function Footer() {
   const shouldReduceMotion = useReducedMotion();
@@ -131,11 +132,11 @@ export function Footer() {
               <div className="flex gap-6">
                 <a href="https://github.com/mahakal404" target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-white transition-colors duration-300">
                   <span className="sr-only">GitHub</span>
-                  <Github size={22} strokeWidth={1.5} />
+                  <FaGithub size={22} />
                 </a>
                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-white transition-colors duration-300">
                   <span className="sr-only">LinkedIn</span>
-                  <Linkedin size={22} strokeWidth={1.5} />
+                  <FaLinkedin size={22} />
                 </a>
               </div>
             </div>
