@@ -196,7 +196,7 @@ export const NidhiDentalMockup = () => {
               ].map((service, i) => (
                 <div key={i} className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 hover:-translate-y-1.5 transition-all duration-300 group cursor-pointer">
                   <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                    {React.cloneElement(service.icon as React.ReactElement, { size: 28 })}
+                    {React.cloneElement(service.icon as React.ReactElement<any>, { size: 28 })}
                   </div>
                   <h3 className="text-xl font-extrabold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">{service.title}</h3>
                   <p className="text-slate-500 font-medium leading-relaxed mb-6">{service.desc}</p>

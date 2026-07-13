@@ -10,6 +10,7 @@ import { HariniDentalMockup } from './mockups/HariniDentalMockup';
 import { NidhiDentalMockup } from './mockups/NidhiDentalMockup';
 import { ConfidentClinicMockup } from './mockups/ConfidentClinicMockup';
 import { PritiDentalMockup } from './mockups/PritiDentalMockup';
+import { MuskanMehndiMockup } from './mockups/MuskanMehndiMockup';
 
 export const MockupMapper = ({ id }: { id: string }) => {
   switch (id) {
@@ -24,6 +25,7 @@ export const MockupMapper = ({ id }: { id: string }) => {
     case 'nidhi-dental': return <NidhiDentalMockup />;
     case 'confident-clinic': return <ConfidentClinicMockup />;
     case 'priti-dental': return <PritiDentalMockup />;
+    case 'muskan-mehndi': return <MuskanMehndiMockup />;
     default: return <BusinessWebsiteMockup />;
   }
 };
