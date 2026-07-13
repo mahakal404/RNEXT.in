@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
@@ -13,6 +13,7 @@ import { MockupMapper } from '@/components/ui/MockupMapper';
 export default function ProjectsPage() {
   const shouldReduceMotion = useReducedMotion();
   const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [isVTryModalOpen, setIsVTryModalOpen] = useState<boolean>(false);
 
   const categories = ['All', 'AI Product', 'Business Website', 'Finance Web Application', 'Finance Dashboard', 'AI Resume Builder', 'Portfolio Website'];
 
@@ -24,6 +25,61 @@ export default function ProjectsPage() {
     <>
       <Navbar />
       
+      <AnimatePresence>
+        {isVTryModalOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="bg-bg-elevated border border-white/10 rounded-3xl p-8 max-w-[480px] w-full shadow-2xl relative"
+            >
+              <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">V-Try</h2>
+              <h3 className="text-lg text-white/80 font-medium mb-6">AI Virtual Try-On Prototype</h3>
+              
+              <p className="text-text-secondary text-sm leading-relaxed mb-6">
+                This project showcases the product vision, interface design, and complete user experience of an AI-powered virtual try-on platform.
+                <br/><br/>
+                The production AI image generation engine has not yet been integrated. This prototype demonstrates the interface, workflow, and product architecture only.
+              </p>
+
+              <div className="flex flex-col gap-3.5 mb-8">
+                 <div className="flex items-center gap-3 text-sm font-medium text-emerald-400">
+                   <span className="text-base leading-none">✔</span> Product Vision
+                 </div>
+                 <div className="flex items-center gap-3 text-sm font-medium text-emerald-400">
+                   <span className="text-base leading-none">✔</span> Interface Prototype
+                 </div>
+                 <div className="flex items-center gap-3 text-sm font-medium text-emerald-400">
+                   <span className="text-base leading-none">✔</span> User Experience
+                 </div>
+                 <div className="flex items-center gap-3 text-sm font-medium text-amber-400">
+                   <span className="text-base leading-none">⏳</span> AI Generation Engine
+                 </div>
+                 <div className="flex items-center gap-3 text-sm font-medium text-amber-400">
+                   <span className="text-base leading-none">⏳</span> Production Integration
+                 </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3">
+                <a href="https://vtry-app.netlify.app/" target="_blank" rel="noopener noreferrer" onClick={() => setIsVTryModalOpen(false)} className="w-full sm:w-auto px-6 py-3 bg-brand-primary hover:bg-brand-secondary text-bg-primary font-bold rounded-xl transition-colors text-center text-sm">
+                  Continue to Prototype
+                </a>
+                <button onClick={() => setIsVTryModalOpen(false)} className="w-full sm:w-auto px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-xl transition-colors border border-white/10 text-sm">
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <main className="min-h-screen pt-32 pb-40">
         <div className="w-full max-w-[1200px] mx-auto px-[20px] md:px-[48px] lg:px-[80px]">
           
@@ -105,10 +161,17 @@ export default function ProjectsPage() {
                        </div>
 
                        <div className="flex items-center gap-4 mt-8">
-                         <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="btn-base btn-primary h-12 px-8 flex items-center justify-center gap-2 group">
-                           Live Demo
-                           <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-1" />
-                         </a>
+                         {project.id === 'vtry' ? (
+                           <button onClick={() => setIsVTryModalOpen(true)} className="btn-base btn-primary h-12 px-8 flex items-center justify-center gap-2 group">
+                             View Prototype
+                             <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-1" />
+                           </button>
+                         ) : (
+                           <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="btn-base btn-primary h-12 px-8 flex items-center justify-center gap-2 group">
+                             Live Demo
+                             <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-1" />
+                           </a>
+                         )}
                          {project.githubUrl && (
                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="h-12 w-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-text-secondary hover:text-white transition-colors">
                              <span className="sr-only">GitHub</span>
