@@ -63,7 +63,7 @@ export function Services() {
   const shouldReduceMotion = useReducedMotion();
 
   // Strict Physical Momentum Animation Rules
-  const transition = { duration: 0.8, ease: [0.16, 1, 0.3, 1] };
+  const transition = { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] };
   const blockVariants = {
     hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 40 },
     visible: { opacity: 1, y: 0, transition }
