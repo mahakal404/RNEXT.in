@@ -15,7 +15,7 @@ export interface ProjectData {
   learnings: string;
   liveDemoUrl: string;
   githubUrl?: string;
-  mockupId: 'chatcv' | 'vtry' | 'fintrack' | 'ai-paisee' | 'business' | 'portfolio' | 'finance' | 'harini-dental' | 'nidhi-dental' | 'confident-clinic' | 'priti-dental' | 'muskan-mehndi';
+  mockupId: 'chatcv' | 'vtry' | 'fintrack' | 'ai-paisee' | 'business' | 'portfolio' | 'finance' | 'harini-dental' | 'nidhi-dental' | 'confident-clinic' | 'priti-dental' | 'muskan-mehndi' | 'dj-brothers' | 'brijesh-portfolio';
 }
 
 export const projectsData: ProjectData[] = [
@@ -182,7 +182,7 @@ export const projectsData: ProjectData[] = [
     challenges: "Managing performance overhead from background videos while maintaining 60fps scrolling animations.",
     learnings: "Learned advanced media handling, video compression strategies, and dynamic import optimizations in Next.js.",
     liveDemoUrl: "https://djbrothers0127.netlify.app/",
-    mockupId: "business"
+    mockupId: "dj-brothers"
   },
   {
     id: "brijesh-portfolio",
@@ -197,6 +197,6 @@ export const projectsData: ProjectData[] = [
     challenges: "Striking the right balance between showing technical depth (code snippets) and maintaining a clean visual design.",
     learnings: "Deepened my understanding of personal branding and how to architect content for dual audiences (technical leads and recruiters).",
     liveDemoUrl: "https://brijeshptl20.netlify.app/",
-    mockupId: "portfolio"
+    mockupId: "brijesh-portfolio"
   }
 ];

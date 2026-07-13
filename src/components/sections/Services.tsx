@@ -60,6 +60,38 @@ const capabilities = [
 
 export function Services() {
   const [activeSection, setActiveSection] = useState("presence");
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let maxRatio = 0;
+        let mostVisible = activeSection;
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: "-20% 0px -40% 0px"
+      }
+    );
+
+    capabilities.forEach((cap) => {
+      const el = document.getElementById(cap.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleScrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
   const shouldReduceMotion = useReducedMotion();
 
   // Strict Physical Momentum Animation Rules
@@ -91,20 +123,25 @@ export function Services() {
               {/* Interactive Table of Contents */}
               <div className="hidden lg:flex flex-col border-l border-white/5 relative">
                 {/* Active Indicator Line */}
-                <div 
-                  className="absolute left-[-1px] w-[2px] bg-brand-primary transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                  style={{
+                <motion.div 
+                  className="absolute left-[-1px] w-[2px] bg-brand-primary"
+                  animate={{
                     top: `${capabilities.findIndex(c => c.id === activeSection) * (100 / capabilities.length)}%`,
                     height: `${100 / capabilities.length}%`
                   }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 />
                 
                 {capabilities.map((cap, index) => (
-                  <div key={cap.id} className="relative pl-6 py-4 flex items-center">
+                  <button 
+                    key={cap.id} 
+                    onClick={() => handleScrollTo(cap.id)}
+                    className="relative pl-6 py-4 flex items-center text-left w-full cursor-pointer hover:bg-white/[0.02] transition-colors"
+                  >
                     <span className={`text-sm font-medium transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${activeSection === cap.id ? 'text-white' : 'text-text-disabled'}`}>
                       0{index + 1} — {cap.headline}
                     </span>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -115,18 +152,13 @@ export function Services() {
             {capabilities.map((cap) => (
               <motion.div
                 key={cap.id}
+                id={cap.id}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-10% 0px" }}
                 variants={blockVariants}
                 className="flex flex-col relative"
               >
-                {/* Scrollspy trigger layer */}
-                <motion.div 
-                  onViewportEnter={() => setActiveSection(cap.id)}
-                  viewport={{ amount: 0.5, margin: "-20% 0px -20% 0px" }}
-                  className="absolute inset-0 pointer-events-none"
-                />
                 
                 {/* 1. Category Label */}
                 <div className="text-[11px] font-bold uppercase tracking-widest text-text-muted mb-4">
