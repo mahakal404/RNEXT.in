@@ -7,6 +7,7 @@ import { Menu, X } from 'lucide-react';
 import { motion, useReducedMotion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { getHeroAnimations } from '../../lib/animations';
 import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
+import { useScrollSpy } from '../../hooks/useScrollSpy';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,17 +18,25 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const pathname = usePathname();
   const { getHref, handleNavClick } = useGlobalNavigation();
+  const spyActiveId = useScrollSpy(['home', 'services', 'projects', 'about', 'contact'], "-30% 0px -55% 0px");
 
-  // Handle active link synchronization based on route
+  // Handle active link synchronization based on route and scroll
   useEffect(() => {
     if (pathname && pathname.startsWith('/projects')) {
       setActiveLink('Projects');
     } else if (pathname === '/') {
-      // We don't force 'Home' if they navigated to a hash like /#services
-      // But we clear 'Projects' if they came from /projects
-      if (activeLink === 'Projects') setActiveLink('Home');
+      if (spyActiveId) {
+        const linkMap: Record<string, string> = {
+          'home': 'Home',
+          'services': 'Services',
+          'projects': 'Projects',
+          'about': 'About',
+          'contact': 'Contact'
+        };
+        if (linkMap[spyActiveId]) setActiveLink(linkMap[spyActiveId]);
+      }
     }
-  }, [pathname]);
+  }, [pathname, spyActiveId]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 40);

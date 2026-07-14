@@ -13,7 +13,7 @@ export function Hero() {
   const scrollFX = useCinematicScroll();
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col text-white overflow-hidden">
+    <section id="home" className="relative w-full min-h-screen flex flex-col text-white overflow-hidden">
       <HeroBackground />
 
       {/* Background Soft Glows for Premium Vibe */}
@@ -47,7 +47,7 @@ export function Hero() {
             variants={animations.badge}
             aria-hidden="true"
           >
-            Welcome to RNEXT
+            01 — Welcome to RNEXT
           </motion.div>
 
           {/* Heading */}

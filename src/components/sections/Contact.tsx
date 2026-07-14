@@ -23,7 +23,7 @@ export function Contact() {
         {/* Section Header */}
         <div className="mb-20 md:mb-28 max-w-2xl mx-auto text-center">
           <div className="text-brand-primary text-caption font-bold uppercase tracking-widest mb-6">
-            Let&apos;s Build Together
+            05 — CONTACT
           </div>
           <h2 className="text-display-sm md:text-display-md text-white font-semibold leading-tight">
             Ready to transform your digital presence?<br />

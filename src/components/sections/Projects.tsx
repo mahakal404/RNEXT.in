@@ -96,7 +96,7 @@ export function Projects() {
         <div className="mb-24 md:mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="flex flex-col">
             <h2 className="text-brand-primary text-caption font-bold uppercase tracking-widest mb-6">
-              Featured Work
+              03 — FEATURED WORK
             </h2>
             <div className="text-display-md md:text-display-lg text-white font-semibold leading-tight">
               Here is a collection of products,<br />

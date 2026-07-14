@@ -126,7 +126,7 @@ export function Services() {
   };
 
   return (
-    <section id="capabilities" className="py-24 md:py-32 relative z-20 bg-bg-primary">
+    <section id="services" className="py-24 md:py-32 relative z-20 bg-bg-primary">
       <div className="w-full max-w-[1200px] mx-auto px-[20px] md:px-[48px] lg:px-[80px]">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 relative">
@@ -135,7 +135,7 @@ export function Services() {
           <div className="lg:col-span-4 flex flex-col relative">
             <div className="lg:sticky lg:top-32">
               <h2 className="text-brand-primary text-caption font-bold uppercase tracking-widest mb-6">
-                Capabilities
+                02 — SERVICES
               </h2>
               <p className="text-body-lg text-text-secondary mb-6">
                 We don&apos;t build generic websites. We engineer high-performance digital infrastructure designed to dominate your market.
