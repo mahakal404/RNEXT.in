@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { motion, useReducedMotion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { getHeroAnimations } from '../../lib/animations';
@@ -13,6 +14,15 @@ export function Navbar() {
   const shouldReduceMotion = useReducedMotion();
   const animations = getHeroAnimations(shouldReduceMotion);
   const { scrollY } = useScroll();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname && pathname.startsWith('/projects')) {
+      setActiveLink('Projects');
+    } else if (pathname === '/') {
+      if (activeLink === 'Projects') setActiveLink('Home');
+    }
+  }, [pathname]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 40);

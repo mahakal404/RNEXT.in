@@ -213,7 +213,7 @@ export const ConfidentClinicMockup = () => {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="w-16 h-16 rounded-2xl bg-slate-50 text-slate-800 flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-500 shadow-sm border border-slate-100 group-hover:border-blue-600">
-                    {React.cloneElement(service.icon as React.ReactElement, { size: 28 })}
+                    {React.cloneElement(service.icon as React.ReactElement<any>, { size: 28 })}
                   </div>
                   <h3 className="text-2xl font-extrabold text-slate-900 mb-4">{service.title}</h3>
                   <p className="text-slate-500 font-medium leading-relaxed mb-8">Precision crafted treatments designed to restore function and deliver a flawless, natural appearance.</p>

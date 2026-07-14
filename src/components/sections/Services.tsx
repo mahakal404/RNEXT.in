@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, ArrowRight, Globe, LayoutDashboard, ShoppingBag, Cpu } from 'lucide-react';
 
 import { PresenceMockup } from '../ui/mockups/PresenceMockup';
 import { PlatformsMockup } from '../ui/mockups/PlatformsMockup';
@@ -21,7 +21,13 @@ const capabilities = [
     outcomes: ["Immediate brand authority", "Higher conversion rates", "Seamless mobile experience"],
     tech: ["Next.js", "React", "Tailwind CSS"],
     cta: "Discuss your digital presence",
-    visual: <PresenceMockup />
+    visual: <PresenceMockup />,
+    animatedLabel: (
+      <>
+        <Globe size={16} strokeWidth={2} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
+        Live Website Preview
+      </>
+    )
   },
   {
     id: "platforms",
@@ -32,7 +38,13 @@ const capabilities = [
     outcomes: ["Streamlined operational workflows", "Scalable cloud infrastructure", "Bank-grade security architecture"],
     tech: ["Node.js", "PostgreSQL", "TypeScript"],
     cta: "Discuss your platform needs",
-    visual: <PlatformsMockup />
+    visual: <PlatformsMockup />,
+    animatedLabel: (
+      <>
+        <LayoutDashboard size={16} strokeWidth={2} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
+        Enterprise Dashboard
+      </>
+    )
   },
   {
     id: "commerce",
@@ -43,7 +55,13 @@ const capabilities = [
     outcomes: ["Increased Average Order Value (AOV)", "Reduced cart abandonment", "Lightning-fast page loads"],
     tech: ["Shopify Plus", "Next.js Commerce", "Stripe"],
     cta: "Discuss your commerce goals",
-    visual: <ServicesCommerceMockup />
+    visual: <ServicesCommerceMockup />,
+    animatedLabel: (
+      <>
+        <ShoppingBag size={16} strokeWidth={2} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
+        E-commerce Experience
+      </>
+    )
   },
   {
     id: "ai",
@@ -54,7 +72,13 @@ const capabilities = [
     outcomes: ["Lower operational costs", "Intelligent data routing", "24/7 automated workflows"],
     tech: ["OpenAI", "LangChain", "Python"],
     cta: "Discuss AI integration",
-    visual: <AiMockup />
+    visual: <AiMockup />,
+    animatedLabel: (
+      <>
+        <Cpu size={16} strokeWidth={2} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
+        AI Automation Engine
+      </>
+    )
   }
 ];
 
@@ -124,7 +148,7 @@ export function Services() {
               <div className="hidden lg:flex flex-col border-l border-white/5 relative">
                 {/* Active Indicator Line */}
                 <motion.div 
-                  className="absolute left-[-1px] w-[2px] bg-brand-primary"
+                  className="absolute left-[-1px] w-[2px] bg-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]"
                   animate={{
                     top: `${capabilities.findIndex(c => c.id === activeSection) * (100 / capabilities.length)}%`,
                     height: `${100 / capabilities.length}%`
@@ -133,15 +157,21 @@ export function Services() {
                 />
                 
                 {capabilities.map((cap, index) => (
-                  <button 
+                  <motion.button 
                     key={cap.id} 
                     onClick={() => handleScrollTo(cap.id)}
-                    className="relative pl-6 py-4 flex items-center text-left w-full cursor-pointer hover:bg-white/[0.02] transition-colors"
+                    animate={{ 
+                      scale: activeSection === cap.id ? 1.02 : 1,
+                      backgroundColor: activeSection === cap.id ? "rgba(255,255,255,0.02)" : "transparent"
+                    }}
+                    whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.04)" }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className={`relative pl-6 py-4 flex items-center text-left w-full cursor-pointer rounded-r-lg border-y border-r border-transparent ${activeSection === cap.id ? 'border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]' : ''} origin-left`}
                   >
-                    <span className={`text-sm font-medium transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${activeSection === cap.id ? 'text-white' : 'text-text-disabled'}`}>
+                    <span className={`text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${activeSection === cap.id ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : 'text-text-disabled'}`}>
                       0{index + 1} — {cap.headline}
                     </span>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -208,10 +238,25 @@ export function Services() {
                   ))}
                 </div>
                 
-                {/* 7. Visual Preview (Bespoke CSS Mockups) */}
-                <div className="w-full aspect-[4/3] md:aspect-[16/9] rounded-2xl md:rounded-[32px] overflow-hidden border border-white/5 mb-10">
+                {/* 7. Visual Preview (Premium CSS Mockups with Transition) */}
+                <motion.div 
+                  initial={{ opacity: 0, filter: "blur(12px)", scale: 0.96 }}
+                  whileInView={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  viewport={{ margin: "-20% 0px" }}
+                  className="w-full aspect-[4/3] md:aspect-[16/9] rounded-2xl md:rounded-[32px] overflow-hidden border border-white/5 mb-10 relative bg-black/50"
+                >
+                  <motion.div 
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
+                    viewport={{ margin: "-20% 0px" }}
+                    className="absolute top-6 left-1/2 -translate-x-1/2 z-50 bg-black/60 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full text-xs font-semibold text-white/90 shadow-[0_5px_15px_rgba(0,0,0,0.5)] flex items-center gap-2"
+                  >
+                    {cap.animatedLabel}
+                  </motion.div>
                   {cap.visual}
-                </div>
+                </motion.div>
                 
                 {/* 8. Contextual CTA */}
                 <div>

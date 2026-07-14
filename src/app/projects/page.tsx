@@ -1,25 +1,58 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Globe, Laptop, Smartphone, Database, Cpu } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { projectsData } from '@/data/projects';
 import { MockupMapper } from '@/components/ui/MockupMapper';
 
+const getProjectIcon = (category: string) => {
+  switch (category.toLowerCase()) {
+    case 'ai saas': return <Cpu size={14} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />;
+    case 'web application': return <Globe size={14} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />;
+    case 'mobile app': return <Smartphone size={14} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />;
+    case 'finance app': return <Database size={14} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />;
+    default: return <Laptop size={14} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />;
+  }
+}
+
 export default function ProjectsPage() {
   const shouldReduceMotion = useReducedMotion();
-  const [activeCategory, setActiveCategory] = useState<string>('All');
   const [isVTryModalOpen, setIsVTryModalOpen] = useState<boolean>(false);
 
-  const categories = ['All', 'AI Product', 'Business Website', 'Finance Web Application', 'Finance Dashboard', 'AI Resume Builder', 'Portfolio Website'];
+  // We are removing categories filter for this new layout to display a numbered list.
+  const featuredProjects = projectsData; 
 
-  const filteredProjects = activeCategory === 'All' 
-    ? projectsData 
-    : projectsData.filter(p => p.category === activeCategory);
+  const [activeId, setActiveId] = useState(featuredProjects[0]?.id);
+  const [transitioningProject, setTransitioningProject] = useState(featuredProjects[0]);
+  const [showSkeleton, setShowSkeleton] = useState(false);
+  
+  const loadingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const resolveTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleProjectClick = (id: string) => {
+    if (id === activeId) return;
+    setActiveId(id);
+    
+    if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
+    if (resolveTimerRef.current) clearTimeout(resolveTimerRef.current);
+
+    const simulatedLoadTime = Math.random() > 0.5 ? 120 : 320; 
+
+    loadingTimerRef.current = setTimeout(() => {
+      setShowSkeleton(true);
+    }, 180);
+
+    resolveTimerRef.current = setTimeout(() => {
+      if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
+      setShowSkeleton(false);
+      const nextProj = featuredProjects.find(p => p.id === id);
+      if (nextProj) setTransitioningProject(nextProj);
+    }, simulatedLoadTime);
+  };
 
   return (
     <>
@@ -93,136 +126,230 @@ export default function ProjectsPage() {
             </p>
           </header>
 
-          {/* Filtration System */}
-          <div className="mb-24 flex flex-wrap gap-3">
-             {categories.map(cat => (
-               <button 
-                 key={cat}
-                 onClick={() => setActiveCategory(cat)}
-                 className={`px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
-                   activeCategory === cat 
-                   ? 'bg-white text-bg-primary' 
-                   : 'bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white border border-white/10'
-                 }`}
-               >
-                 {cat}
-               </button>
-             ))}
-          </div>
+          {/* Interactive Projects Showcase */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 relative min-h-[900px]">
+            
+            {/* Left Navigation */}
+            <div className="lg:col-span-4 flex flex-col relative">
+              <div className="lg:sticky lg:top-32 flex flex-col border-l border-white/5 relative">
+                {/* Active Indicator Line */}
+                <motion.div 
+                  className="absolute left-[-1px] w-[2px] bg-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]"
+                  animate={{
+                    top: `${featuredProjects.findIndex(p => p.id === activeId) * (100 / featuredProjects.length)}%`,
+                    height: `${100 / featuredProjects.length}%`
+                  }}
+                  transition={{ duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
+                />
 
-          {/* Editorial Showcase Stream */}
-          <div className="flex flex-col gap-40 md:gap-56">
-             {filteredProjects.map((project, idx) => (
-                <motion.article 
-                  key={project.id}
-                  className="flex flex-col gap-12 md:gap-20"
-                  initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-10%" }}
-                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  
-                  {/* Massive Preview Area */}
-                  <div className="w-full rounded-2xl md:rounded-[32px] bg-bg-elevated border border-border-primary overflow-hidden shadow-2xl relative group">
-                    <div className="absolute top-4 left-4 md:top-8 md:left-8 z-20 flex gap-2">
-                       <span className="px-4 py-2 bg-black/60 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-widest text-brand-primary border border-white/10">
-                         {project.category}
-                       </span>
-                       <span className="px-4 py-2 bg-black/60 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-widest text-text-muted border border-white/10">
-                         {project.type}
-                       </span>
-                    </div>
-                    <div className="relative w-full aspect-[4/3] lg:aspect-[21/9]">
-                       <MockupMapper id={project.mockupId} />
-                    </div>
-                  </div>
+                {featuredProjects.map((project, index) => {
+                  const isActive = activeId === project.id;
+                  return (
+                    <motion.button 
+                      key={project.id} 
+                      onClick={() => handleProjectClick(project.id)}
+                      animate={{ 
+                        backgroundColor: isActive ? "rgba(255,255,255,0.03)" : "transparent"
+                      }}
+                      whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+                      transition={{ duration: 0.3 }}
+                      className={`relative pl-6 py-5 flex flex-col items-start text-left w-full cursor-pointer rounded-r-lg border-y border-r border-transparent ${isActive ? 'border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]' : ''} origin-left`}
+                    >
+                      <span className={`text-sm font-medium transition-all duration-300 ${isActive ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : 'text-text-disabled'}`}>
+                        0{index + 1} — {project.name}
+                      </span>
+                      <span className={`text-[11px] mt-1.5 transition-colors duration-300 ${isActive ? 'text-brand-primary' : 'text-text-muted'}`}>
+                        {project.type}
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
 
-                  {/* Editorial Layout: 2 Columns */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+            {/* Right Column: Dynamic Stage */}
+            <div className="lg:col-span-8 flex flex-col relative overflow-hidden">
+              <AnimatePresence mode="wait">
+                 {showSkeleton ? (
+                   <motion.div
+                     key="skeleton"
+                     initial={{ opacity: 0, y: 18, scale: 0.985 }}
+                     animate={{ opacity: 1, y: 0, scale: 1 }}
+                     exit={{ opacity: 0, y: -12, scale: 0.985 }}
+                     transition={{ duration: 0.22, ease: [0.22, 0.61, 0.36, 1] }}
+                     className="w-full flex flex-col gap-12 md:gap-20 absolute top-0 left-0"
+                   >
+                     {/* Skeleton Mockup */}
+                     <div className="w-full rounded-2xl md:rounded-[32px] bg-white/[0.02] border border-white/5 overflow-hidden shadow-2xl relative">
+                        <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+                        <div className="h-10 border-b border-white/5 bg-white/[0.01] flex items-center px-4 gap-2">
+                          <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+                          <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+                          <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+                        </div>
+                        <div className="relative w-full aspect-[4/3] lg:aspect-[21/9] flex items-center justify-center">
+                          <div className="w-24 h-24 rounded-2xl bg-white/5 border border-white/10" />
+                        </div>
+                     </div>
                      
-                     {/* Left Column: Title & Overview */}
-                     <div className="lg:col-span-5 flex flex-col gap-8">
-                       <h2 className="text-display-md text-white font-bold leading-none tracking-tight">
-                         {project.name}
-                       </h2>
-                       <p className="text-body-lg text-text-secondary">
-                         {project.overview}
-                       </p>
-                       
-                       <div className="flex flex-col gap-3 mt-4">
-                         <span className="text-xs font-bold uppercase tracking-widest text-text-disabled">Technologies</span>
-                         <div className="flex flex-wrap gap-2">
-                            {project.technologies.map(tech => (
-                               <span key={tech} className="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-xs text-text-muted">
-                                 {tech}
-                               </span>
-                            ))}
-                         </div>
+                     {/* Skeleton Text (Editorial Layout style) */}
+                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+                        <div className="lg:col-span-5 flex flex-col gap-8">
+                           <div className="w-3/4 h-10 bg-white/5 rounded-lg" />
+                           <div className="w-full h-24 bg-white/5 rounded-lg" />
+                           <div className="w-1/2 h-8 bg-white/5 rounded-lg mt-8" />
+                        </div>
+                        <div className="lg:col-span-7 flex flex-col gap-12 border-l border-white/5 lg:pl-16">
+                           <div className="w-full h-16 bg-white/5 rounded-lg" />
+                           <div className="w-full h-16 bg-white/5 rounded-lg" />
+                           <div className="w-full h-32 bg-white/5 rounded-lg" />
+                        </div>
+                     </div>
+                   </motion.div>
+                 ) : (
+                   <motion.div 
+                     key={transitioningProject.id}
+                     initial={{ opacity: 0, y: 18, scale: 0.985 }}
+                     animate={{ opacity: 1, y: 0, scale: 1 }}
+                     exit={{ opacity: 0, y: -12, scale: 0.985 }}
+                     transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
+                     className="w-full flex flex-col gap-12 md:gap-20 group"
+                   >
+                     {/* Massive Preview Area */}
+                     <div className="w-full rounded-2xl md:rounded-[32px] bg-bg-elevated border border-border-primary overflow-hidden shadow-2xl relative transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-border-hover hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)]">
+                       <div className="absolute top-4 left-4 md:top-8 md:left-8 z-20 flex gap-2">
+                          <span className="px-4 py-2 bg-black/60 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-widest text-brand-primary border border-white/10">
+                            {transitioningProject.category}
+                          </span>
+                          <span className="px-4 py-2 bg-black/60 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-widest text-text-muted border border-white/10 hidden sm:inline-block">
+                            {transitioningProject.type}
+                          </span>
                        </div>
 
-                       <div className="flex items-center gap-4 mt-8">
-                         {project.id === 'vtry' ? (
-                           <button onClick={() => setIsVTryModalOpen(true)} className="btn-base btn-primary h-12 px-8 flex items-center justify-center gap-2 group">
-                             View Prototype
-                             <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-1" />
-                           </button>
-                         ) : (
-                           <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="btn-base btn-primary h-12 px-8 flex items-center justify-center gap-2 group">
-                             Live Demo
-                             <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-1" />
-                           </a>
-                         )}
-                         {project.githubUrl && (
-                           <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="h-12 w-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-text-secondary hover:text-white transition-colors">
-                             <span className="sr-only">GitHub</span>
-                             <FaGithub size={20} />
-                           </a>
-                         )}
+                       {/* Floating Project Badge (like Home page) */}
+                       <motion.div 
+                         initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+                         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                         transition={{ duration: 0.3, delay: 0.2 }}
+                         className="absolute top-4 right-4 md:top-8 md:right-8 z-50 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-2 pointer-events-none"
+                       >
+                         {getProjectIcon(transitioningProject.category)}
+                         <span className="text-[11px] md:text-xs font-medium text-white tracking-wide">
+                           0{featuredProjects.findIndex(p => p.id === transitioningProject.id) + 1} — Live
+                         </span>
+                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_rgba(34,197,94,0.8)] ml-1" />
+                       </motion.div>
+
+                       <div className="relative w-full aspect-[4/3] lg:aspect-[21/9] transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02]">
+                          <MockupMapper id={transitioningProject.mockupId} />
                        </div>
                      </div>
 
-                     {/* Right Column: Deep Dive (Problem, Solution, Features) */}
-                     <div className="lg:col-span-7 flex flex-col gap-12 border-l border-white/5 lg:pl-16">
+                     {/* Editorial Layout: 2 Columns */}
+                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
                         
-                        <div className="flex flex-col gap-4">
-                          <h3 className="text-lg text-white font-medium">The Problem</h3>
-                          <p className="text-text-secondary leading-relaxed">{project.problem}</p>
+                        {/* Left Column: Title & Overview */}
+                        <div className="lg:col-span-5 flex flex-col gap-8">
+                          <h2 className="text-display-md text-white font-bold leading-none tracking-tight">
+                            {transitioningProject.name}
+                          </h2>
+                          <p className="text-body-lg text-text-secondary">
+                            {transitioningProject.overview}
+                          </p>
+                          
+                          <div className="flex flex-col gap-3 mt-4">
+                            <span className="text-xs font-bold uppercase tracking-widest text-text-disabled">Technologies</span>
+                            <div className="flex flex-wrap gap-2">
+                              <AnimatePresence mode="popLayout">
+                                {transitioningProject.technologies.map((tech, i) => (
+                                  <motion.span 
+                                    key={`${transitioningProject.id}-${tech}`}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                                    className="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-xs text-text-muted"
+                                  >
+                                    {tech}
+                                  </motion.span>
+                                ))}
+                              </AnimatePresence>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-4 mt-8">
+                            <AnimatePresence mode="popLayout">
+                              <motion.div
+                                key={`cta-${transitioningProject.id}`}
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -15 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex gap-4"
+                              >
+                                {transitioningProject.id === 'vtry' ? (
+                                  <button onClick={() => setIsVTryModalOpen(true)} className="btn-base btn-primary h-12 px-8 flex items-center justify-center gap-2 group">
+                                    View Prototype
+                                    <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-1" />
+                                  </button>
+                                ) : (
+                                  <a href={transitioningProject.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="btn-base btn-primary h-12 px-8 flex items-center justify-center gap-2 group">
+                                    Live Demo
+                                    <ArrowRight size={16} className="transition-transform duration-500 group-hover:translate-x-1" />
+                                  </a>
+                                )}
+                                {transitioningProject.githubUrl && (
+                                  <a href={transitioningProject.githubUrl} target="_blank" rel="noopener noreferrer" className="h-12 w-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-text-secondary hover:text-white transition-colors">
+                                    <span className="sr-only">GitHub</span>
+                                    <FaGithub size={20} />
+                                  </a>
+                                )}
+                              </motion.div>
+                            </AnimatePresence>
+                          </div>
                         </div>
 
-                        <div className="flex flex-col gap-4">
-                          <h3 className="text-lg text-white font-medium">The Solution</h3>
-                          <p className="text-text-secondary leading-relaxed">{project.solution}</p>
-                        </div>
-
-                        <div className="flex flex-col gap-4">
-                          <h3 className="text-lg text-white font-medium">Key Features</h3>
-                          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {project.features.map(feature => (
-                              <li key={feature} className="flex items-start gap-3">
-                                 <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-primary/60 shrink-0" />
-                                 <span className="text-text-secondary">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div className="flex flex-col md:flex-row gap-8 md:gap-16 pt-8 border-t border-white/5 mt-4">
-                           <div className="flex-1 flex flex-col gap-3">
-                             <span className="text-xs font-bold uppercase tracking-widest text-text-disabled">Challenges</span>
-                             <p className="text-sm text-text-muted leading-relaxed">{project.challenges}</p>
+                        {/* Right Column: Deep Dive (Problem, Solution, Features) */}
+                        <div className="lg:col-span-7 flex flex-col gap-12 border-l border-white/5 lg:pl-16">
+                           
+                           <div className="flex flex-col gap-4">
+                             <h3 className="text-lg text-white font-medium">The Problem</h3>
+                             <p className="text-text-secondary leading-relaxed">{transitioningProject.problem}</p>
                            </div>
-                           <div className="flex-1 flex flex-col gap-3">
-                             <span className="text-xs font-bold uppercase tracking-widest text-text-disabled">Learnings</span>
-                             <p className="text-sm text-text-muted leading-relaxed">{project.learnings}</p>
+
+                           <div className="flex flex-col gap-4">
+                             <h3 className="text-lg text-white font-medium">The Solution</h3>
+                             <p className="text-text-secondary leading-relaxed">{transitioningProject.solution}</p>
+                           </div>
+
+                           <div className="flex flex-col gap-4">
+                             <h3 className="text-lg text-white font-medium">Key Features</h3>
+                             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                               {transitioningProject.features.map(feature => (
+                                 <li key={feature} className="flex items-start gap-3">
+                                    <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-primary/60 shrink-0" />
+                                    <span className="text-text-secondary">{feature}</span>
+                                 </li>
+                               ))}
+                             </ul>
+                           </div>
+
+                           <div className="flex flex-col md:flex-row gap-8 md:gap-16 pt-8 border-t border-white/5 mt-4">
+                              <div className="flex-1 flex flex-col gap-3">
+                                <span className="text-xs font-bold uppercase tracking-widest text-text-disabled">Challenges</span>
+                                <p className="text-sm text-text-muted leading-relaxed">{transitioningProject.challenges}</p>
+                              </div>
+                              <div className="flex-1 flex flex-col gap-3">
+                                <span className="text-xs font-bold uppercase tracking-widest text-text-disabled">Learnings</span>
+                                <p className="text-sm text-text-muted leading-relaxed">{transitioningProject.learnings}</p>
+                              </div>
                            </div>
                         </div>
-
                      </div>
-
-                  </div>
-
-                </motion.article>
-             ))}
+                   </motion.div>
+                 )}
+              </AnimatePresence>
+            </div>
           </div>
 
         </div>
