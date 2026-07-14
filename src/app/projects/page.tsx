@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Globe, Laptop, Smartphone, Database, Cpu } from 'lucide-react';
+import { ArrowRight, Globe, Laptop, Smartphone, Database, Cpu, ChevronDown } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -29,6 +29,8 @@ export default function ProjectsPage() {
   const [activeId, setActiveId] = useState(featuredProjects[0]?.id);
   const [transitioningProject, setTransitioningProject] = useState(featuredProjects[0]);
   const [showSkeleton, setShowSkeleton] = useState(false);
+  const [isMobileSelectorOpen, setIsMobileSelectorOpen] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
   
   const loadingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const resolveTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -52,6 +54,14 @@ export default function ProjectsPage() {
       const nextProj = featuredProjects.find(p => p.id === id);
       if (nextProj) setTransitioningProject(nextProj);
     }, simulatedLoadTime);
+  };
+
+  const handleMobileSelect = (id: string) => {
+    setIsMobileSelectorOpen(false);
+    handleProjectClick(id);
+    setTimeout(() => {
+      stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   return (
@@ -129,8 +139,8 @@ export default function ProjectsPage() {
           {/* Interactive Projects Showcase */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 relative min-h-[900px]">
             
-            {/* Left Navigation */}
-            <div className="lg:col-span-4 flex flex-col relative">
+            {/* Desktop Left Navigation */}
+            <div className="hidden lg:flex lg:col-span-4 flex-col relative">
               <div className="lg:sticky lg:top-32 flex flex-col border-l border-white/5 relative">
                 {/* Active Indicator Line */}
                 <motion.div 
@@ -167,8 +177,58 @@ export default function ProjectsPage() {
               </div>
             </div>
 
+            {/* Mobile Project Selector */}
+            <div className="lg:hidden flex flex-col relative z-40 mb-4">
+               <button 
+                 onClick={() => setIsMobileSelectorOpen(!isMobileSelectorOpen)}
+                 className="w-full flex items-center justify-between p-4 bg-[#0B1020] border border-white/10 rounded-2xl shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
+               >
+                 <div className="flex flex-col text-left">
+                   <span className="text-[10px] text-brand-primary uppercase tracking-widest font-bold mb-1">
+                     Selected Project
+                   </span>
+                   <span className="text-sm font-medium text-white flex items-center gap-2">
+                     0{featuredProjects.findIndex(p => p.id === transitioningProject.id) + 1} — {transitioningProject.name}
+                   </span>
+                 </div>
+                 <div className={`w-8 h-8 flex items-center justify-center rounded-full bg-white/5 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isMobileSelectorOpen ? 'rotate-180 bg-white/10' : ''}`}>
+                   <ChevronDown size={16} className="text-white" />
+                 </div>
+               </button>
+
+               <AnimatePresence>
+                 {isMobileSelectorOpen && (
+                   <motion.div
+                     initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                     animate={{ opacity: 1, y: 0, scale: 1 }}
+                     exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                     transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                     className="absolute top-[calc(100%+8px)] left-0 w-full bg-[#0B1020]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col origin-top"
+                   >
+                     {featuredProjects.map((project, index) => {
+                        const isActive = activeId === project.id;
+                        return (
+                          <button
+                            key={project.id}
+                            onClick={() => handleMobileSelect(project.id)}
+                            className={`flex flex-col text-left px-5 py-4 border-b border-white/5 last:border-b-0 transition-colors ${isActive ? 'bg-white/5' : 'hover:bg-white/[0.02]'}`}
+                          >
+                            <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-text-secondary'}`}>
+                               0{index + 1} — {project.name}
+                            </span>
+                            <span className={`text-[11px] mt-1 ${isActive ? 'text-brand-primary' : 'text-text-muted'}`}>
+                               {project.type}
+                            </span>
+                          </button>
+                        );
+                     })}
+                   </motion.div>
+                 )}
+               </AnimatePresence>
+            </div>
+
             {/* Right Column: Dynamic Stage */}
-            <div className="lg:col-span-8 flex flex-col relative overflow-hidden">
+            <div ref={stageRef} className="lg:col-span-8 flex flex-col relative overflow-hidden scroll-mt-24">
               <AnimatePresence mode="wait">
                  {showSkeleton ? (
                    <motion.div
