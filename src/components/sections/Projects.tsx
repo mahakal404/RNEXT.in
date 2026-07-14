@@ -341,15 +341,38 @@ export function Projects() {
           </div>
         </div>
 
-        {/* View All Projects CTA */}
-        <div className="mt-32 md:mt-48 flex justify-center border-t border-white/5 pt-24">
-          <Link href="/projects" className="group flex items-center justify-between w-full max-w-2xl gap-12 border-b border-border-primary pb-6 transition-colors duration-500 hover:border-brand-primary">
-            <span className="text-display-sm text-white font-medium group-hover:text-brand-primary transition-colors duration-500">
-              View All Projects
-            </span>
-            <div className="w-12 h-12 rounded-full border border-border-primary flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-brand-primary/10 group-hover:border-brand-primary/30 group-hover:-rotate-45">
-              <ArrowRight size={20} className="text-text-secondary group-hover:text-brand-primary transition-colors duration-500" strokeWidth={1.5} />
-            </div>
+        {/* Premium View All Projects CTA */}
+        <div className="mt-32 md:mt-48 flex justify-center pt-24 relative px-4">
+          {/* Subtle gradient background line instead of solid border */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          
+          <Link href="/projects" className="group relative w-full max-w-3xl flex flex-col items-center text-center py-16 md:py-24 px-6 rounded-[40px] border border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-white/10 hover:bg-white/[0.04] hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] active:scale-[0.98]">
+             
+             {/* Hover Glow */}
+             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.08)_0%,transparent_60%)]" />
+
+             <span className="text-brand-primary font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs mb-6 flex items-center gap-4 transition-transform duration-500 ease-out group-hover:-translate-y-1">
+               <span className="w-8 h-[1px] bg-brand-primary/50" />
+               Explore Full Portfolio
+               <span className="w-8 h-[1px] bg-brand-primary/50" />
+             </span>
+
+             <h2 className="text-display-md md:text-display-xl text-white font-bold leading-none tracking-tight mb-6 transition-transform duration-500 ease-out group-hover:scale-[1.02]">
+               12 Premium Projects
+             </h2>
+
+             <p className="text-body-base md:text-body-lg text-text-secondary mb-12 max-w-md transition-colors duration-500 group-hover:text-white/80">
+               AI • SaaS • Finance • Business Websites
+             </p>
+
+             <div className="inline-flex items-center gap-3 px-8 h-14 rounded-full bg-white text-bg-primary font-semibold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-hover:shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)] relative overflow-hidden">
+                <span className="relative z-10 flex items-center gap-3 transition-colors duration-500">
+                  View Complete Collection
+                  <ArrowRight size={18} className="transition-transform duration-500 ease-out group-hover:translate-x-1" />
+                </span>
+                {/* Ripple effect on hover */}
+                <div className="absolute inset-0 bg-gray-200 translate-y-[100%] rounded-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
+             </div>
           </Link>
         </div>
 

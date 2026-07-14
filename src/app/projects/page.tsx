@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Globe, Laptop, Smartphone, Database, Cpu, ChevronDown } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
@@ -22,6 +22,11 @@ const getProjectIcon = (category: string) => {
 export default function ProjectsPage() {
   const shouldReduceMotion = useReducedMotion();
   const [isVTryModalOpen, setIsVTryModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Force scroll to top on mount to fix mobile scroll restoration bug
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
 
   // We are removing categories filter for this new layout to display a numbered list.
   const featuredProjects = projectsData; 
