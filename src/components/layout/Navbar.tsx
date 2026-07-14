@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { motion, useReducedMotion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { getHeroAnimations } from '../../lib/animations';
+import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,7 +16,7 @@ export function Navbar() {
   const animations = getHeroAnimations(shouldReduceMotion);
   const { scrollY } = useScroll();
   const pathname = usePathname();
-  const router = useRouter();
+  const { getHref, handleNavClick } = useGlobalNavigation();
 
   // Handle active link synchronization based on route
   useEffect(() => {
@@ -28,25 +29,6 @@ export function Navbar() {
     }
   }, [pathname]);
 
-  // Handle cross-page smooth scroll on mount
-  useEffect(() => {
-    if (pathname === '/') {
-      const pendingScroll = sessionStorage.getItem('pendingScroll');
-      if (pendingScroll) {
-        sessionStorage.removeItem('pendingScroll');
-        
-        // Wait slightly for DOM to render before scrolling
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            const element = document.querySelector(pendingScroll);
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth' });
-            }
-          }, 100);
-        });
-      }
-    }
-  }, [pathname]);
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 40);
   });
@@ -71,54 +53,10 @@ export function Navbar() {
     { name: 'Contact' },
   ];
 
-  const getHref = (name: string) => {
-    if (name === 'Home') return '/';
-    if (name === 'Projects' && pathname.startsWith('/projects')) return '/projects';
-    return `/#${name.toLowerCase()}`;
-  };
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, name: string) => {
-    const href = getHref(name);
+  const onNavClick = (e: React.MouseEvent<HTMLAnchorElement>, name: string) => {
     setActiveLink(name);
     setIsMobileMenuOpen(false);
-
-    // 1. Projects page -> Projects link (stay and scroll to top)
-    if (pathname.startsWith('/projects') && name === 'Projects') {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    // 2. Home page -> Home link (stay and scroll to top)
-    if (pathname === '/' && name === 'Home') {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.history.pushState(null, '', '/');
-      return;
-    }
-
-    // 3. Same page hash navigation (Home -> #services)
-    if (pathname === '/' && href.startsWith('/#')) {
-      e.preventDefault();
-      const targetId = href.substring(1);
-      const elem = document.querySelector(targetId);
-      if (elem) {
-        elem.scrollIntoView({ behavior: 'smooth' });
-        window.history.pushState(null, '', href);
-      }
-      return;
-    }
-
-    // 4. Cross page hash navigation (Projects -> /#services)
-    if (pathname.startsWith('/projects') && href.startsWith('/#')) {
-      e.preventDefault();
-      sessionStorage.setItem('pendingScroll', href.substring(1));
-      router.push('/');
-      return;
-    }
-    
-    // Default navigation (Projects -> Home) 
-    // Handled naturally by next/link
+    handleNavClick(e, name);
   };
 
   return (
@@ -143,7 +81,7 @@ export function Navbar() {
             <Link 
               href="/" 
               className="text-xl font-bold tracking-tight text-white flex items-center" 
-              onClick={(e) => handleNavClick(e, 'Home')}
+              onClick={(e) => onNavClick(e, 'Home')}
             >
               RNEXT
             </Link>
@@ -157,7 +95,7 @@ export function Navbar() {
                 <Link
                   key={link.name}
                   href={href}
-                  onClick={(e) => handleNavClick(e, link.name)}
+                  onClick={(e) => onNavClick(e, link.name)}
                 className="relative group py-2"
                 aria-current={activeLink === link.name ? 'page' : undefined}
               >
@@ -178,9 +116,9 @@ export function Navbar() {
           {/* Right: CTA Button */}
           <div className="flex-1 flex justify-end items-center gap-4">
             <Link 
-              href="/#contact" 
+              href={getHref('Contact', '/#contact')}
               className="hidden lg:inline-flex btn-base h-10 px-6 rounded-lg bg-white text-bg-primary text-sm font-medium hover:bg-gray-100 hover:scale-[1.02] hover:-translate-y-[2px] hover:shadow-[0_4px_16px_rgba(255,255,255,0.15)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
-              onClick={(e) => handleNavClick(e, 'Contact')}
+              onClick={(e) => onNavClick(e, 'Contact')}
             >
               Get In Touch
             </Link>
@@ -236,7 +174,7 @@ export function Navbar() {
                   className={`text-3xl font-medium tracking-tight transition-colors ${
                     activeLink === link.name ? 'text-white' : 'text-gray-400 hover:text-white'
                   }`}
-                  onClick={(e) => handleNavClick(e, link.name)}
+                  onClick={(e) => onNavClick(e, link.name)}
                 >
                   {link.name}
                 </Link>
@@ -245,9 +183,9 @@ export function Navbar() {
             
             <div className="mt-8">
               <Link 
-                href="/#contact" 
+                href={getHref('Contact', '/#contact')}
                 className="inline-flex items-center justify-center h-14 w-full rounded-xl bg-white text-[#0B1020] text-lg font-medium transition-all hover:bg-gray-100"
-                onClick={(e) => handleNavClick(e, 'Contact')}
+                onClick={(e) => onNavClick(e, 'Contact')}
               >
                 Get In Touch
               </Link>

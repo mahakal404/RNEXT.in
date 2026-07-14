@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
 
 export function Footer() {
   const shouldReduceMotion = useReducedMotion();
+  const { getHref, handleNavClick } = useGlobalNavigation();
 
   // Subtle Motion Strategy
   const fadeUp = {
@@ -52,7 +54,8 @@ export function Footer() {
             variants={fadeUp}
           >
             <Link 
-              href="#contact" 
+              href={getHref('Contact', '/#contact')}
+              onClick={(e) => handleNavClick(e, 'Contact')}
               className="group flex items-center justify-between w-full lg:w-auto gap-12 border-b border-border-primary pb-6 transition-colors duration-500 hover:border-brand-primary"
             >
               <span className="text-heading-sm text-white font-medium group-hover:text-brand-primary transition-colors duration-500">
@@ -100,14 +103,15 @@ export function Footer() {
             <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-disabled">Navigation</div>
             <nav className="flex flex-col gap-4">
               {[
-                { label: 'Work', href: '#projects' },
-                { label: 'Capabilities', href: '#capabilities' },
-                { label: 'About', href: '#about' },
-                { label: 'Contact', href: '#contact' }
+                { label: 'Work', href: '/#projects' },
+                { label: 'Capabilities', href: '/#capabilities' },
+                { label: 'About', href: '/#about' },
+                { label: 'Contact', href: '/#contact' }
               ].map(link => (
                  <Link 
                    key={link.label} 
-                   href={link.href} 
+                   href={getHref(link.label, link.href)} 
+                   onClick={(e) => handleNavClick(e, link.label, link.href)}
                    className="text-body-lg text-text-secondary hover:text-white transition-colors duration-300 w-fit"
                  >
                    {link.label}
