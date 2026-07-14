@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -27,7 +27,7 @@ export function Contact() {
           <motion.h2 
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35%" }}
+            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
             transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
             className="text-display-sm md:text-display-md text-white font-semibold leading-tight"
           >
@@ -42,7 +42,7 @@ export function Contact() {
           <motion.div
             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35%" }}
+            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
             transition={{ duration: 0.8, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 flex flex-col justify-center"
           >
@@ -78,7 +78,7 @@ export function Contact() {
           <motion.div
             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35%" }}
+            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.72 }}
             className="lg:col-span-6 lg:col-start-7"
           >

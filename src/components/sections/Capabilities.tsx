@@ -141,28 +141,19 @@ export function Capabilities() {
                 className="text-body-lg text-text-secondary mb-6"
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-35%" }}
+                viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
                 transition={{ duration: 0.6, delay: 0.58, ease: [0.22, 0.61, 0.36, 1] }}
               >
                 We don&apos;t build generic websites. We engineer high-performance digital infrastructure designed to dominate your market.
               </motion.p>
               
-              <motion.div 
-                className="text-sm font-medium text-text-muted mb-12"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-35%" }}
-                transition={{ duration: 0.6, delay: 0.62, ease: [0.22, 0.61, 0.36, 1] }}
-              >
-                Estimated read: 3 mins
-              </motion.div>
-              
+
               {/* Interactive Table of Contents */}
               <motion.div 
                 className="hidden lg:flex flex-col border-l border-white/5 relative"
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-35%" }}
+                viewport={{ once: true, margin: "0px" }}
                 transition={{ duration: 0.6, delay: 0.66, ease: [0.22, 0.61, 0.36, 1] }}
               >
                 {/* Active Indicator Line */}

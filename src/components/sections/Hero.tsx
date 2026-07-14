@@ -1,10 +1,11 @@
-"use client";
+﻿"use client";
 
 import React from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { HeroBackground } from '../ui/HeroBackground';
 import { HeroVisual } from '../ui/mockups/HeroVisual';
+import { SectionHeader } from '../ui/SectionHeader';
 import { getHeroAnimations, useCinematicScroll } from '../../lib/animations';
 
 export function Hero() {
@@ -38,17 +39,10 @@ export function Hero() {
           className="w-full flex flex-col items-center text-center mt-[-40px]"
           style={{ opacity: scrollFX.textOpacity, scale: scrollFX.textScale, y: scrollFX.textY }}
         >
-          
-          {/* Badge */}
-          <motion.div 
-            className="inline-flex items-center justify-center px-4 py-1.5 mb-12 rounded-full border border-border-hover bg-bg-elevated text-caption text-text-secondary uppercase tracking-widest"
-            initial="initial"
-            animate="animate"
-            variants={animations.badge}
-            aria-hidden="true"
-          >
-            01 — Welcome to RNEXT
-          </motion.div>
+          {/* Section Header */}
+          <div className="mb-8 relative z-50">
+             <SectionHeader number="01" label="HOME" alignment="center" />
+          </div>
 
           {/* Heading */}
           <h1 className="text-display-xl text-white mb-10 w-full max-w-3xl mx-auto leading-[1.2] md:leading-[1.25]">

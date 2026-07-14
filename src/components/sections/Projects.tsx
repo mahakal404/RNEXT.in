@@ -96,12 +96,12 @@ export function Projects() {
         {/* Section Header */}
         <div className="mb-24 md:mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="flex flex-col">
-            <SectionHeader number="04" label="FEATURED WORK" />
+            <SectionHeader number="04" label="PROJECTS" />
             
             <motion.div 
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-35%" }}
+              viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
               transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
               className="text-display-md md:text-display-lg text-white font-semibold leading-tight"
             >
@@ -113,7 +113,7 @@ export function Projects() {
             <motion.p 
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-35%" }}
+              viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
               transition={{ duration: 0.6, delay: 0.58, ease: [0.22, 0.61, 0.36, 1] }}
               className="text-body-lg text-text-secondary leading-relaxed"
             >
@@ -126,7 +126,7 @@ export function Projects() {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-35%" }}
+          viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
           transition={{ duration: 0.8, delay: 0.62, ease: [0.22, 0.61, 0.36, 1] }}
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 relative min-h-[700px]"
         >
@@ -363,7 +363,7 @@ export function Projects() {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-35%" }}
+          viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
           transition={{ duration: 0.8, delay: 0.72, ease: [0.22, 0.61, 0.36, 1] }}
           className="mt-32 md:mt-48 flex justify-center pt-24 relative px-4"
         >

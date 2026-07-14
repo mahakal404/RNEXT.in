@@ -28,7 +28,7 @@ export function SectionHeader({ number, label, alignment = "left" }: SectionHead
         className="h-[1px] bg-brand-primary/60 mb-4"
         initial={{ scaleX: 0, opacity: 0, filter: "drop-shadow(0 0 0px rgba(0,212,255,0))" }}
         whileInView={{ scaleX: 1, opacity: 1, filter: "drop-shadow(0 0 6px rgba(0,212,255,0.4))" }}
-        viewport={{ once: true, margin: "-35%" }}
+        viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
         transition={{ duration: 0.6, delay: 0.1, ease }}
         style={{ transformOrigin: alignment === 'center' ? 'center' : 'left', width: '48px' }}
       />
@@ -38,7 +38,7 @@ export function SectionHeader({ number, label, alignment = "left" }: SectionHead
         <motion.span
           initial={{ x: -12, opacity: 0, filter: "drop-shadow(0 0 0px rgba(0,212,255,0))" }}
           whileInView={{ x: 0, opacity: 1, filter: "drop-shadow(0 0 4px rgba(0,212,255,0.3))" }}
-          viewport={{ once: true, margin: "-35%" }}
+          viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
           transition={{ duration: 0.5, delay: 0.3, ease }}
         >
           {number}
@@ -47,7 +47,7 @@ export function SectionHeader({ number, label, alignment = "left" }: SectionHead
         <motion.span
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-35%" }}
+          viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
           transition={{ duration: 0.4, delay: 0.35, ease }}
         >
           —
@@ -56,7 +56,7 @@ export function SectionHeader({ number, label, alignment = "left" }: SectionHead
         <motion.span
           initial={{ y: 18, opacity: 0, filter: "blur(6px)" }}
           whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-35%" }}
+          viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
           transition={{ duration: 0.6, delay: 0.4, ease }}
           className="inline-block"
         >

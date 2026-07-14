@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -33,7 +33,7 @@ export function About() {
           <motion.h2 
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35%" }}
+            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
             transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
             className="text-display-md md:text-display-lg text-white font-semibold leading-tight"
           >
@@ -55,7 +55,7 @@ export function About() {
                   key={metric.title}
                   initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-35%" }}
+                  viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
                   transition={{ duration: 0.6, delay: 0.62 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
                   className="card-standard p-8 bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-500 ease-out flex flex-col gap-4 group"
                 >
@@ -83,7 +83,7 @@ export function About() {
                      key={item.id}
                      initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -20 }}
                      whileInView={{ opacity: 1, x: 0 }}
-                     viewport={{ once: true, margin: "-35%" }}
+                     viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
                      transition={{ duration: 0.6, delay: 0.72 + (i * 0.15), ease: [0.16, 1, 0.3, 1] }}
                      className="relative flex gap-8 mb-12 last:mb-0 group cursor-default"
                    >
