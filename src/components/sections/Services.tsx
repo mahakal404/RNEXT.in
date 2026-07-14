@@ -1,276 +1,108 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Check, ArrowRight, Globe, LayoutDashboard, ShoppingBag, Cpu } from 'lucide-react';
+import { Globe, Laptop, Smartphone, Cpu, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
+import { SectionHeader } from '../ui/SectionHeader';
 
-import { PresenceMockup } from '../ui/mockups/PresenceMockup';
-import { PlatformsMockup } from '../ui/mockups/PlatformsMockup';
-import { ServicesCommerceMockup } from '../ui/mockups/ServicesCommerceMockup';
-import { AiMockup } from '../ui/mockups/AiMockup';
-
-/* --- DATA --- */
-
-const capabilities = [
+const servicesList = [
   {
-    id: "presence",
-    label: "DIGITAL PRESENCE",
-    headline: "Build Your Digital Presence",
-    problem: "Most websites are commodities. They fail to convey authority, struggle to convert, and look exactly like the competition.",
-    solution: "We architect immersive, high-performance digital experiences that capture attention and command respect from the first scroll.",
-    outcomes: ["Immediate brand authority", "Higher conversion rates", "Seamless mobile experience"],
-    tech: ["Next.js", "React", "Tailwind CSS"],
-    cta: "Discuss your digital presence",
-    visual: <PresenceMockup />,
-    animatedLabel: (
-      <>
-        <Globe size={16} strokeWidth={2} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
-        Live Website Preview
-      </>
-    )
+    title: "Website Development",
+    icon: <Globe size={24} className="text-brand-primary group-hover:scale-110 transition-transform duration-500" />,
+    description: "High-performance, beautifully designed business websites that capture attention, build trust, and convert visitors into long-term clients."
   },
   {
-    id: "platforms",
-    label: "CUSTOM SOFTWARE",
-    headline: "Engineer Custom Platforms",
-    problem: "Off-the-shelf software slows you down, forcing your business to adapt to technical limitations instead of scaling with your vision.",
-    solution: "We engineer bespoke, secure, and lightning-fast web applications designed to streamline operations and delight your users.",
-    outcomes: ["Streamlined operational workflows", "Scalable cloud infrastructure", "Bank-grade security architecture"],
-    tech: ["Node.js", "PostgreSQL", "TypeScript"],
-    cta: "Discuss your platform needs",
-    visual: <PlatformsMockup />,
-    animatedLabel: (
-      <>
-        <LayoutDashboard size={16} strokeWidth={2} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
-        Enterprise Dashboard
-      </>
-    )
+    title: "Web App Development",
+    icon: <Laptop size={24} className="text-brand-primary group-hover:scale-110 transition-transform duration-500" />,
+    description: "Bespoke, secure, and scalable web applications engineered to streamline operations and deliver immersive user experiences."
   },
   {
-    id: "commerce",
-    label: "E-COMMERCE",
-    headline: "Launch High-Converting Commerce",
-    problem: "Clunky checkouts and slow load times create friction, causing you to bleed high-ticket sales to competitors.",
-    solution: "We build premium e-commerce engines optimized for speed, trust, and frictionless checkout, turning casual visitors into loyal customers.",
-    outcomes: ["Increased Average Order Value (AOV)", "Reduced cart abandonment", "Lightning-fast page loads"],
-    tech: ["Shopify Plus", "Next.js Commerce", "Stripe"],
-    cta: "Discuss your commerce goals",
-    visual: <ServicesCommerceMockup />,
-    animatedLabel: (
-      <>
-        <ShoppingBag size={16} strokeWidth={2} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
-        E-commerce Experience
-      </>
-    )
+    title: "Mobile App Development",
+    icon: <Smartphone size={24} className="text-brand-primary group-hover:scale-110 transition-transform duration-500" />,
+    description: "Native and cross-platform mobile experiences that put your brand directly in the hands of your audience with flawless performance."
   },
   {
-    id: "ai",
-    label: "AI & AUTOMATION",
-    headline: "Automate Operations with AI",
-    problem: "Manual data entry and repetitive workflows drain resources, preventing your team from focusing on high-leverage growth.",
-    solution: "We integrate smart automation and AI-driven solutions that handle repetitive tasks, intelligent routing, and complex data processing.",
-    outcomes: ["Lower operational costs", "Intelligent data routing", "24/7 automated workflows"],
-    tech: ["OpenAI", "LangChain", "Python"],
-    cta: "Discuss AI integration",
-    visual: <AiMockup />,
-    animatedLabel: (
-      <>
-        <Cpu size={16} strokeWidth={2} className="text-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
-        AI Automation Engine
-      </>
-    )
+    title: "AI Solutions",
+    icon: <Cpu size={24} className="text-brand-primary group-hover:scale-110 transition-transform duration-500" />,
+    description: "Intelligent automation and AI integrations designed to eliminate repetitive workflows, route data efficiently, and reduce costs."
   }
 ];
 
 export function Services() {
-  const [activeSection, setActiveSection] = useState("presence");
-
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let maxRatio = 0;
-        let mostVisible = activeSection;
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: "-20% 0px -40% 0px"
-      }
-    );
-
-    capabilities.forEach((cap) => {
-      const el = document.getElementById(cap.id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const handleScrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
   const shouldReduceMotion = useReducedMotion();
-
-  // Strict Physical Momentum Animation Rules
-  const transition = { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] };
-  const blockVariants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 40 },
-    visible: { opacity: 1, y: 0, transition }
-  };
+  const { getHref, handleNavClick } = useGlobalNavigation();
 
   return (
-    <section id="services" className="py-24 md:py-32 relative z-20 bg-bg-primary">
+    <section id="services" className="py-24 md:py-32 relative z-20 bg-bg-primary overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-brand-primary/5 blur-[150px] rounded-full pointer-events-none -z-10" />
+
       <div className="w-full max-w-[1200px] mx-auto px-[20px] md:px-[48px] lg:px-[80px]">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 relative">
+        {/* Header */}
+        <div className="mb-20 md:mb-28 max-w-2xl mx-auto flex flex-col items-center text-center">
+          <SectionHeader number="03" label="SERVICES" alignment="center" />
           
-          {/* Left Column: Functional Sticky Sidebar */}
-          <div className="lg:col-span-4 flex flex-col relative">
-            <div className="lg:sticky lg:top-32">
-              <h2 className="text-brand-primary text-caption font-bold uppercase tracking-widest mb-6">
-                02 — SERVICES
-              </h2>
-              <p className="text-body-lg text-text-secondary mb-6">
-                We don&apos;t build generic websites. We engineer high-performance digital infrastructure designed to dominate your market.
-              </p>
-              <div className="text-sm font-medium text-text-muted mb-12">
-                Estimated read: 3 mins
-              </div>
-              
-              {/* Interactive Table of Contents */}
-              <div className="hidden lg:flex flex-col border-l border-white/5 relative">
-                {/* Active Indicator Line */}
-                <motion.div 
-                  className="absolute left-[-1px] w-[2px] bg-brand-primary drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]"
-                  animate={{
-                    top: `${capabilities.findIndex(c => c.id === activeSection) * (100 / capabilities.length)}%`,
-                    height: `${100 / capabilities.length}%`
-                  }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                />
-                
-                {capabilities.map((cap, index) => (
-                  <motion.button 
-                    key={cap.id} 
-                    onClick={() => handleScrollTo(cap.id)}
-                    animate={{ 
-                      scale: activeSection === cap.id ? 1.02 : 1,
-                      backgroundColor: activeSection === cap.id ? "rgba(255,255,255,0.02)" : "transparent"
-                    }}
-                    whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.04)" }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className={`relative pl-6 py-4 flex items-center text-left w-full cursor-pointer rounded-r-lg border-y border-r border-transparent ${activeSection === cap.id ? 'border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]' : ''} origin-left`}
-                  >
-                    <span className={`text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${activeSection === cap.id ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : 'text-text-disabled'}`}>
-                      0{index + 1} — {cap.headline}
-                    </span>
-                  </motion.button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Editorial Showcase */}
-          <div className="lg:col-span-8 flex flex-col gap-32 md:gap-48">
-            {capabilities.map((cap) => (
-              <motion.div
-                key={cap.id}
-                id={cap.id}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-10% 0px" }}
-                variants={blockVariants}
-                className="flex flex-col relative"
-              >
-                
-                {/* 1. Category Label */}
-                <div className="text-[11px] font-bold uppercase tracking-widest text-text-muted mb-4">
-                  {cap.label}
-                </div>
-                
-                {/* 2. Headline */}
-                <h3 className="text-heading-lg md:text-display-sm text-white font-semibold mb-8 leading-tight">
-                  {cap.headline}
-                </h3>
-                
-                {/* 3. Problem Statement */}
-                <div className="mb-6">
-                  <span className="text-sm font-bold uppercase tracking-wider text-brand-primary block mb-2">The Problem</span>
-                  <p className="text-body-lg text-text-muted leading-relaxed">
-                    {cap.problem}
-                  </p>
-                </div>
-                
-                {/* 4. RNEXT Solution */}
-                <div className="mb-10">
-                  <span className="text-sm font-bold uppercase tracking-wider text-brand-primary block mb-2">The Solution</span>
-                  <p className="text-body-lg text-white leading-relaxed font-medium">
-                    {cap.solution}
-                  </p>
-                </div>
-                
-                {/* 5. Expected Business Outcomes */}
-                <div className="mb-12">
-                  <span className="text-sm font-bold uppercase tracking-wider text-white block mb-4">Expected Outcomes</span>
-                  <ul className="flex flex-col gap-3">
-                    {cap.outcomes.map((outcome, idx) => (
-                      <li key={idx} className="flex items-center gap-3 text-text-secondary">
-                        <Check size={16} strokeWidth={1.5} className="text-brand-primary flex-shrink-0" />
-                        <span>{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                {/* 6. Technology Stack */}
-                <div className="mb-12 flex flex-wrap gap-2">
-                  {cap.tech.map((tech, idx) => (
-                    <span key={idx} className="text-[11px] font-bold uppercase tracking-wider text-text-muted px-3 py-1 bg-white/5 rounded-full border border-white/10">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                
-                {/* 7. Visual Preview (Premium CSS Mockups with Transition) */}
-                <motion.div 
-                  initial={{ opacity: 0, filter: "blur(12px)", scale: 0.96 }}
-                  whileInView={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  viewport={{ margin: "-20% 0px" }}
-                  className="w-full aspect-[4/3] md:aspect-[16/9] rounded-2xl md:rounded-[32px] overflow-hidden border border-white/5 mb-10 relative bg-black/50"
-                >
-                  <motion.div 
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-                    viewport={{ margin: "-20% 0px" }}
-                    className="absolute top-6 left-1/2 -translate-x-1/2 z-50 bg-black/60 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full text-xs font-semibold text-white/90 shadow-[0_5px_15px_rgba(0,0,0,0.5)] flex items-center gap-2"
-                  >
-                    {cap.animatedLabel}
-                  </motion.div>
-                  {cap.visual}
-                </motion.div>
-                
-                {/* 8. Contextual CTA */}
-                <div>
-                  <button className="btn-base btn-secondary px-8 h-12 text-sm font-medium group flex items-center gap-2">
-                    {cap.cta}
-                    <ArrowRight size={16} strokeWidth={1.5} className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
-                  </button>
-                </div>
-
-              </motion.div>
-            ))}
-          </div>
-
+          <motion.h2 
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-35%" }}
+            transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
+            className="text-display-md md:text-display-lg text-white font-semibold leading-tight"
+          >
+            How we can help you <br className="hidden md:block" />
+            <span className="text-text-muted">scale your business.</span>
+          </motion.h2>
         </div>
+
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-24 md:mb-32 relative">
+          {servicesList.map((service, i) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-35%" }}
+              transition={{ duration: 0.6, delay: 0.62 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
+              className="card-standard p-10 bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-500 ease-out flex flex-col group relative overflow-hidden"
+            >
+              {/* Hover Glow Effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(0,212,255,0.1)_0%,transparent_70%)]" />
+
+              <div className="w-14 h-14 rounded-2xl bg-bg-elevated border border-white/10 flex items-center justify-center mb-8 relative z-10 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:border-brand-primary/30 group-hover:shadow-[0_0_20px_rgba(0,212,255,0.2)] transition-all duration-500">
+                {service.icon}
+              </div>
+              <h3 className="text-heading-md text-white font-semibold mb-4 relative z-10 transition-colors duration-500 group-hover:text-brand-primary">{service.title}</h3>
+              <p className="text-body-lg text-text-secondary leading-relaxed relative z-10 transition-colors duration-500 group-hover:text-white/90">
+                {service.description}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Final CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-35%" }}
+          transition={{ duration: 0.8, delay: 0.72, ease: [0.16, 1, 0.3, 1] }}
+          className="flex justify-center"
+        >
+          <Link 
+            href={getHref('Contact', '/#contact')}
+            onClick={(e) => handleNavClick(e, 'Contact')}
+            className="group relative flex items-center gap-4 px-10 py-5 rounded-[2rem] border border-white/10 bg-white/[0.02] overflow-hidden transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] active:scale-[0.98]"
+          >
+             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.15)_0%,transparent_70%)]" />
+             <span className="relative z-10 text-body-lg font-semibold text-white transition-colors duration-500 group-hover:text-brand-primary">Discuss Your Project</span>
+             <div className="relative z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white text-bg-primary transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                <ArrowRight size={18} />
+             </div>
+          </Link>
+        </motion.div>
+        
       </div>
     </section>
   );

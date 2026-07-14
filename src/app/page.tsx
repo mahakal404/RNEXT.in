@@ -1,6 +1,7 @@
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
+import { Capabilities } from "@/components/sections/Capabilities";
 import { Services } from "@/components/sections/Services";
 import { Contact } from "@/components/sections/Contact";
 import { Navbar } from "@/components/layout/Navbar";
@@ -15,6 +16,7 @@ export default function Home() {
       <div className="w-full flex flex-col items-center">
         <div className="w-full">
           <Hero />
+          <Capabilities />
           <Services />
           <Projects />
           <About />

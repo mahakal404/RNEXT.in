@@ -6,10 +6,11 @@ import { useScrollSpy } from '../../hooks/useScrollSpy';
 
 const sections = [
   { id: 'home', num: '01' },
-  { id: 'services', num: '02' },
-  { id: 'projects', num: '03' },
-  { id: 'about', num: '04' },
-  { id: 'contact', num: '05' }
+  { id: 'capabilities', num: '02' },
+  { id: 'services', num: '03' },
+  { id: 'projects', num: '04' },
+  { id: 'about', num: '05' },
+  { id: 'contact', num: '06' }
 ];
 
 export function ScrollIndicator() {
@@ -41,7 +42,20 @@ export function ScrollIndicator() {
             <span className={`text-[10px] font-bold tracking-widest transition-all duration-500 ease-out absolute right-full mr-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 ${isActive ? 'text-brand-primary' : 'text-text-muted group-hover:text-white'}`}>
               {section.num}
             </span>
-            <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ease-out ${isActive ? 'bg-brand-primary shadow-[0_0_10px_rgba(0,212,255,0.8)] scale-150' : 'bg-white/20 group-hover:bg-white/60'}`} />
+            <motion.div 
+              initial={false}
+              animate={isActive ? { 
+                scale: [1, 1.4, 1.2],
+                boxShadow: ["0 0 0px rgba(0,212,255,0)", "0 0 12px rgba(0,212,255,0.8)", "0 0 6px rgba(0,212,255,0.6)"],
+                backgroundColor: "#00d4ff"
+              } : {
+                scale: 1,
+                boxShadow: "0 0 0px rgba(0,0,0,0)",
+                backgroundColor: "rgba(255,255,255,0.2)"
+              }}
+              transition={{ duration: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
+              className="w-1.5 h-1.5 rounded-full group-hover:bg-white/60"
+            />
           </button>
         );
       })}

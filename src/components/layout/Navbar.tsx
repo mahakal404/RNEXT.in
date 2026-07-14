@@ -18,7 +18,7 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const pathname = usePathname();
   const { getHref, handleNavClick } = useGlobalNavigation();
-  const spyActiveId = useScrollSpy(['home', 'services', 'projects', 'about', 'contact'], "-30% 0px -55% 0px");
+  const spyActiveId = useScrollSpy(['home', 'capabilities', 'services', 'projects', 'about', 'contact'], "-30% 0px -55% 0px");
 
   // Handle active link synchronization based on route and scroll
   useEffect(() => {
@@ -28,6 +28,7 @@ export function Navbar() {
       if (spyActiveId) {
         const linkMap: Record<string, string> = {
           'home': 'Home',
+          'capabilities': 'Capabilities',
           'services': 'Services',
           'projects': 'Projects',
           'about': 'About',
@@ -56,6 +57,7 @@ export function Navbar() {
 
   const navLinks = [
     { name: 'Home' },
+    { name: 'Capabilities' },
     { name: 'Services' },
     { name: 'Projects' },
     { name: 'About' },
@@ -108,11 +110,19 @@ export function Navbar() {
                 className="relative group py-2"
                 aria-current={activeLink === link.name ? 'page' : undefined}
               >
-                <span className={`text-sm font-medium transition-colors duration-250 block ${
-                  activeLink === link.name ? 'text-white' : 'text-gray-400 group-hover:text-white'
-                }`}>
+                <motion.span 
+                  animate={activeLink === link.name ? { 
+                    textShadow: ["0 0 0px rgba(0,212,255,0)", "0 0 8px rgba(0,212,255,0.6)", "0 0 0px rgba(0,0,0,0)"]
+                  } : {
+                    textShadow: "0 0 0px rgba(0,0,0,0)"
+                  }}
+                  transition={{ duration: 0.22, ease: [0.22, 0.61, 0.36, 1] }}
+                  className={`text-sm font-medium transition-colors duration-250 block ${
+                    activeLink === link.name ? 'text-white' : 'text-gray-400 group-hover:text-white'
+                  }`}
+                >
                   {link.name}
-                </span>
+                </motion.span>
                 {/* Underline Glides from left to right on hover, or stays full width if active */}
                 <span className={`absolute bottom-0 left-0 h-[2px] bg-white rounded-full transition-all duration-250 ease-out ${
                   activeLink === link.name ? 'w-full' : 'w-0 group-hover:w-full'

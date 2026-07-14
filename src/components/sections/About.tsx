@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Search, PenTool, Code, Rocket, TrendingUp, Cpu, Zap, Target, Wrench } from 'lucide-react';
+import { SectionHeader } from '../ui/SectionHeader';
 
 const timeline = [
   { id: 'discover', title: 'Discover', icon: <Search size={18} />, description: 'We dive deep into your business goals, target audience, and market positioning.' },
@@ -28,13 +29,17 @@ export function About() {
         
         {/* Header */}
         <div className="mb-20 md:mb-28 max-w-2xl">
-          <div className="text-brand-primary text-caption font-bold uppercase tracking-widest mb-6">
-            04 — ABOUT
-          </div>
-          <h2 className="text-display-md md:text-display-lg text-white font-semibold leading-tight">
+          <SectionHeader number="05" label="ABOUT" />
+          <motion.h2 
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-35%" }}
+            transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
+            className="text-display-md md:text-display-lg text-white font-semibold leading-tight"
+          >
             We engineer digital <br className="hidden md:block" />
             <span className="text-text-muted">experiences that dominate.</span>
-          </h2>
+          </motion.h2>
         </div>
 
         {/* Two Column Layout for Metrics & Timeline on Desktop */}
@@ -50,8 +55,8 @@ export function About() {
                   key={metric.title}
                   initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-10%" }}
-                  transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  viewport={{ once: true, margin: "-35%" }}
+                  transition={{ duration: 0.6, delay: 0.62 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
                   className="card-standard p-8 bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-500 ease-out flex flex-col gap-4 group"
                 >
                    <div className="w-12 h-12 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center mb-2 transition-transform duration-500 group-hover:scale-110 group-hover:bg-brand-primary/20">
@@ -78,8 +83,8 @@ export function About() {
                      key={item.id}
                      initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -20 }}
                      whileInView={{ opacity: 1, x: 0 }}
-                     viewport={{ once: true, margin: "-10%" }}
-                     transition={{ duration: 0.6, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                     viewport={{ once: true, margin: "-35%" }}
+                     transition={{ duration: 0.6, delay: 0.72 + (i * 0.15), ease: [0.16, 1, 0.3, 1] }}
                      className="relative flex gap-8 mb-12 last:mb-0 group cursor-default"
                    >
                       {/* Node */}

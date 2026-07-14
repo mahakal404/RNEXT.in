@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Mail, MessageCircle, Send } from 'lucide-react';
+import { SectionHeader } from '../ui/SectionHeader';
 
 export function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -21,14 +22,18 @@ export function Contact() {
       <div className="w-full max-w-[1200px] mx-auto px-[20px] md:px-[48px] lg:px-[80px]">
         
         {/* Section Header */}
-        <div className="mb-20 md:mb-28 max-w-2xl mx-auto text-center">
-          <div className="text-brand-primary text-caption font-bold uppercase tracking-widest mb-6">
-            05 — CONTACT
-          </div>
-          <h2 className="text-display-sm md:text-display-md text-white font-semibold leading-tight">
+        <div className="mb-20 md:mb-28 max-w-2xl mx-auto flex flex-col items-center text-center">
+          <SectionHeader number="06" label="CONTACT" alignment="center" />
+          <motion.h2 
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-35%" }}
+            transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
+            className="text-display-sm md:text-display-md text-white font-semibold leading-tight"
+          >
             Ready to transform your digital presence?<br />
             <span className="text-text-muted">Get in touch with us.</span>
-          </h2>
+          </motion.h2>
         </div>
         
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12">
@@ -37,8 +42,8 @@ export function Contact() {
           <motion.div
             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, margin: "-35%" }}
+            transition={{ duration: 0.8, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 flex flex-col justify-center"
           >
             <h3 className="text-heading-md text-white font-medium mb-6">Start a Conversation</h3>
@@ -73,8 +78,8 @@ export function Contact() {
           <motion.div
             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            viewport={{ once: true, margin: "-35%" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.72 }}
             className="lg:col-span-6 lg:col-start-7"
           >
             <div className="card-standard relative overflow-hidden bg-bg-elevated border-border-primary">

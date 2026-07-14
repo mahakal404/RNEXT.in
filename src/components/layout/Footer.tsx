@@ -103,8 +103,9 @@ export function Footer() {
             <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-disabled">Navigation</div>
             <nav className="flex flex-col gap-4">
               {[
-                { label: 'Work', href: '/#projects' },
                 { label: 'Capabilities', href: '/#capabilities' },
+                { label: 'Services', href: '/#services' },
+                { label: 'Work', href: '/#projects' },
                 { label: 'About', href: '/#about' },
                 { label: 'Contact', href: '/#contact' }
               ].map(link => (

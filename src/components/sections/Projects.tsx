@@ -7,6 +7,7 @@ import { ArrowRight, Globe, Laptop, Smartphone, Database, Cpu, ChevronDown } fro
 
 import { projectsData } from '../../data/projects';
 import { MockupMapper } from '../ui/MockupMapper';
+import { SectionHeader } from '../ui/SectionHeader';
 
 const getProjectIcon = (category: string) => {
   switch (category.toLowerCase()) {
@@ -95,23 +96,40 @@ export function Projects() {
         {/* Section Header */}
         <div className="mb-24 md:mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="flex flex-col">
-            <h2 className="text-brand-primary text-caption font-bold uppercase tracking-widest mb-6">
-              03 — FEATURED WORK
-            </h2>
-            <div className="text-display-md md:text-display-lg text-white font-semibold leading-tight">
+            <SectionHeader number="04" label="FEATURED WORK" />
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-35%" }}
+              transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
+              className="text-display-md md:text-display-lg text-white font-semibold leading-tight"
+            >
               Here is a collection of products,<br />
               <span className="text-text-muted">concept projects, and business websites.</span>
-            </div>
+            </motion.div>
           </div>
           <div className="lg:max-w-[340px]">
-            <p className="text-body-lg text-text-secondary leading-relaxed">
+            <motion.p 
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-35%" }}
+              transition={{ duration: 0.6, delay: 0.58, ease: [0.22, 0.61, 0.36, 1] }}
+              className="text-body-lg text-text-secondary leading-relaxed"
+            >
               Designed and developed to explore real-world digital experiences using modern technologies.
-            </p>
+            </motion.p>
           </div>
         </div>
 
         {/* Interactive Projects Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 relative min-h-[700px]">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-35%" }}
+          transition={{ duration: 0.8, delay: 0.62, ease: [0.22, 0.61, 0.36, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 relative min-h-[700px]"
+        >
           
           {/* Desktop Left Navigation */}
           <div className="hidden lg:flex lg:col-span-4 flex-col relative">
@@ -339,10 +357,16 @@ export function Projects() {
                )}
             </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
 
         {/* Premium View All Projects CTA */}
-        <div className="mt-32 md:mt-48 flex justify-center pt-24 relative px-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-35%" }}
+          transition={{ duration: 0.8, delay: 0.72, ease: [0.22, 0.61, 0.36, 1] }}
+          className="mt-32 md:mt-48 flex justify-center pt-24 relative px-4"
+        >
           {/* Subtle gradient background line instead of solid border */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           
@@ -374,7 +398,7 @@ export function Projects() {
                 <div className="absolute inset-0 bg-gray-200 translate-y-[100%] rounded-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
              </div>
           </Link>
-        </div>
+        </motion.div>
 
       </div>
     </section>
