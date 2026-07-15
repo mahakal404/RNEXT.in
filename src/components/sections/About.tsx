@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -6,18 +6,18 @@ import { Search, PenTool, Code, Rocket, TrendingUp, Cpu, Zap, Target, Wrench } f
 import { SectionHeader } from '../ui/SectionHeader';
 
 const timeline = [
-  { id: 'discover', title: 'Discover', icon: <Search size={18} />, description: 'We dive deep into your business goals, target audience, and market positioning.' },
-  { id: 'design', title: 'Design', icon: <PenTool size={18} />, description: 'Crafting premium, user-centric interfaces that command attention and build trust.' },
-  { id: 'develop', title: 'Develop', icon: <Code size={18} />, description: 'Engineering robust, high-performance architecture tailored for scale.' },
-  { id: 'launch', title: 'Launch', icon: <Rocket size={18} />, description: 'Rigorous testing and seamless deployment to ensure a flawless public release.' },
-  { id: 'scale', title: 'Scale', icon: <TrendingUp size={18} />, description: 'Continuous optimization and strategic growth to dominate your market.' }
+  { id: 'discover', title: 'Discover', icon: <Search size={18} />, description: 'Understand your goals, users, competitors, and business requirements.' },
+  { id: 'design', title: 'Design', icon: <PenTool size={18} />, description: 'Create modern interfaces focused on usability, trust, and conversion.' },
+  { id: 'develop', title: 'Develop', icon: <Code size={18} />, description: 'Build scalable, secure, and high-performance digital products.' },
+  { id: 'launch', title: 'Launch', icon: <Rocket size={18} />, description: 'Test thoroughly and deploy with confidence for a smooth production release.' },
+  { id: 'support', title: 'Support & Grow', icon: <TrendingUp size={18} />, description: 'Provide maintenance, improvements, optimization, and long-term technical support.' }
 ];
 
 const metrics = [
-  { title: 'Custom Built', icon: <Wrench size={24} className="text-brand-primary" />, desc: 'No templates. Every pixel and line of code is engineered specifically for your brand.' },
-  { title: 'AI Powered', icon: <Cpu size={24} className="text-brand-primary" />, desc: 'Leveraging intelligent automation to streamline operations and enhance user experience.' },
-  { title: 'Performance', icon: <Zap size={24} className="text-brand-primary" />, desc: 'Lightning-fast load times that reduce bounce rates and maximize conversions.' },
-  { title: 'Strategy', icon: <Target size={24} className="text-brand-primary" />, desc: 'Data-driven decision making focused entirely on your business outcomes.' }
+  { title: 'Custom Built', icon: <Wrench size={24} className="text-brand-primary" />, desc: 'Every project is designed and developed specifically for your business. No templates, no shortcuts, only tailored digital solutions.' },
+  { title: 'Modern Technology', icon: <Code size={24} className="text-brand-primary" />, desc: 'We build using reliable and modern technologies that ensure speed, scalability, security, and long-term maintainability.' },
+  { title: 'Performance First', icon: <Zap size={24} className="text-brand-primary" />, desc: 'Every product is optimized for fast loading, responsive design, accessibility, and an excellent user experience.' },
+  { title: 'Long-Term Partnership', icon: <Target size={24} className="text-brand-primary" />, desc: "Our relationship doesn't end after deployment. We continue supporting, improving, and growing your digital product." }
 ];
 
 export function About() {
@@ -37,8 +37,8 @@ export function About() {
             transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
             className="text-display-md md:text-display-lg text-white font-semibold leading-tight"
           >
-            We engineer digital <br className="hidden md:block" />
-            <span className="text-text-muted">experiences that dominate.</span>
+            Craftsmanship, quality, and <br className="hidden md:block" />
+            <span className="text-text-muted">long-term partnership.</span>
           </motion.h2>
         </div>
 
