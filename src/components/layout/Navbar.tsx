@@ -8,6 +8,7 @@ import { motion, useReducedMotion, useScroll, useMotionValueEvent } from 'framer
 import { getHeroAnimations } from '../../lib/animations';
 import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
+import { LogoWordmark } from '../ui/Logo';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -91,10 +92,10 @@ export function Navbar() {
           <div className="flex-1 flex items-center">
             <Link 
               href="/" 
-              className="text-xl font-bold tracking-tight text-white flex items-center" 
+              className="flex items-center" 
               onClick={(e) => onNavClick(e, 'Home')}
             >
-              RNEXT
+              <LogoWordmark className="h-6" />
             </Link>
           </div>
 

@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
+import { LogoWordmark } from '../ui/Logo';
 
 export function Footer() {
   const shouldReduceMotion = useReducedMotion();
@@ -83,8 +84,8 @@ export function Footer() {
             viewport={{ once: true, margin: "-5%" }}
             variants={fadeUp}
           >
-            <div className="text-2xl font-bold tracking-tight text-white flex items-center gap-1">
-              RNEXT<span className="text-brand-primary">.</span>
+            <div className="flex items-center">
+              <LogoWordmark className="h-7" />
             </div>
             <div className="text-body-base text-text-muted flex flex-col gap-1 font-medium">
               <span>Digital Architecture for ambitious businesses.</span>
