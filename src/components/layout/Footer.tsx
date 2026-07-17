@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
-import { LogoWordmark } from '../ui/Logo';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 export function Footer() {
   const shouldReduceMotion = useReducedMotion();
@@ -23,56 +23,9 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full bg-bg-primary relative border-t border-white/5 z-20 pt-32 md:pt-48 pb-12 overflow-hidden">
+    <footer className="w-full bg-bg-primary relative z-20 pt-16 md:pt-24 pb-12 overflow-hidden">
       <div className="w-full max-w-[1200px] mx-auto px-[20px] md:px-[48px] lg:px-[80px]">
         
-        {/* Top Grid: Statement & CTA */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 mb-32 md:mb-48">
-          
-          {/* Section 1: Editorial Statement */}
-          <motion.div 
-            className="lg:col-span-8 flex flex-col gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-10%" }}
-            variants={fadeUp}
-          >
-            <h2 className="text-display-lg md:text-display-xl text-white font-semibold leading-[1.05] tracking-tight">
-              Ready to build something<br />
-              <span className="text-text-muted">undeniable.</span>
-            </h2>
-            <p className="text-body-xl text-text-secondary max-w-lg font-medium leading-relaxed">
-              We engineer high-performance digital infrastructure for brands that refuse to blend in.
-            </p>
-          </motion.div>
-          
-          {/* Section 2: Premium CTA */}
-          <motion.div 
-            className="lg:col-span-4 flex items-end lg:justify-end"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-10%" }}
-            variants={fadeUp}
-          >
-            <Link 
-              href={getHref('Contact', '/#contact')}
-              onClick={(e) => handleNavClick(e, 'Contact')}
-              className="group flex items-center justify-between w-full lg:w-auto gap-12 border-b border-border-primary pb-6 transition-colors duration-500 hover:border-brand-primary"
-            >
-              <span className="text-heading-sm text-white font-medium group-hover:text-brand-primary transition-colors duration-500">
-                Start Your Project
-              </span>
-              <div className="w-12 h-12 rounded-full border border-border-primary flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-brand-primary/10 group-hover:border-brand-primary/30 group-hover:-rotate-45">
-                <ArrowRight size={20} className="text-text-secondary group-hover:text-brand-primary transition-colors duration-500" strokeWidth={1.5} />
-              </div>
-            </Link>
-          </motion.div>
-          
-        </div>
-
-        {/* Soft Divider */}
-        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-16 md:mb-24" />
-
         {/* Bottom Grid: Navigation, Signature, Socials */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-8">
           
@@ -85,7 +38,7 @@ export function Footer() {
             variants={fadeUp}
           >
             <div className="flex items-center">
-              <LogoWordmark className="h-7" />
+              <BrandLogo size="md" />
             </div>
             <div className="text-body-base text-text-muted flex flex-col gap-1 font-medium">
               <span>Digital Architecture for ambitious businesses.</span>

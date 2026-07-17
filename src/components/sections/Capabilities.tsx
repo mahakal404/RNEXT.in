@@ -172,7 +172,7 @@ export function Capabilities() {
                     onClick={() => handleScrollTo(cap.id)}
                     animate={{ 
                       scale: activeSection === cap.id ? 1.02 : 1,
-                      backgroundColor: activeSection === cap.id ? "rgba(255,255,255,0.02)" : "transparent"
+                      backgroundColor: activeSection === cap.id ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0)"
                     }}
                     whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.04)" }}
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}

@@ -8,7 +8,7 @@ import { motion, useReducedMotion, useScroll, useMotionValueEvent } from 'framer
 import { getHeroAnimations } from '../../lib/animations';
 import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
-import { LogoWordmark } from '../ui/Logo';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -95,7 +95,7 @@ export function Navbar() {
               className="flex items-center" 
               onClick={(e) => onNavClick(e, 'Home')}
             >
-              <LogoWordmark className="h-6" />
+              <BrandLogo size="sm" />
             </Link>
           </div>
 

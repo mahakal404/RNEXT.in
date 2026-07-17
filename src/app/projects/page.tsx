@@ -164,7 +164,7 @@ export default function ProjectsPage() {
                       key={project.id} 
                       onClick={() => handleProjectClick(project.id)}
                       animate={{ 
-                        backgroundColor: isActive ? "rgba(255,255,255,0.03)" : "transparent"
+                        backgroundColor: isActive ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0)"
                       }}
                       whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
                       transition={{ duration: 0.3 }}

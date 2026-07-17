@@ -73,8 +73,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geist.variable} ${inter.variable} scroll-smooth antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-screen bg-bg-primary text-text-primary flex flex-col relative font-sans">
+      <body suppressHydrationWarning className="min-h-screen bg-bg-primary text-text-primary flex flex-col relative font-sans">
         <main className="flex-grow">{children}</main>
       </body>
     </html>
