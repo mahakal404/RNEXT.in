@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Globe, Laptop, Smartphone, Database, Cpu, ChevronDown } from 'lucide-react';
 
 import { projectsData } from '../../data/projects';
 import { MockupMapper } from '../ui/MockupMapper';
 import { SectionHeader } from '../ui/SectionHeader';
+import { useMotionUtilities, variants, stagger, hover, transitions } from '../../lib/motion';
 
 const getProjectIcon = (category: string) => {
   switch (category.toLowerCase()) {
@@ -20,7 +21,7 @@ const getProjectIcon = (category: string) => {
 }
 
 export function Projects() {
-  const shouldReduceMotion = useReducedMotion();
+  const { withReducedMotion } = useMotionUtilities();
 
   // Selected top 6 projects
   const topProjectIds = ['chatcv', 'vtry', 'fintrack', 'ai-paisee', 'harini-dental', 'expense-manager'];
@@ -67,43 +68,46 @@ export function Projects() {
   };
 
   return (
-    <section id="projects" className="py-24 md:py-40 relative z-20 bg-bg-primary">
+    <section id="projects" className="py-24 md:py-40 relative z-20 bg-bg-primary overflow-hidden">
       <div className="w-full max-w-[1200px] mx-auto px-[20px] md:px-[48px] lg:px-[80px]">
         
         {/* Statistics Section */}
-        <div className="flex flex-wrap gap-8 md:gap-16 items-center border-b border-white/5 pb-12 mb-24 md:mb-32">
-           <div className="flex flex-col gap-1">
+        <motion.div 
+          className="flex flex-wrap gap-8 md:gap-16 items-center border-b border-white/5 pb-12 mb-24 md:mb-32"
+          {...withReducedMotion(stagger.fast)}
+        >
+           <motion.div variants={variants.fade} className="flex flex-col gap-1">
               <span className="text-display-md text-white font-bold tracking-tight">12+</span>
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-disabled">Projects Built</span>
-           </div>
-           <div className="w-[1px] h-12 bg-white/5 hidden md:block" />
-           <div className="flex flex-col gap-1">
+           </motion.div>
+           <motion.div variants={variants.fade} className="w-[1px] h-12 bg-white/5 hidden md:block" />
+           <motion.div variants={variants.fade} className="flex flex-col gap-1">
               <span className="text-display-md text-white font-bold tracking-tight">3</span>
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-disabled">AI Products</span>
-           </div>
-           <div className="w-[1px] h-12 bg-white/5 hidden md:block" />
-           <div className="flex flex-col gap-1">
+           </motion.div>
+           <motion.div variants={variants.fade} className="w-[1px] h-12 bg-white/5 hidden md:block" />
+           <motion.div variants={variants.fade} className="flex flex-col gap-1">
               <span className="text-display-md text-white font-bold tracking-tight">6</span>
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-disabled">Business Websites</span>
-           </div>
-           <div className="w-[1px] h-12 bg-white/5 hidden md:block" />
-           <div className="flex flex-col gap-1">
+           </motion.div>
+           <motion.div variants={variants.fade} className="w-[1px] h-12 bg-white/5 hidden md:block" />
+           <motion.div variants={variants.fade} className="flex flex-col gap-1">
               <span className="text-display-md text-white font-bold tracking-tight">2</span>
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-disabled">Finance Apps</span>
-           </div>
-        </div>
+           </motion.div>
+        </motion.div>
 
         {/* Section Header */}
         <div className="mb-24 md:mb-32 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="flex flex-col">
-            <SectionHeader number="04" label="PROJECTS" />
+            <motion.div className="overflow-hidden" {...withReducedMotion(variants.maskReveal)}>
+              <SectionHeader number="04" label="PROJECTS" />
+            </motion.div>
             
             <motion.div 
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-              transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
-              className="text-display-md md:text-display-lg text-white font-semibold leading-tight"
+              className="text-display-md md:text-display-lg text-white font-semibold leading-tight overflow-hidden"
+              {...withReducedMotion(variants.maskReveal)}
+              transition={{ ...variants.maskReveal.transition, delay: 0.1 }}
             >
               Here is a collection of products,<br />
               <span className="text-text-muted">concept projects, and business websites.</span>
@@ -111,11 +115,9 @@ export function Projects() {
           </div>
           <div className="lg:max-w-[340px]">
             <motion.p 
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-              transition={{ duration: 0.6, delay: 0.58, ease: [0.22, 0.61, 0.36, 1] }}
-              className="text-body-lg text-text-secondary leading-relaxed"
+              className="text-body-lg text-text-secondary leading-relaxed overflow-hidden"
+              {...withReducedMotion(variants.maskReveal)}
+              transition={{ ...variants.maskReveal.transition, delay: 0.2 }}
             >
               Designed and developed to explore real-world digital experiences using modern technologies.
             </motion.p>
@@ -124,11 +126,8 @@ export function Projects() {
 
         {/* Interactive Projects Showcase */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-          transition={{ duration: 0.8, delay: 0.62, ease: [0.22, 0.61, 0.36, 1] }}
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 relative min-h-[700px]"
+          {...withReducedMotion(variants.fade)}
         >
           
           {/* Desktop Left Navigation */}
@@ -141,7 +140,7 @@ export function Projects() {
                   top: `${featuredProjects.findIndex(p => p.id === activeId) * (100 / featuredProjects.length)}%`,
                   height: `${100 / featuredProjects.length}%`
                 }}
-                transition={{ duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
+                transition={transitions.lux}
               />
 
               {featuredProjects.map((project, index) => {
@@ -154,10 +153,10 @@ export function Projects() {
                       backgroundColor: isActive ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0)"
                     }}
                     whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-                    transition={{ duration: 0.3 }}
+                    transition={transitions.swift}
                     className={`relative pl-6 py-5 flex flex-col items-start text-left w-full cursor-pointer rounded-r-lg border-y border-r border-transparent ${isActive ? 'border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]' : ''} origin-left`}
                   >
-                    <span className={`text-sm font-medium transition-all duration-300 ${isActive ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : 'text-text-disabled'}`}>
+                    <span className={`text-sm font-medium transition-colors duration-300 ${isActive ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : 'text-text-disabled'}`}>
                       0{index + 1} — {project.name}
                     </span>
                     <span className={`text-[11px] mt-1.5 transition-colors duration-300 ${isActive ? 'text-brand-primary' : 'text-text-muted'}`}>
@@ -194,7 +193,7 @@ export function Projects() {
                    initial={{ opacity: 0, y: -10, scale: 0.98 }}
                    animate={{ opacity: 1, y: 0, scale: 1 }}
                    exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                   transition={transitions.swift}
                    className="absolute top-[calc(100%+8px)] left-0 w-full bg-[#0B1020]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col origin-top"
                  >
                    {featuredProjects.map((project, index) => {
@@ -225,10 +224,10 @@ export function Projects() {
                {showSkeleton ? (
                  <motion.div
                    key="skeleton"
-                   initial={{ opacity: 0, y: 18, scale: 0.985 }}
-                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                   exit={{ opacity: 0, y: -12, scale: 0.985 }}
-                   transition={{ duration: 0.22, ease: [0.22, 0.61, 0.36, 1] }}
+                   initial={{ opacity: 0, filter: "blur(4px)" }}
+                   animate={{ opacity: 1, filter: "blur(0px)" }}
+                   exit={{ opacity: 0, filter: "blur(4px)" }}
+                   transition={transitions.swift}
                    className="w-full flex flex-col gap-10 md:gap-16 absolute top-0 left-0"
                  >
                     {/* Skeleton Mockup */}
@@ -260,10 +259,10 @@ export function Projects() {
                ) : (
                  <motion.div 
                    key={transitioningProject.id}
-                   initial={{ opacity: 0, y: 18, scale: 0.985 }}
-                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                   exit={{ opacity: 0, y: -12, scale: 0.985 }}
-                   transition={{ duration: 0.32, ease: [0.22, 0.61, 0.36, 1] }}
+                   initial={{ opacity: 0, filter: "blur(4px)" }}
+                   animate={{ opacity: 1, filter: "blur(0px)" }}
+                   exit={{ opacity: 0, filter: "blur(4px)" }}
+                   transition={transitions.lux}
                    className="w-full flex flex-col gap-10 md:gap-16 group"
                  >
                    {/* Visual Presentation */}
@@ -271,9 +270,9 @@ export function Projects() {
                      
                      {/* Floating Project Badge */}
                      <motion.div 
-                       initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                       transition={{ duration: 0.3, delay: 0.2 }}
+                       initial={{ opacity: 0, y: 10 }}
+                       animate={{ opacity: 1, y: 0 }}
+                       transition={{ ...transitions.swift, delay: 0.2 }}
                        className="absolute top-6 left-1/2 -translate-x-1/2 z-50 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-2 pointer-events-none"
                      >
                        {getProjectIcon(transitioningProject.category)}
@@ -283,10 +282,13 @@ export function Projects() {
                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_rgba(34,197,94,0.8)] ml-1" />
                      </motion.div>
 
-                     {/* The Original Artwork Placeholder */}
-                     <div className="relative w-full aspect-[4/3] md:aspect-[16/9] transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02]">
+                     {/* The Original Artwork Placeholder - Crossfade & Zoom */}
+                     <motion.div 
+                       className="relative w-full aspect-[4/3] md:aspect-[16/9] transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02]"
+                       {...withReducedMotion(variants.scaleDownImage)}
+                     >
                         <MockupMapper id={transitioningProject.mockupId} />
-                     </div>
+                     </motion.div>
                    </div>
 
                    {/* Details Block */}
@@ -309,10 +311,10 @@ export function Projects() {
                             {transitioningProject.technologies.slice(0, 3).map((tech, i) => (
                                <motion.span 
                                  key={`${transitioningProject.id}-${tech}`} 
-                                 initial={{ opacity: 0, y: 10 }}
-                                 animate={{ opacity: 1, y: 0 }}
-                                 exit={{ opacity: 0, y: -10 }}
-                                 transition={{ delay: i * 0.05, duration: 0.3 }}
+                                 initial={{ opacity: 0, scale: 0.9 }}
+                                 animate={{ opacity: 1, scale: 1 }}
+                                 exit={{ opacity: 0, scale: 0.9 }}
+                                 transition={{ delay: i * 0.05, duration: 0.3, ease: transitions.swift.ease }}
                                  className="text-xs text-text-muted px-2 py-1 bg-black/40 rounded-md border border-white/5"
                                >
                                   {tech}
@@ -332,10 +334,10 @@ export function Projects() {
                          <AnimatePresence mode="popLayout">
                            <motion.div
                              key={`cta-${transitioningProject.id}`}
-                             initial={{ opacity: 0, y: 15 }}
-                             animate={{ opacity: 1, y: 0 }}
-                             exit={{ opacity: 0, y: -15 }}
-                             transition={{ duration: 0.3 }}
+                             initial={{ opacity: 0, x: 10 }}
+                             animate={{ opacity: 1, x: 0 }}
+                             exit={{ opacity: 0, x: -10 }}
+                             transition={transitions.swift}
                              className="flex gap-4"
                            >
                              {transitioningProject.githubUrl && (
@@ -344,10 +346,12 @@ export function Projects() {
                                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.19-.3 6.5-1.5 6.5-7.a5.2 5.2 0 0 0-1.5-3.8.33.33 0 0 0-.08-.22.5.5 0 0 0-.39-.12 6.8 6.8 0 0 0-2.3 1.2 12.1 12.1 0 0 0-5 0 6.8 6.8 0 0 0-2.3-1.2.5.5 0 0 0-.39.12.33.33 0 0 0-.08.22 5.2 5.2 0 0 0-1.5 3.8c0 5.5 3.3 6.7 6.5 7a4.8 4.8 0 0 0-1 3.02V22"/><path d="M9 20c-3 1-5-1-5-3"/></svg>
                                </a>
                              )}
-                             <a href={transitioningProject.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-3 px-8 h-12 rounded-full bg-bg-elevated border border-border-primary text-white text-btn transition-all duration-500 hover:bg-white hover:text-bg-primary hover:border-transparent group/btn">
-                               Live Demo
-                               <ArrowRight size={16} className="transition-transform duration-500 group-hover/btn:translate-x-1" />
-                             </a>
+                             <motion.div {...hover.button}>
+                               <a href={transitioningProject.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-3 px-8 h-12 rounded-full bg-bg-elevated border border-border-primary text-white text-btn transition-all duration-500 hover:bg-white hover:text-bg-primary hover:border-transparent group/btn">
+                                 Live Demo
+                                 <ArrowRight size={16} className="transition-transform duration-500 group-hover/btn:translate-x-1" />
+                               </a>
+                             </motion.div>
                            </motion.div>
                          </AnimatePresence>
                        </div>
@@ -361,11 +365,8 @@ export function Projects() {
 
         {/* Premium View All Projects CTA */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-          transition={{ duration: 0.8, delay: 0.72, ease: [0.22, 0.61, 0.36, 1] }}
           className="mt-32 md:mt-48 flex justify-center pt-24 relative px-4"
+          {...withReducedMotion(variants.fade)}
         >
           {/* Subtle gradient background line instead of solid border */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -389,14 +390,14 @@ export function Projects() {
                AI • SaaS • Finance • Business Websites
              </p>
 
-             <div className="inline-flex items-center gap-3 px-8 h-14 rounded-full bg-white text-bg-primary font-semibold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-hover:shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)] relative overflow-hidden">
-                <span className="relative z-10 flex items-center gap-3 transition-colors duration-500">
-                  View Complete Collection
-                  <ArrowRight size={18} className="transition-transform duration-500 ease-out group-hover:translate-x-1" />
-                </span>
-                {/* Ripple effect on hover */}
-                <div className="absolute inset-0 bg-gray-200 translate-y-[100%] rounded-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
-             </div>
+             <motion.div {...hover.button}>
+               <div className="inline-flex items-center gap-3 px-8 h-14 rounded-full bg-white text-bg-primary font-semibold relative overflow-hidden">
+                  <span className="relative z-10 flex items-center gap-3 transition-colors duration-500">
+                    View Complete Collection
+                    <ArrowRight size={18} className="transition-transform duration-500 ease-out group-hover:translate-x-1" />
+                  </span>
+               </div>
+             </motion.div>
           </Link>
         </motion.div>
 

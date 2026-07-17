@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Check, ArrowRight, Globe, LayoutDashboard, ShoppingBag, Cpu } from 'lucide-react';
 import { SectionHeader } from '../ui/SectionHeader';
 
@@ -9,6 +9,7 @@ import { PresenceMockup } from '../ui/mockups/PresenceMockup';
 import { PlatformsMockup } from '../ui/mockups/PlatformsMockup';
 import { ServicesCommerceMockup } from '../ui/mockups/ServicesCommerceMockup';
 import { AiMockup } from '../ui/mockups/AiMockup';
+import { useMotionUtilities, variants, stagger, hover, transitions } from '../../lib/motion';
 
 /* --- DATA --- */
 
@@ -85,12 +86,12 @@ const capabilities = [
 
 export function Capabilities() {
   const [activeSection, setActiveSection] = useState("presence");
+  const { withReducedMotion } = useMotionUtilities();
+  const { scrollYProgress } = useScroll();
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        let maxRatio = 0;
-        let mostVisible = activeSection;
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
@@ -117,17 +118,21 @@ export function Capabilities() {
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
-  const shouldReduceMotion = useReducedMotion();
 
-  // Strict Physical Momentum Animation Rules
-  const transition = { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] };
-  const blockVariants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 40 },
-    visible: { opacity: 1, y: 0, transition }
-  };
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
   return (
-    <section id="capabilities" className="py-24 md:py-32 relative z-20 bg-bg-primary">
+    <section id="capabilities" className="py-24 md:py-32 relative z-20 bg-bg-primary overflow-hidden">
+      {/* Slower Parallax Background */}
+      <motion.div 
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{ 
+          backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)', 
+          backgroundSize: '4rem 4rem',
+          y: bgY
+        }}
+      />
+
       <div className="w-full max-w-[1200px] mx-auto px-[20px] md:px-[48px] lg:px-[80px]">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 relative">
@@ -135,26 +140,25 @@ export function Capabilities() {
           {/* Left Column: Functional Sticky Sidebar */}
           <div className="lg:col-span-4 flex flex-col relative">
             <div className="lg:sticky lg:top-32">
-              <SectionHeader number="02" label="CAPABILITIES" alignment="left" />
+              <motion.div className="overflow-hidden" {...withReducedMotion(variants.maskReveal)}>
+                <SectionHeader number="02" label="CAPABILITIES" alignment="left" />
+              </motion.div>
               
-              <motion.p 
-                className="text-body-lg text-text-secondary mb-6"
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-                transition={{ duration: 0.6, delay: 0.58, ease: [0.22, 0.61, 0.36, 1] }}
-              >
-                We don&apos;t build generic websites. We engineer high-performance digital infrastructure designed to dominate your market.
-              </motion.p>
-              
+              <motion.div className="overflow-hidden mb-6">
+                <motion.p 
+                  className="text-body-lg text-text-secondary"
+                  {...withReducedMotion(variants.maskReveal)}
+                  transition={{ ...variants.maskReveal.transition, delay: 0.1 }}
+                >
+                  We don&apos;t build generic websites. We engineer high-performance digital infrastructure designed to dominate your market.
+                </motion.p>
+              </motion.div>
 
               {/* Interactive Table of Contents */}
               <motion.div 
                 className="hidden lg:flex flex-col border-l border-white/5 relative"
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "0px" }}
-                transition={{ duration: 0.6, delay: 0.66, ease: [0.22, 0.61, 0.36, 1] }}
+                {...withReducedMotion(variants.fade)}
+                transition={{ ...variants.fade.transition, delay: 0.2 }}
               >
                 {/* Active Indicator Line */}
                 <motion.div 
@@ -163,7 +167,7 @@ export function Capabilities() {
                     top: `${capabilities.findIndex(c => c.id === activeSection) * (100 / capabilities.length)}%`,
                     height: `${100 / capabilities.length}%`
                   }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={transitions.springStiff}
                 />
                 
                 {capabilities.map((cap, index) => (
@@ -175,10 +179,10 @@ export function Capabilities() {
                       backgroundColor: activeSection === cap.id ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0)"
                     }}
                     whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.04)" }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    transition={transitions.springStiff}
                     className={`relative pl-6 py-4 flex items-center text-left w-full cursor-pointer rounded-r-lg border-y border-r border-transparent ${activeSection === cap.id ? 'border-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]' : ''} origin-left`}
                   >
-                    <span className={`text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${activeSection === cap.id ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : 'text-text-disabled'}`}>
+                    <span className={`text-sm font-medium transition-colors duration-300 ${activeSection === cap.id ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]' : 'text-text-disabled'}`}>
                       0{index + 1} — {cap.headline}
                     </span>
                   </motion.button>
@@ -193,89 +197,118 @@ export function Capabilities() {
               <motion.div
                 key={cap.id}
                 id={cap.id}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-10% 0px" }}
-                variants={blockVariants}
+                {...withReducedMotion(stagger.base)}
                 className="flex flex-col relative"
               >
-                
-                {/* 1. Category Label */}
-                <div className="text-[11px] font-bold uppercase tracking-widest text-text-muted mb-4">
-                  {cap.label}
-                </div>
-                
-                {/* 2. Headline */}
-                <h3 className="text-heading-lg md:text-display-sm text-white font-semibold mb-8 leading-tight">
-                  {cap.headline}
-                </h3>
-                
-                {/* 3. Problem Statement */}
-                <div className="mb-6">
-                  <span className="text-sm font-bold uppercase tracking-wider text-brand-primary block mb-2">The Problem</span>
-                  <p className="text-body-lg text-text-muted leading-relaxed">
-                    {cap.problem}
-                  </p>
-                </div>
-                
-                {/* 4. RNEXT Solution */}
-                <div className="mb-10">
-                  <span className="text-sm font-bold uppercase tracking-wider text-brand-primary block mb-2">The Solution</span>
-                  <p className="text-body-lg text-white leading-relaxed font-medium">
-                    {cap.solution}
-                  </p>
-                </div>
-                
-                {/* 5. Expected Business Outcomes */}
-                <div className="mb-12">
-                  <span className="text-sm font-bold uppercase tracking-wider text-white block mb-4">Expected Outcomes</span>
-                  <ul className="flex flex-col gap-3">
-                    {cap.outcomes.map((outcome, idx) => (
-                      <li key={idx} className="flex items-center gap-3 text-text-secondary">
-                        <Check size={16} strokeWidth={1.5} className="text-brand-primary flex-shrink-0" />
-                        <span>{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                {/* 6. Technology Stack */}
-                <div className="mb-12 flex flex-wrap gap-2">
-                  {cap.tech.map((tech, idx) => (
-                    <span key={idx} className="text-[11px] font-bold uppercase tracking-wider text-text-muted px-3 py-1 bg-white/5 rounded-full border border-white/10">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                
-                {/* 7. Visual Preview (Premium CSS Mockups with Transition) */}
-                <motion.div 
-                  initial={{ opacity: 0, filter: "blur(12px)", scale: 0.96 }}
-                  whileInView={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  viewport={{ margin: "-20% 0px" }}
-                  className="w-full aspect-[4/3] md:aspect-[16/9] rounded-2xl md:rounded-[32px] overflow-hidden border border-white/5 mb-10 relative bg-black/50"
-                >
-                  <motion.div 
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-                    viewport={{ margin: "-20% 0px" }}
-                    className="absolute top-6 left-1/2 -translate-x-1/2 z-50 bg-black/60 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full text-xs font-semibold text-white/90 shadow-[0_5px_15px_rgba(0,0,0,0.5)] flex items-center gap-2"
-                  >
-                    {cap.animatedLabel}
-                  </motion.div>
-                  {cap.visual}
-                </motion.div>
-                
-                {/* 8. Contextual CTA */}
-                <div>
-                  <button className="btn-base btn-secondary px-8 h-12 text-sm font-medium group flex items-center gap-2">
-                    {cap.cta}
-                    <ArrowRight size={16} strokeWidth={1.5} className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
-                  </button>
-                </div>
+                {/* Desktop: Anchor offset for sticky nav */}
+                <div className="absolute -top-32 h-1 w-1 pointer-events-none" />
 
+                {/* Number Indicator */}
+                <motion.div 
+                  variants={variants.maskReveal}
+                  className="mb-8"
+                >
+                  <span className="text-display-lg font-bold text-white/[0.03] tracking-tighter block leading-none">
+                    0{capabilities.findIndex(c => c.id === cap.id) + 1}
+                  </span>
+                </motion.div>
+
+                {/* Animated Badge */}
+                <motion.div 
+                  variants={variants.fade}
+                  className="inline-flex items-center gap-2 mb-6"
+                >
+                  <div className="h-[1px] w-6 bg-brand-primary"></div>
+                  <span className="text-xs font-bold tracking-[0.2em] text-brand-primary uppercase">{cap.label}</span>
+                </motion.div>
+
+                {/* Headline */}
+                <motion.div className="overflow-hidden mb-8" variants={variants.maskReveal}>
+                  <h3 className="text-display-sm text-white font-semibold leading-[1.1] tracking-tight">{cap.headline}</h3>
+                </motion.div>
+
+                {/* Content Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
+                  
+                  {/* Left: Text & Logic */}
+                  <motion.div variants={variants.fade} className="flex flex-col gap-10">
+                    
+                    {/* Problem/Solution */}
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-2">
+                        <span className="text-xs uppercase tracking-wider text-text-muted font-bold">The Problem</span>
+                        <p className="text-body-md text-text-secondary leading-relaxed border-l-2 border-white/10 pl-4">{cap.problem}</p>
+                      </div>
+                      
+                      <div className="flex flex-col gap-2">
+                        <span className="text-xs uppercase tracking-wider text-brand-primary font-bold">The RNEXT Solution</span>
+                        <p className="text-body-md text-white/90 leading-relaxed border-l-2 border-brand-primary pl-4">{cap.solution}</p>
+                      </div>
+                    </div>
+
+                    {/* Outcomes */}
+                    <div className="flex flex-col gap-4">
+                      <span className="text-xs uppercase tracking-wider text-text-muted font-bold">Key Outcomes</span>
+                      <ul className="flex flex-col gap-3">
+                        {cap.outcomes.map((outcome, idx) => (
+                          <motion.li 
+                            key={idx} 
+                            className="flex items-start gap-3"
+                            variants={variants.fade}
+                          >
+                            <div className="mt-1 w-5 h-5 rounded-full bg-brand-primary/10 border border-brand-primary/30 flex items-center justify-center shrink-0">
+                              <Check size={10} className="text-brand-primary" />
+                            </div>
+                            <span className="text-body-sm text-text-secondary">{outcome}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div className="flex flex-col gap-4">
+                      <span className="text-xs uppercase tracking-wider text-text-muted font-bold">Tech Stack</span>
+                      <div className="flex flex-wrap gap-2">
+                        {cap.tech.map((techItem, idx) => (
+                          <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-xs text-white/70 font-medium">
+                            {techItem}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* CTA */}
+                    <motion.div {...hover.button} className="mt-2 inline-block">
+                      <button className="group flex items-center gap-2 text-sm font-bold text-white transition-colors duration-300">
+                        <span className="border-b border-transparent group-hover:border-brand-primary pb-0.5">{cap.cta}</span>
+                        <ArrowRight size={16} className="text-brand-primary" />
+                      </button>
+                    </motion.div>
+
+                  </motion.div>
+
+                  {/* Right: Mockup Visual */}
+                  <motion.div variants={variants.fade} {...hover.card} className="relative w-full aspect-[4/5] md:aspect-auto md:h-full min-h-[400px] flex items-center justify-center p-6 md:p-8 rounded-2xl bg-white/[0.02] border border-white/5 overflow-hidden group">
+                     {/* Ambient Glow */}
+                     <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 to-transparent opacity-50" />
+                     
+                     <div className="relative z-10 w-full max-w-[320px] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105">
+                       {cap.visual}
+                     </div>
+
+                     {/* Premium Floating Label */}
+                     <motion.div 
+                        className="absolute bottom-6 left-6 right-6 backdrop-blur-md bg-[#0a0a0f]/80 border border-white/10 rounded-xl p-4 flex items-center gap-3 shadow-2xl overflow-hidden"
+                        variants={variants.maskReveal}
+                     >
+                       <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                       <div className="relative z-10 flex items-center gap-3 w-full">
+                          {cap.animatedLabel}
+                       </div>
+                     </motion.div>
+                  </motion.div>
+
+                </div>
               </motion.div>
             ))}
           </div>

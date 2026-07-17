@@ -1,9 +1,10 @@
 "use client";
 
-import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Search, PenTool, Code, Rocket, TrendingUp, Cpu, Zap, Target, Wrench } from 'lucide-react';
 import { SectionHeader } from '../ui/SectionHeader';
+import { useMotionUtilities, variants, stagger, hover, transitions } from '../../lib/motion';
 
 const timeline = [
   { id: 'discover', title: 'Discover', icon: <Search size={18} />, description: 'Understand your goals, users, competitors, and business requirements.' },
@@ -21,7 +22,14 @@ const metrics = [
 ];
 
 export function About() {
-  const shouldReduceMotion = useReducedMotion();
+  const { withReducedMotion } = useMotionUtilities();
+  const timelineRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start center", "end center"]
+  });
+
+  const timelineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   
   return (
     <section id="about" className="py-24 md:py-32 relative z-20 overflow-hidden">
@@ -29,13 +37,13 @@ export function About() {
         
         {/* Header */}
         <div className="mb-20 md:mb-28 max-w-2xl">
-          <SectionHeader number="05" label="ABOUT" />
+          <motion.div className="overflow-hidden" {...withReducedMotion(variants.maskReveal)}>
+            <SectionHeader number="05" label="ABOUT" />
+          </motion.div>
           <motion.h2 
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-            transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
-            className="text-display-md md:text-display-lg text-white font-semibold leading-tight"
+            className="text-display-md md:text-display-lg text-white font-semibold leading-tight overflow-hidden"
+            {...withReducedMotion(variants.maskReveal)}
+            transition={{ ...variants.maskReveal.transition, delay: 0.1 }}
           >
             Craftsmanship, quality, and <br className="hidden md:block" />
             <span className="text-text-muted">long-term partnership.</span>
@@ -45,63 +53,90 @@ export function About() {
         {/* Two Column Layout for Metrics & Timeline on Desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
           
-          {/* Left Column: Metrics */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 relative">
-             {/* Background glow for metrics area */}
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-primary/10 blur-[120px] rounded-full pointer-events-none -z-10" />
+          {/* Left Column: Metrics (Cards) */}
+          <motion.div 
+            className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 relative"
+            {...withReducedMotion(stagger.base)}
+          >
+             {/* Background glow for metrics area - organic reveal */}
+             <motion.div 
+               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-primary/10 blur-[120px] rounded-full pointer-events-none -z-10"
+               initial={{ opacity: 0, scale: 0.8 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               viewport={{ once: true }}
+               transition={{ duration: 1.5, ease: "easeOut" }}
+             />
              
-             {metrics.map((metric, i) => (
+             {metrics.map((metric) => (
                 <motion.div 
                   key={metric.title}
-                  initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-                  transition={{ duration: 0.6, delay: 0.62 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
-                  className="card-standard p-8 bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-500 ease-out flex flex-col gap-4 group"
+                  variants={variants.fade}
+                  {...hover.card}
+                  className="card-standard p-8 bg-white/[0.02] border border-white/5 transition-colors duration-500 ease-out flex flex-col gap-4 group hover:border-white/10 hover:bg-white/[0.04]"
                 >
-                   <div className="w-12 h-12 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center mb-2 transition-transform duration-500 group-hover:scale-110 group-hover:bg-brand-primary/20">
+                   <motion.div 
+                     className="w-12 h-12 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center mb-2"
+                     transition={transitions.springStiff}
+                     whileHover={{ scale: 1.1, backgroundColor: "rgba(0,212,255,0.2)" }}
+                   >
                      {metric.icon}
-                   </div>
+                   </motion.div>
                    <h3 className="text-heading-sm text-white font-semibold">{metric.title}</h3>
                    <p className="text-body-base text-text-muted leading-relaxed transition-colors duration-500 group-hover:text-white/80">{metric.desc}</p>
                 </motion.div>
              ))}
-          </div>
+          </motion.div>
 
           {/* Right Column: Timeline */}
-          <div className="lg:col-span-5 flex flex-col relative">
-             <div className="text-[11px] text-white font-bold uppercase tracking-[0.2em] mb-12">
+          <div className="lg:col-span-5 flex flex-col relative" ref={timelineRef}>
+             <motion.div 
+               className="text-[11px] text-white font-bold uppercase tracking-[0.2em] mb-12"
+               {...withReducedMotion(variants.fade)}
+             >
                Our Process
-             </div>
+             </motion.div>
 
-             <div className="flex flex-col relative">
-                {/* Vertical connecting line */}
-                <div className="absolute left-[23px] top-6 bottom-6 w-[2px] bg-gradient-to-b from-brand-primary/50 via-white/10 to-transparent" />
+             <motion.div 
+               className="flex flex-col relative"
+               {...withReducedMotion(stagger.base)}
+             >
+                {/* Vertical connecting line - Animated Tween */}
+                <div className="absolute left-[23px] top-6 bottom-6 w-[2px] bg-white/5">
+                  <motion.div 
+                    className="absolute top-0 left-0 w-full bg-gradient-to-b from-brand-primary via-white/10 to-transparent"
+                    style={{ height: timelineHeight }}
+                  />
+                </div>
 
-                {timeline.map((item, i) => (
+                {timeline.map((item) => (
                    <motion.div 
                      key={item.id}
-                     initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -20 }}
-                     whileInView={{ opacity: 1, x: 0 }}
-                     viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-                     transition={{ duration: 0.6, delay: 0.72 + (i * 0.15), ease: [0.16, 1, 0.3, 1] }}
+                     variants={variants.fade}
                      className="relative flex gap-8 mb-12 last:mb-0 group cursor-default"
                    >
                       {/* Node */}
-                      <div className="relative z-10 w-12 h-12 rounded-full bg-bg-elevated border-2 border-white/10 flex items-center justify-center shrink-0 transition-all duration-500 ease-out group-hover:border-brand-primary group-hover:bg-brand-primary/10 group-hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] group-hover:scale-110">
+                      <motion.div 
+                        className="relative z-10 w-12 h-12 rounded-full bg-bg-elevated border-2 border-white/10 flex items-center justify-center shrink-0 transition-colors duration-500 ease-out group-hover:border-brand-primary group-hover:bg-brand-primary/10"
+                        whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(0,212,255,0.3)" }}
+                        transition={transitions.springStiff}
+                      >
                          <div className="text-text-muted group-hover:text-brand-primary transition-colors duration-500">
                            {item.icon}
                          </div>
-                      </div>
+                      </motion.div>
 
                       {/* Content */}
-                      <div className="flex flex-col pt-2 transition-transform duration-500 group-hover:translate-x-2">
+                      <motion.div 
+                        className="flex flex-col pt-2"
+                        whileHover={{ x: 8 }}
+                        transition={transitions.springStiff}
+                      >
                          <h4 className="text-heading-sm text-white font-semibold mb-2 transition-colors duration-500 group-hover:text-brand-primary">{item.title}</h4>
                          <p className="text-body-base text-text-muted leading-relaxed transition-colors duration-500 group-hover:text-white/80">{item.description}</p>
-                      </div>
+                      </motion.div>
                    </motion.div>
                 ))}
-             </div>
+             </motion.div>
           </div>
         </div>
       </div>

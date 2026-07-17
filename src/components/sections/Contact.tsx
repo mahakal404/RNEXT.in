@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Mail, MessageCircle, MapPin, Clock, Zap, CheckCircle2, Calendar, X, ChevronDown, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, MapPin, Clock, Zap, CheckCircle2, Calendar, X, ChevronDown, ShieldCheck } from 'lucide-react';
 import { SectionHeader } from '../ui/SectionHeader';
+import { useMotionUtilities, variants, stagger, hover, transitions } from '../../lib/motion';
 
 const WhatsAppIcon = ({ className, size }: { className?: string; size?: number | string }) => (
   <svg className={className} width={size || 24} height={size || 24} viewBox="0 0 24 24" fill="currentColor">
@@ -15,7 +16,6 @@ const projectTypes = ["Website", "Web Application", "Mobile Application", "AI So
 const budgetRanges = ["Below ₹20K", "₹20K–50K", "₹50K–1L", "₹1L+"];
 const timelines = ["Immediately", "Within 1 Month", "2–3 Months", "Flexible"];
 
-// Custom Hook to detect click outside for dropdowns
 function useOnClickOutside(ref: any, handler: any) {
   useEffect(() => {
     const listener = (event: any) => {
@@ -28,7 +28,7 @@ function useOnClickOutside(ref: any, handler: any) {
 }
 
 export function Contact() {
-  const shouldReduceMotion = useReducedMotion();
+  const { withReducedMotion } = useMotionUtilities();
   const [formData, setFormData] = useState({
     name: '',
     mobile: '',
@@ -69,21 +69,7 @@ export function Contact() {
       
       setTimeout(() => {
         const waNumber = formData.sameAsMobile ? formData.mobile : formData.whatsapp;
-        const text = `Hello RNEXT 👋
-
-Name: ${formData.name}
-Mobile: ${formData.mobile}
-WhatsApp: ${waNumber}
-Email: ${formData.email}
-Project Type: ${formData.projectType || 'Not specified'}
-Budget: ${formData.budget || 'Not specified'}
-Timeline: ${formData.timeline || 'Not specified'}
-
-Project Details:
-${formData.description}
-
-Thank you.`;
-        
+        const text = `Hello RNEXT 👋\n\nName: ${formData.name}\nMobile: ${formData.mobile}\nWhatsApp: ${waNumber}\nEmail: ${formData.email}\nProject Type: ${formData.projectType || 'Not specified'}\nBudget: ${formData.budget || 'Not specified'}\nTimeline: ${formData.timeline || 'Not specified'}\n\nProject Details:\n${formData.description}\n\nThank you.`;
         const encodedText = encodeURIComponent(text);
         window.open(`https://wa.me/918347725447?text=${encodedText}`, '_blank');
         
@@ -172,11 +158,11 @@ Thank you.`;
   };
 
   const infoItems = [
-    { icon: Mail, label: 'Email', value: 'hello.rnext@gmail.com', href: 'mailto:hello.rnext@gmail.com', delay: 0.6 },
-    { icon: WhatsAppIcon, label: 'WhatsApp', value: '+91 8347725447', href: 'https://wa.me/918347725447', delay: 0.7 },
-    { icon: MapPin, label: 'Location', value: 'Gujarat, India', href: null, delay: 0.8 },
-    { icon: Clock, label: 'Availability', value: 'Mon–Sat\n10:00 AM – 8:00 PM IST', href: null, delay: 0.9, multiline: true },
-    { icon: Zap, label: 'Average Response Time', value: 'Within 30 Minutes', href: null, delay: 1.0 },
+    { icon: Mail, label: 'Email', value: 'hello.rnext@gmail.com', href: 'mailto:hello.rnext@gmail.com' },
+    { icon: WhatsAppIcon, label: 'WhatsApp', value: '+91 8347725447', href: 'https://wa.me/918347725447' },
+    { icon: MapPin, label: 'Location', value: 'Gujarat, India', href: null },
+    { icon: Clock, label: 'Availability', value: 'Mon–Sat\n10:00 AM – 8:00 PM IST', href: null, multiline: true },
+    { icon: Zap, label: 'Average Response Time', value: 'Within 30 Minutes', href: null },
   ];
 
   const trustBadges = [
@@ -192,22 +178,20 @@ Thank you.`;
         
         {/* Section Header */}
         <div className="mb-20 md:mb-24 max-w-3xl mx-auto flex flex-col items-center text-center">
-          <SectionHeader number="06" label="CONTACT" alignment="center" />
+          <motion.div className="overflow-hidden" {...withReducedMotion(variants.maskReveal)}>
+            <SectionHeader number="06" label="CONTACT" alignment="center" />
+          </motion.div>
           <motion.h2 
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-            transition={{ duration: 0.6, delay: 0.52, ease: [0.22, 0.61, 0.36, 1] }}
-            className="text-display-sm md:text-display-md text-white font-semibold leading-tight mb-6 uppercase"
+            className="text-display-sm md:text-display-md text-white font-semibold leading-tight mb-6 uppercase overflow-hidden"
+            {...withReducedMotion(variants.maskReveal)}
+            transition={{ ...variants.maskReveal.transition, delay: 0.1 }}
           >
             LET&apos;S BUILD SOMETHING <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">EXCEPTIONAL</span>
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-            transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-            className="text-body-lg text-text-secondary max-w-2xl mx-auto"
+            className="text-body-lg text-text-secondary max-w-2xl mx-auto overflow-hidden"
+            {...withReducedMotion(variants.maskReveal)}
+            transition={{ ...variants.maskReveal.transition, delay: 0.2 }}
           >
             Have an idea? Need a Website, Web App, Mobile App or AI Solution? Fill out the form below and we&apos;ll get back to you within 24 hours.
           </motion.p>
@@ -217,16 +201,13 @@ Thank you.`;
           
           {/* Contact Info (Left Card) */}
           <motion.div
-            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            {...withReducedMotion(variants.fade)}
             className="lg:col-span-5 flex flex-col"
           >
             <div className="bg-bg-elevated border border-border-primary rounded-2xl p-8 lg:p-10 sticky top-32">
               <h3 className="text-2xl text-white font-semibold mb-8">Contact Information</h3>
               
-              <div className="space-y-8 mb-12">
+              <motion.div className="space-y-8 mb-12" {...withReducedMotion(stagger.fast)}>
                 {infoItems.map((item, idx) => {
                   const content = (
                     <>
@@ -247,10 +228,7 @@ Thank you.`;
                   return (
                     <motion.div
                       key={idx}
-                      initial={{ opacity: 0, x: -15 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: item.delay }}
+                      variants={variants.sectionHeader}
                     >
                       {item.href ? (
                         <a href={item.href} target="_blank" rel="noopener noreferrer" className="flex items-start gap-5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary rounded-xl">
@@ -264,195 +242,107 @@ Thank you.`;
                     </motion.div>
                   )
                 })}
-              </div>
+              </motion.div>
               
               {/* Trust Badges */}
               <div className="pt-8 border-t border-border-primary">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <motion.div className="grid grid-cols-1 sm:grid-cols-2 gap-4" {...withReducedMotion(stagger.fast)}>
                   {trustBadges.map((badge, i) => (
                     <motion.div 
                       key={i}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: 0.8 + (i * 0.1) }}
+                      variants={variants.fade}
                       className="flex items-center gap-2"
                     >
                       <CheckCircle2 size={16} className="text-brand-primary" />
                       <span className="text-sm text-text-secondary">{badge}</span>
                     </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
             </div>
           </motion.div>
 
           {/* Contact Form (Right Side) */}
           <motion.div
-            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            {...withReducedMotion(stagger.fast)}
             className="lg:col-span-7"
           >
             <div className="card-standard relative overflow-hidden bg-bg-elevated border-border-primary p-6 md:p-10">
-              {/* Form background decorative gradient */}
               <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-brand-primary/5 blur-[100px] rounded-full pointer-events-none" />
               
               <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-6">
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <InputField 
-                    label="Full Name" 
-                    id="name" 
-                    placeholder="John Doe" 
-                    required 
-                    value={formData.name}
-                    onChange={(e: any) => setFormData({...formData, name: e.target.value})}
-                    error={errors.name}
-                  />
-                  <InputField 
-                    label="Mobile Number" 
-                    id="mobile" 
-                    placeholder="+91 98765 43210" 
-                    type="tel"
-                    required 
-                    value={formData.mobile}
-                    onChange={(e: any) => setFormData({...formData, mobile: e.target.value})}
-                    error={errors.mobile}
-                  />
-                </div>
+                <motion.div variants={variants.fade} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <InputField label="Full Name" id="name" placeholder="John Doe" required value={formData.name} onChange={(e: any) => setFormData({...formData, name: e.target.value})} error={errors.name} />
+                  <InputField label="Mobile Number" id="mobile" placeholder="+91 98765 43210" type="tel" required value={formData.mobile} onChange={(e: any) => setFormData({...formData, mobile: e.target.value})} error={errors.mobile} />
+                </motion.div>
 
-                <div className="flex items-center gap-3">
-                  <button 
-                    type="button"
-                    onClick={() => setFormData({...formData, sameAsMobile: !formData.sameAsMobile})}
-                    className="flex-shrink-0 w-5 h-5 rounded border border-border-primary bg-bg-primary flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
-                    aria-label="WhatsApp number is same as Mobile Number"
-                  >
+                <motion.div variants={variants.fade} className="flex items-center gap-3">
+                  <button type="button" onClick={() => setFormData({...formData, sameAsMobile: !formData.sameAsMobile})} className="flex-shrink-0 w-5 h-5 rounded border border-border-primary bg-bg-primary flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary" aria-label="WhatsApp number is same as Mobile Number">
                     {formData.sameAsMobile && <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-3 h-3 bg-brand-primary rounded-[2px]" />}
                   </button>
-                  <span className="text-sm text-text-secondary cursor-pointer select-none" onClick={() => setFormData({...formData, sameAsMobile: !formData.sameAsMobile})}>
-                    WhatsApp number is same as Mobile Number
-                  </span>
-                </div>
+                  <span className="text-sm text-text-secondary cursor-pointer select-none" onClick={() => setFormData({...formData, sameAsMobile: !formData.sameAsMobile})}>WhatsApp number is same as Mobile Number</span>
+                </motion.div>
 
                 <AnimatePresence>
                   {!formData.sameAsMobile && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0, overflow: 'hidden' }}
-                      animate={{ opacity: 1, height: 'auto', overflow: 'visible' }}
-                      exit={{ opacity: 0, height: 0, overflow: 'hidden' }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <InputField 
-                        label="WhatsApp Number" 
-                        id="whatsapp" 
-                        placeholder="+91 98765 43210" 
-                        type="tel"
-                        required 
-                        value={formData.whatsapp}
-                        onChange={(e: any) => setFormData({...formData, whatsapp: e.target.value})}
-                        error={errors.whatsapp}
-                      />
+                    <motion.div initial={{ opacity: 0, height: 0, overflow: 'hidden' }} animate={{ opacity: 1, height: 'auto', overflow: 'visible' }} exit={{ opacity: 0, height: 0, overflow: 'hidden' }} transition={{ duration: 0.3 }}>
+                      <InputField label="WhatsApp Number" id="whatsapp" placeholder="+91 98765 43210" type="tel" required value={formData.whatsapp} onChange={(e: any) => setFormData({...formData, whatsapp: e.target.value})} error={errors.whatsapp} />
                     </motion.div>
                   )}
                 </AnimatePresence>
 
-                <InputField 
-                  label="Email Address" 
-                  id="email" 
-                  placeholder="john@example.com" 
-                  type="email"
-                  required 
-                  value={formData.email}
-                  onChange={(e: any) => setFormData({...formData, email: e.target.value})}
-                  error={errors.email}
-                />
+                <motion.div variants={variants.fade}>
+                  <InputField label="Email Address" id="email" placeholder="john@example.com" type="email" required value={formData.email} onChange={(e: any) => setFormData({...formData, email: e.target.value})} error={errors.email} />
+                </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <DropdownField 
-                    label="Project Type"
-                    id="projectType"
-                    options={projectTypes}
-                    value={formData.projectType}
-                    onChange={(val: string) => setFormData({...formData, projectType: val})}
-                  />
-                  <DropdownField 
-                    label="Estimated Budget"
-                    id="budget"
-                    options={budgetRanges}
-                    value={formData.budget}
-                    onChange={(val: string) => setFormData({...formData, budget: val})}
-                  />
-                </div>
+                <motion.div variants={variants.fade} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <DropdownField label="Project Type" id="projectType" options={projectTypes} value={formData.projectType} onChange={(val: string) => setFormData({...formData, projectType: val})} />
+                  <DropdownField label="Estimated Budget" id="budget" options={budgetRanges} value={formData.budget} onChange={(val: string) => setFormData({...formData, budget: val})} />
+                </motion.div>
 
-                <DropdownField 
-                  label="Timeline"
-                  id="timeline"
-                  options={timelines}
-                  value={formData.timeline}
-                  onChange={(val: string) => setFormData({...formData, timeline: val})}
-                />
+                <motion.div variants={variants.fade}>
+                  <DropdownField label="Timeline" id="timeline" options={timelines} value={formData.timeline} onChange={(val: string) => setFormData({...formData, timeline: val})} />
+                </motion.div>
 
-                <InputField 
-                  label="Project Description" 
-                  id="description" 
-                  placeholder="Tell us about what you want to build..." 
-                  type="textarea"
-                  rows={4}
-                  required 
-                  value={formData.description}
-                  onChange={(e: any) => setFormData({...formData, description: e.target.value})}
-                  error={errors.description}
-                />
+                <motion.div variants={variants.fade}>
+                  <InputField label="Project Description" id="description" placeholder="Tell us about what you want to build..." type="textarea" rows={4} required value={formData.description} onChange={(e: any) => setFormData({...formData, description: e.target.value})} error={errors.description} />
+                </motion.div>
                 
-                <div className="mt-4 flex flex-col gap-4">
-                  <button 
-                    type="submit" 
-                    disabled={submitState !== 'idle'}
-                    className="relative w-full h-[56px] flex items-center justify-center rounded-full bg-[#25D366] text-white font-medium text-lg overflow-hidden group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-bg-elevated transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-80 disabled:hover:scale-100"
-                  >
-                    <div className="absolute inset-0 bg-black/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                    <span className="relative flex items-center gap-3">
-                      {submitState === 'idle' ? (
-                        <>
-                          <WhatsAppIcon className="w-6 h-6" />
-                          Send on WhatsApp
-                        </>
-                      ) : submitState === 'preparing' ? (
-                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3">
-                          <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Preparing message...
-                        </motion.span>
-                      ) : (
-                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                          Opening WhatsApp...
-                        </motion.span>
-                      )}
-                    </span>
-                  </button>
+                <motion.div variants={variants.fade} className="mt-4 flex flex-col gap-4">
+                  <motion.div {...hover.button}>
+                    <button type="submit" disabled={submitState !== 'idle'} className="relative w-full h-[56px] flex items-center justify-center rounded-full bg-[#25D366] text-white font-medium text-lg overflow-hidden group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-bg-elevated transition-transform disabled:opacity-80 disabled:hover:scale-100">
+                      <div className="absolute inset-0 bg-black/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                      <span className="relative flex items-center gap-3">
+                        {submitState === 'idle' ? (
+                          <><WhatsAppIcon className="w-6 h-6" />Send on WhatsApp</>
+                        ) : submitState === 'preparing' ? (
+                          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3">
+                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Preparing message...
+                          </motion.span>
+                        ) : (
+                          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Opening WhatsApp...</motion.span>
+                        )}
+                      </span>
+                    </button>
+                  </motion.div>
                   
                   <div className="text-center text-xs text-text-muted flex items-center justify-center gap-2 group cursor-default">
                     <ShieldCheck size={16} className="text-brand-primary transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(0,212,255,0.6)] group-hover:scale-110" />
                     <span>Your information is never shared with anyone.</span>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="mt-2 pt-6 border-t border-border-primary flex flex-col items-center">
+                <motion.div variants={variants.fade} className="mt-2 pt-6 border-t border-border-primary flex flex-col items-center">
                   <p className="text-sm text-text-secondary mb-4">Or prefer to speak directly?</p>
-                  <button 
-                    type="button"
-                    onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 text-white border border-border-primary bg-bg-primary hover:bg-white/5 hover:border-brand-primary/50 px-6 py-3 rounded-full font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
-                  >
-                    <Calendar size={18} className="text-brand-primary" />
-                    Book a Free Discovery Call
-                  </button>
-                </div>
+                  <motion.div {...hover.button}>
+                    <button type="button" onClick={() => setIsModalOpen(true)} className="flex items-center gap-2 text-white border border-border-primary bg-bg-primary hover:bg-white/5 hover:border-brand-primary/50 px-6 py-3 rounded-full font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary">
+                      <Calendar size={18} className="text-brand-primary" />
+                      Book a Free Discovery Call
+                    </button>
+                  </motion.div>
+                </motion.div>
 
               </form>
             </div>
@@ -460,62 +350,19 @@ Thank you.`;
         </div>
       </div>
 
-      {/* Discovery Call Modal */}
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-0">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }} 
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0 bg-black/60 backdrop-blur-md"
-              onClick={() => setIsModalOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.4, type: 'spring', bounce: 0.2 }}
-              className="relative w-full max-w-lg bg-bg-elevated border border-border-primary rounded-2xl p-8 shadow-2xl z-10 overflow-hidden"
-            >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setIsModalOpen(false)} />
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} transition={transitions.springStiff} className="relative w-full max-w-lg bg-bg-elevated border border-border-primary rounded-2xl p-8 shadow-2xl z-10 overflow-hidden">
               <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-brand-primary/10 blur-[80px] rounded-full pointer-events-none" />
-              
-              <button 
-                onClick={() => setIsModalOpen(false)} 
-                className="absolute top-4 right-4 p-2 text-text-muted hover:text-white bg-bg-primary rounded-full border border-border-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
-              >
-                <X size={16} />
-              </button>
-              
-              <div className="w-16 h-16 bg-bg-primary border border-border-primary rounded-2xl flex items-center justify-center mb-6 shadow-[0_8px_20px_rgba(0,212,255,0.1)]">
-                <Calendar className="text-brand-primary" size={28} />
-              </div>
-              
+              <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 p-2 text-text-muted hover:text-white bg-bg-primary rounded-full border border-border-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"><X size={16} /></button>
+              <div className="w-16 h-16 bg-bg-primary border border-border-primary rounded-2xl flex items-center justify-center mb-6 shadow-[0_8px_20px_rgba(0,212,255,0.1)]"><Calendar className="text-brand-primary" size={28} /></div>
               <h3 className="text-2xl font-semibold text-white mb-4">Book a Free Discovery Call</h3>
-              
-              <p className="text-text-secondary leading-relaxed mb-8 text-base">
-                We&apos;re preparing an online scheduling experience where you can seamlessly book a free 15-minute strategy call with the RNEXT team.
-                <br/><br/>
-                For now, please contact us directly through WhatsApp and we&apos;ll schedule a time that works for you.
-              </p>
-              
+              <p className="text-text-secondary leading-relaxed mb-8 text-base">We&apos;re preparing an online scheduling experience where you can seamlessly book a free 15-minute strategy call with the RNEXT team.<br/><br/>For now, please contact us directly through WhatsApp and we&apos;ll schedule a time that works for you.</p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <a 
-                  href="https://wa.me/918347725447" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20b858] text-white py-3 px-6 rounded-xl font-medium transition-colors"
-                >
-                  <WhatsAppIcon className="w-5 h-5" />
-                  Contact on WhatsApp
-                </a>
-                <button 
-                  onClick={() => setIsModalOpen(false)} 
-                  className="sm:w-auto w-full flex items-center justify-center border border-border-primary text-white hover:bg-bg-primary py-3 px-6 rounded-xl font-medium transition-colors"
-                >
-                  Close
-                </button>
+                <a href="https://wa.me/918347725447" target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20b858] text-white py-3 px-6 rounded-xl font-medium transition-colors"><WhatsAppIcon className="w-5 h-5" />Contact on WhatsApp</a>
+                <button onClick={() => setIsModalOpen(false)} className="sm:w-auto w-full flex items-center justify-center border border-border-primary text-white hover:bg-bg-primary py-3 px-6 rounded-xl font-medium transition-colors">Close</button>
               </div>
             </motion.div>
           </div>

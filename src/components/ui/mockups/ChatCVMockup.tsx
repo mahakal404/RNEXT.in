@@ -2,7 +2,7 @@
 import React from 'react';
 
 export const ChatCVMockup = () => (
-  <div className="w-full h-full min-h-screen bg-[#050508] p-4 md:p-8 lg:p-12 flex flex-col items-center justify-center font-sans gap-8 overflow-hidden">
+  <div className="w-full h-full min-h-screen bg-[#050508] p-4 md:p-8 lg:p-12 flex flex-col items-center justify-center font-sans gap-8 overflow-x-hidden">
     
     {/* Top Brand Title Section */}
     <div className="flex flex-col items-center gap-4">
@@ -10,17 +10,17 @@ export const ChatCVMockup = () => (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
         AI Resume Builder
       </div>
-      <h1 className="text-3xl md:text-[40px] font-bold text-white tracking-tight flex items-center gap-3">
-        ChatCV <span className="text-white/40">—</span> <span className="text-purple-400">AI Resume Builder</span>
+      <h1 className="text-2xl sm:text-3xl md:text-[40px] font-bold text-white tracking-tight flex flex-col sm:flex-row items-center gap-1 sm:gap-3 text-center sm:text-left">
+        ChatCV <span className="hidden sm:inline text-white/40">—</span> <span className="text-purple-400">AI Resume Builder</span>
       </h1>
     </div>
 
     {/* Main App Container with Purple Glow */}
-    <div className="w-full max-w-[1360px] h-[780px] bg-[#12121a] rounded-[24px] border border-purple-500/30 shadow-[0_0_40px_rgba(168,85,247,0.15)] flex flex-col overflow-hidden relative z-10">
+    <div className="w-full max-w-[1360px] h-[85vh] min-h-[600px] lg:h-[780px] bg-[#12121a] rounded-[24px] border border-purple-500/30 shadow-[0_0_40px_rgba(168,85,247,0.15)] flex flex-col overflow-hidden relative z-10">
       
       {/* Top Application Header */}
-      <div className="h-[68px] w-full border-b border-white/5 bg-[#12121a] flex items-center justify-between px-6 flex-shrink-0 z-20">
-        <div className="flex items-center gap-6">
+      <div className="h-[68px] w-full border-b border-white/5 bg-[#12121a] flex items-center justify-between px-4 lg:px-6 flex-shrink-0 z-20">
+        <div className="flex items-center gap-3 lg:gap-6">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-[#6366f1] flex items-center justify-center text-white font-bold text-[15px] tracking-wide shadow-lg shadow-indigo-500/20">
               CV
@@ -33,22 +33,22 @@ export const ChatCVMockup = () => (
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.03] hover:bg-white/10 text-white/90 transition-colors border border-white/10 text-sm font-semibold">
+        <div className="flex items-center gap-2 lg:gap-3">
+          <button className="flex items-center gap-2 px-3 py-2 lg:px-5 lg:py-2.5 rounded-xl bg-white/[0.03] hover:bg-white/10 text-white/90 transition-colors border border-white/10 text-[13px] lg:text-sm font-semibold">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-            Save
+            <span className="hidden sm:inline">Save</span>
           </button>
-          <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#6366f1] hover:bg-indigo-500 text-white transition-colors text-sm font-semibold shadow-lg shadow-indigo-500/25">
+          <button className="flex items-center gap-2 px-3 py-2 lg:px-5 lg:py-2.5 rounded-xl bg-[#6366f1] hover:bg-indigo-500 text-white transition-colors text-[13px] lg:text-sm font-semibold shadow-lg shadow-indigo-500/25">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Download PDF
+            <span className="hidden sm:inline">Download PDF</span>
           </button>
         </div>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden relative pb-16 lg:pb-0">
         
         {/* Far Left Navigation Sidebar */}
-        <div className="w-[90px] bg-[#0c0c11] border-r border-white/5 flex flex-col items-center py-6 flex-shrink-0 justify-between z-10 relative">
+        <div className="hidden lg:flex w-[90px] bg-[#0c0c11] border-r border-white/5 flex-col items-center py-6 flex-shrink-0 justify-between z-10 relative">
           <div className="flex flex-col gap-3 w-full px-3">
             <div className="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-indigo-500/10 text-[#818cf8] cursor-pointer border border-indigo-500/20 relative before:absolute before:left-[-12px] before:top-1/2 before:-translate-y-1/2 before:h-8 before:w-1 before:bg-[#818cf8] before:rounded-r-md">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
@@ -76,7 +76,7 @@ export const ChatCVMockup = () => (
         </div>
 
         {/* Editor Inner Panel */}
-        <div className="w-[500px] bg-[#12121a] flex flex-col p-6 overflow-y-auto custom-scrollbar relative flex-shrink-0 z-10 border-r border-black/40">
+        <div className="w-full lg:w-[500px] bg-[#12121a] flex flex-col p-4 sm:p-6 lg:overflow-y-auto relative flex-shrink-0 z-10 lg:border-r border-black/40">
           
           <div className="flex flex-col gap-4">
             
@@ -106,7 +106,7 @@ export const ChatCVMockup = () => (
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-2">
                     <label className="text-white/50 text-[12px] font-semibold tracking-wide">Full Name</label>
                     <input type="text" readOnly value="Chat CV" className="bg-[#12121a] border border-white/5 rounded-lg h-11 px-3 text-white text-[14px] font-medium focus:outline-none focus:border-[#6366f1]/50" />
@@ -162,15 +162,15 @@ export const ChatCVMockup = () => (
         </div>
 
         {/* Floating Divider Splitter */}
-        <div className="absolute left-[590px] top-[calc(50%+34px)] -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#818cf8] shadow-[0_0_20px_rgba(129,140,248,0.4)] flex items-center justify-center text-white z-30 cursor-pointer border-[5px] border-[#12121a] hover:scale-110 transition-transform">
+        <div className="hidden lg:flex absolute left-[590px] top-[calc(50%+34px)] -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#818cf8] shadow-[0_0_20px_rgba(129,140,248,0.4)] items-center justify-center text-white z-30 cursor-pointer border-[5px] border-[#12121a] hover:scale-110 transition-transform">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="11 17 6 12 11 7"></polyline><polyline points="13 7 18 12 13 17"></polyline></svg>
         </div>
 
         {/* Right Preview Panel (Paper Container) */}
-        <div className="flex-1 bg-[#1a1a24] flex flex-col relative overflow-hidden z-0 shadow-[inset_20px_0_40px_rgba(0,0,0,0.3)]">
+        <div className="flex-1 bg-[#1a1a24] flex flex-col relative overflow-hidden lg:z-0 shadow-[inset_20px_0_40px_rgba(0,0,0,0.3)]">
           
           {/* Editor Toolbar */}
-          <div className="h-14 w-full bg-[#1e1e2b] border-b border-black/40 flex items-center justify-between px-6 flex-shrink-0 z-10 shadow-md">
+          <div className="h-14 w-full bg-[#1e1e2b] border-b border-black/40 flex items-center justify-between px-3 lg:px-6 flex-shrink-0 z-10 shadow-md overflow-x-auto custom-scrollbar">
             <div className="flex items-center text-white/50 hover:text-white/90 cursor-pointer transition-colors bg-white/5 p-2 rounded-lg">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
             </div>
@@ -198,40 +198,40 @@ export const ChatCVMockup = () => (
           <div className="flex-1 overflow-y-auto custom-scrollbar flex justify-center py-12 px-6 items-start bg-[#16161f]">
             
             {/* White Resume Paper */}
-            <div className="w-full max-w-[780px] min-h-[1050px] bg-white rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-14 flex flex-col gap-8 relative text-slate-800 shrink-0 transform-gpu transition-transform origin-top">
+            <div className="w-full max-w-[780px] min-h-[1050px] bg-white rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-6 sm:p-10 lg:p-14 flex flex-col gap-6 lg:gap-8 relative text-slate-800 shrink-0 transform-gpu transition-transform origin-top">
               
               {/* Header Title & Info */}
-              <div className="flex justify-between items-start pt-4">
-                <div className="flex flex-col gap-2 mt-4">
-                  <h1 className="text-[52px] font-bold text-slate-900 tracking-tighter lowercase leading-none">
+              <div className="flex flex-col md:flex-row justify-between items-start pt-2 lg:pt-4 gap-6 md:gap-0">
+                <div className="flex flex-col gap-2 md:mt-4 w-full">
+                  <h1 className="text-4xl lg:text-[52px] font-bold text-slate-900 tracking-tighter lowercase leading-none break-words">
                     chat cv
-                    <div className="h-[6px] w-[90px] bg-[#818cf8] mt-4 rounded-full" />
+                    <div className="h-[6px] w-[60px] lg:w-[90px] bg-[#818cf8] mt-3 lg:mt-4 rounded-full" />
                   </h1>
-                  <h2 className="text-[20px] text-slate-500 font-semibold mt-4 tracking-tight">AI Resume Builder</h2>
+                  <h2 className="text-lg lg:text-[20px] text-slate-500 font-semibold mt-2 lg:mt-4 tracking-tight">AI Resume Builder</h2>
                 </div>
                 
-                <div className="flex flex-col gap-3.5 text-[13px] text-slate-600 mt-6 font-medium">
-                  <div className="flex items-center gap-3.5 justify-end">
-                    <span>chatcv@gmail.com</span>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#818cf8]"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <div className="flex flex-col gap-3 lg:gap-3.5 text-[13px] text-slate-600 md:mt-6 font-medium w-full md:w-auto">
+                  <div className="flex items-center gap-3.5 md:justify-end">
+                    <span className="order-2 md:order-1 break-all">chatcv@gmail.com</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#818cf8] order-1 md:order-2 shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                   </div>
-                  <div className="flex items-center gap-3.5 justify-end">
-                    <span>1236549512</span>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#818cf8]"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <div className="flex items-center gap-3.5 md:justify-end">
+                    <span className="order-2 md:order-1 break-all">1236549512</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#818cf8] order-1 md:order-2 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                   </div>
-                  <div className="flex items-center gap-3.5 justify-end">
-                    <span>chatcv.in</span>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#818cf8]"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                  <div className="flex items-center gap-3.5 md:justify-end">
+                    <span className="order-2 md:order-1 break-all">chatcv.in</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#818cf8] order-1 md:order-2 shrink-0"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                   </div>
-                  <div className="flex items-center gap-3.5 justify-end">
-                    <span>chatcv</span>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#818cf8]"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                  <div className="flex items-center gap-3.5 md:justify-end">
+                    <span className="order-2 md:order-1 break-all">chatcv</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#818cf8] order-1 md:order-2 shrink-0"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                   </div>
                 </div>
               </div>
 
               {/* Resume Body Sections */}
-              <div className="flex flex-col gap-10 mt-6">
+              <div className="flex flex-col gap-8 lg:gap-10 mt-4 lg:mt-6">
                 
                 {/* Professional Summary */}
                 <div className="flex flex-col gap-3">
@@ -258,9 +258,9 @@ export const ChatCVMockup = () => (
                   </div>
                   
                   <div className="flex flex-col gap-1.5 mt-2 relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:bg-[#818cf8] before:rounded-full">
-                    <div className="flex justify-between items-baseline">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-0">
                       <h4 className="font-bold text-slate-900 text-[15px]">Dev</h4>
-                      <span className="text-[13px] font-semibold text-slate-500">Jan 2026 — Present</span>
+                      <span className="text-[12px] sm:text-[13px] font-semibold text-slate-500">Jan 2026 — Present</span>
                     </div>
                     <a href="#" className="text-[#818cf8] text-[14px] font-semibold hover:underline">chatcv</a>
                   </div>
@@ -296,9 +296,9 @@ export const ChatCVMockup = () => (
                   </div>
                   
                   <div className="flex flex-col gap-1 mt-2">
-                    <div className="flex justify-between items-baseline">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-0">
                       <h4 className="font-bold text-slate-900 text-[15px]">B.Tech in Computer Science</h4>
-                      <span className="text-[13px] font-semibold text-slate-500">2026</span>
+                      <span className="text-[12px] sm:text-[13px] font-semibold text-slate-500">2026</span>
                     </div>
                     <span className="text-[#818cf8] text-[14px] font-semibold">Your University</span>
                   </div>

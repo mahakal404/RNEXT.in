@@ -2,12 +2,12 @@
 import React from 'react';
 
 export const AiProductMockup = () => (
-  <div className="w-full min-h-screen bg-[#050505] p-4 md:p-8 lg:p-12 flex flex-col items-center justify-center font-sans overflow-hidden">
+  <div className="w-full min-h-screen bg-[#050505] p-4 md:p-8 lg:p-12 flex flex-col items-center justify-center font-sans overflow-x-hidden">
     
-    <div className="w-full max-w-[1360px] h-[90vh] max-h-[850px] min-h-[700px] bg-[#0c0c0c] rounded-[32px] border border-white/5 shadow-2xl flex overflow-hidden relative z-10">
+    <div className="w-full max-w-[1360px] h-[90vh] max-h-[850px] min-h-[700px] bg-[#0c0c0c] rounded-[24px] lg:rounded-[32px] border border-white/5 shadow-2xl flex flex-col lg:flex-row overflow-hidden relative z-10">
       
       {/* Left Sidebar */}
-      <div className="w-[260px] border-r border-white/5 bg-[#0a0a0a] flex flex-col justify-between py-8 flex-shrink-0 z-20">
+      <div className="hidden lg:flex w-[260px] border-r border-white/5 bg-[#0a0a0a] flex-col justify-between py-8 flex-shrink-0 z-20">
         <div className="flex flex-col gap-10 px-8">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center border border-purple-500/20 shadow-sm">
@@ -33,19 +33,19 @@ export const AiProductMockup = () => (
       </div>
 
       {/* Main Workspace */}
-      <div className="flex-1 flex flex-col overflow-y-auto bg-[#0f0f13] custom-scrollbar p-8 lg:p-12 relative">
-        <div className="flex items-center justify-between mb-8 lg:mb-10">
-          <h1 className="text-2xl lg:text-[28px] font-bold text-white tracking-tight">Studio Setup</h1>
-          <div className="flex items-center gap-3 text-white/40 text-[13px] font-bold tracking-widest uppercase bg-[#15151a] px-5 py-2.5 rounded-xl border border-white/5 shadow-sm">
+      <div className="flex-1 flex flex-col overflow-y-auto bg-[#0f0f13] custom-scrollbar p-5 sm:p-8 lg:p-12 relative">
+        <div className="flex items-center justify-between mb-6 lg:mb-10">
+          <h1 className="text-xl sm:text-2xl lg:text-[28px] font-bold text-white tracking-tight">Studio Setup</h1>
+          <div className="flex items-center gap-2 lg:gap-3 text-white/40 text-[11px] sm:text-[13px] font-bold tracking-widest uppercase bg-[#15151a] px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-xl border border-white/5 shadow-sm">
             <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_12px_#a855f7]"></div>
-            Engine: SD v1.5
+            <span className="hidden sm:inline">Engine: </span>SD v1.5
           </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 flex-1">
           
           {/* Inputs Column */}
-          <div className="lg:w-[340px] flex flex-col gap-6 lg:gap-8">
+          <div className="w-full lg:w-[340px] flex flex-col gap-4 sm:gap-6 lg:gap-8">
              <div className="flex-1 bg-[#15151a] rounded-[24px] border border-white/5 flex flex-col items-center justify-center gap-4 group cursor-pointer hover:border-purple-500/30 transition-all p-6 text-center shadow-sm">
                <div className="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center text-white/30 group-hover:text-purple-400 group-hover:bg-purple-500/10 group-hover:border-purple-500/20 transition-all">
                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
