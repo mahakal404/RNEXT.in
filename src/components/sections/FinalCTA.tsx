@@ -144,21 +144,29 @@ export function FinalCTA() {
 
           {/* Right Side: CTA Illustration boot sequence */}
           <motion.div 
-            className="lg:col-span-5 h-[350px] sm:h-[450px] lg:h-[500px] w-full flex items-center justify-center"
+            className="lg:col-span-5 h-[400px] sm:h-[450px] lg:h-[500px] w-full flex items-center justify-center relative"
             variants={{
-              hidden: { opacity: 0, scale: 0.95, filter: "blur(8px)" },
-              animate: { opacity: 1, scale: 1, filter: "blur(0px)" },
-              whileInView: { opacity: 1, scale: 1, filter: "blur(0px)" }
+              hidden: { opacity: 0, scale: 0.95, filter: "blur(8px)", y: 20 },
+              animate: { opacity: 1, scale: 1, filter: "blur(0px)", y: 0 },
+              whileInView: { opacity: 1, scale: 1, filter: "blur(0px)", y: 0 }
             }}
             transition={transitions.lux}
           >
-            <div className="w-[120%] lg:w-[140%] max-w-[800px] relative pointer-events-none">
-              <div className="absolute inset-0 bg-gradient-to-r from-bg-primary via-transparent to-bg-primary z-10 w-full h-full pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary z-10 w-full h-full pointer-events-none" />
+            {/* 
+              Restored Container:
+              - Removed w-[140%] which caused overflow clipping.
+              - Removed harsh gradient masks that hid the artwork.
+              - Added a subtle backdrop glow to enhance the artwork without clipping it.
+            */}
+            <div className="w-full max-w-[600px] relative pointer-events-none flex items-center justify-center">
               
-              <div className="relative z-0 scale-90 sm:scale-100 origin-center">
+              {/* Subtle ambient glow behind illustration instead of clipping mask */}
+              <div className="absolute inset-0 bg-brand-primary/10 blur-[80px] rounded-full z-0 transform -translate-y-4" />
+              
+              <div className="relative z-10 w-full scale-100 origin-center transition-transform duration-700 ease-out">
                 <CTAIllustration />
               </div>
+
             </div>
           </motion.div>
 
