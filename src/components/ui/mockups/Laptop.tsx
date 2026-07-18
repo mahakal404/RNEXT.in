@@ -97,11 +97,20 @@ export function Laptop({ className = "" }: { className?: string }) {
           </div>
 
           {/* Bottom Fade Gradient */}
-          <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-[#060816] to-transparent pointer-events-none z-10"></div>
+          <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-[#060816] to-transparent pointer-events-none z-10">
+          </div>
+          
+          {/* Animated Light Sweep (Screen level) */}
+          <motion.div 
+            className="absolute top-0 bottom-0 w-[50%] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-30deg] z-50 pointer-events-none mix-blend-overlay"
+            initial={{ left: "-100%" }}
+            animate={{ left: ["-100%", "250%"] }}
+            transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, repeatDelay: 7 }}
+          />
         </div>
       </div>
       
-      {/* Laptop Base Lip */}
+      {/* Base/Keyboard Area */}
       <div className="absolute -bottom-[2%] left-[-2%] right-[-2%] h-[4%] bg-[#151C2F] rounded-b-xl md:rounded-b-2xl border-t border-white/20 shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-20 flex justify-center">
          <div className="w-[20%] h-[50%] bg-[#060816] rounded-b-md"></div>
       </div>

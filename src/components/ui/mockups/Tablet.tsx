@@ -110,6 +110,13 @@ export function Tablet({ className = "" }: { className?: string }) {
         {/* Decorative Glow Background */}
         <div className="absolute top-[20%] right-[-20%] w-[80%] aspect-square bg-[#00D4FF]/10 blur-[40px] rounded-full pointer-events-none"></div>
 
+        {/* Animated Light Sweep (Screen level) */}
+        <motion.div 
+          className="absolute top-0 bottom-0 w-[60%] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-30deg] z-50 pointer-events-none mix-blend-overlay"
+          initial={{ left: "-100%" }}
+          animate={{ left: ["-100%", "250%"] }}
+          transition={{ duration: 2.8, ease: "easeInOut", repeat: Infinity, repeatDelay: 6.5 }}
+        />
       </div>
     </div>
   );

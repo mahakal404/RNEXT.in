@@ -1,10 +1,20 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useTransform, MotionValue } from 'framer-motion';
 import { getHeroAnimations } from '../../lib/animations';
 
-export function HeroBackground() {
+interface HeroBackgroundProps {
+  mouseX?: MotionValue<number>;
+  mouseY?: MotionValue<number>;
+}
+
+export function HeroBackground({ mouseX, mouseY }: HeroBackgroundProps) {
   const shouldReduceMotion = useReducedMotion();
   const animations = getHeroAnimations(shouldReduceMotion);
+
+  // Perspective shifts mapped from mouse (-1 to 1) -> small pixel shifts
+  // We use optional chaining and a fallback of 0 if mouseX/Y aren't provided yet
+  const gridX = useTransform(mouseX || new MotionValue(0), [-1, 1], [-20, 20]);
+  const gridY = useTransform(mouseY || new MotionValue(0), [-1, 1], [-20, 20]);
 
   return (
     <motion.div 
@@ -73,8 +83,11 @@ export function HeroBackground() {
         <div className="absolute bottom-[-10%] right-[10%] w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] bg-brand-accent/10 blur-[100px] md:blur-[150px] rounded-full animate-float-3 will-change-transform transform-gpu" />
       </div>
 
-      {/* Layer 7: Ultra-light Grid */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.04]">
+      {/* Layer 7: Ultra-light Grid (Interactive) */}
+      <motion.div 
+        className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.04]"
+        style={{ x: gridX, y: gridY }}
+      >
         {/* We make it slightly taller on Y to allow continuous drifting and snapping cleanly */}
         <div 
           className="absolute inset-[-10%] animate-grid"
@@ -86,7 +99,7 @@ export function HeroBackground() {
         {/* Grid Fade Masks to make it disappear naturally into the hero content */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#060816]/10 via-transparent to-[#060816] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#060816_100%)] pointer-events-none" />
-      </div>
+      </motion.div>
 
       {/* Layer 6: Noise Texture */}
       <div 

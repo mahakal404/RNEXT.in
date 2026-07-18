@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useVelocity, useSpring, useAnimation } from 'framer-motion';
+import { motion, useScroll, useVelocity, useSpring, useAnimation, useMotionValue } from 'framer-motion';
 import { HeroBackground } from '../ui/HeroBackground';
 import { HeroVisual } from '../ui/mockups/HeroVisual';
 import { SectionHeader } from '../ui/SectionHeader';
@@ -12,25 +12,27 @@ export function Hero() {
   const scrollFX = useCinematicScroll();
   const { withReducedMotion, shouldReduceMotion } = useMotionUtilities();
 
-  const floatingControls = useAnimation();
+  // Mouse Parallax MotionValues
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  // Premium ultra-smooth easing for the parallax
+  const smoothMouseX = useSpring(mouseX, { stiffness: 30, damping: 20, mass: 1.5 });
+  const smoothMouseY = useSpring(mouseY, { stiffness: 30, damping: 20, mass: 1.5 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (shouldReduceMotion) return;
+    const { clientX, clientY } = e;
+    // Normalize to -1 to 1 based on viewport
+    const x = (clientX / window.innerWidth) * 2 - 1;
+    const y = (clientY / window.innerHeight) * 2 - 1;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
   const { scrollY } = useScroll();
   const velocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(velocity, { damping: 50, stiffness: 400 });
-
-  useEffect(() => {
-    if (shouldReduceMotion) return;
-    
-    // Start idle animation by default
-    floatingControls.start(floating.ultraSlow.animate);
-    
-    return smoothVelocity.onChange((v) => {
-      if (Math.abs(v) > 20) {
-        floatingControls.stop();
-      } else {
-        floatingControls.start(floating.ultraSlow.animate);
-      }
-    });
-  }, [smoothVelocity, floatingControls, shouldReduceMotion]);
 
   // Word Reveal variants for the main heading
   const wordReveal = {
@@ -39,8 +41,12 @@ export function Hero() {
   };
 
   return (
-    <section id="home" className="relative w-full min-h-screen flex flex-col text-white overflow-hidden">
-      <HeroBackground />
+    <section 
+      id="home" 
+      className="relative w-full min-h-screen flex flex-col text-white overflow-hidden"
+      onMouseMove={handleMouseMove}
+    >
+      <HeroBackground mouseX={smoothMouseX} mouseY={smoothMouseY} />
 
       {/* Background Soft Glows for Premium Vibe */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center z-0">
@@ -127,7 +133,7 @@ export function Hero() {
 
         </motion.div>
 
-        {/* Hero Visual Showcase (Floating + Premium Parallax) */}
+        {/* Hero Visual Showcase (Premium Parallax + Inner Interactions) */}
         <motion.div
           className="w-full flex justify-center mt-8"
           {...withReducedMotion({
@@ -137,13 +143,8 @@ export function Hero() {
           })}
           style={{ scale: scrollFX.deviceScale, y: scrollFX.deviceY }}
         >
-          {/* Subtle floating wrapper */}
-          <motion.div
-            animate={shouldReduceMotion ? undefined : floatingControls}
-            transition={shouldReduceMotion ? undefined : floating.ultraSlow.transition}
-          >
-            <HeroVisual />
-          </motion.div>
+          {/* We pass the motion values down for precise parallax */}
+          <HeroVisual mouseX={smoothMouseX} mouseY={smoothMouseY} />
         </motion.div>
         
       </div>

@@ -63,6 +63,13 @@ export function Phone({ className = "" }: { className?: string }) {
         {/* Decorative Glow Background */}
         <div className="absolute bottom-[-10%] right-[-30%] w-[100%] aspect-square bg-[#00D4FF]/15 blur-[30px] rounded-full pointer-events-none"></div>
 
+        {/* Animated Light Sweep (Screen level) */}
+        <motion.div 
+          className="absolute top-0 bottom-0 w-[80%] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-30deg] z-50 pointer-events-none mix-blend-overlay"
+          initial={{ left: "-100%" }}
+          animate={{ left: ["-100%", "250%"] }}
+          transition={{ duration: 2.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 7.5 }}
+        />
       </div>
     </div>
   );
