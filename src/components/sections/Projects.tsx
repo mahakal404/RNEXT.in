@@ -390,11 +390,11 @@ export function Projects() {
                AI • SaaS • Finance • Business Websites
              </p>
 
-             <motion.div {...hover.button}>
-               <div className="inline-flex items-center gap-3 px-8 h-14 rounded-full bg-white text-bg-primary font-semibold relative overflow-hidden">
-                  <span className="relative z-10 flex items-center gap-3 transition-colors duration-500">
-                    View Complete Collection
-                    <ArrowRight size={18} className="transition-transform duration-500 ease-out group-hover:translate-x-1" />
+             <motion.div {...hover.button} className="w-full sm:w-auto mt-4">
+               <div className="inline-flex items-center justify-center gap-2 md:gap-3 px-5 sm:px-6 md:px-8 min-h-[56px] h-auto py-3 md:py-0 md:h-14 rounded-full bg-white text-bg-primary font-semibold text-[13px] sm:text-sm md:text-base relative overflow-hidden w-full sm:w-auto text-center mx-auto">
+                  <span className="relative z-10 flex items-center justify-center gap-2 md:gap-3 transition-colors duration-500">
+                    <span className="leading-tight">View Complete Collection</span>
+                    <ArrowRight size={18} className="transition-transform duration-500 ease-out group-hover:translate-x-1 shrink-0" />
                   </span>
                </div>
              </motion.div>
