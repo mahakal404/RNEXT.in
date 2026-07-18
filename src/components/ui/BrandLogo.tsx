@@ -83,7 +83,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       variants={{
         pulse: { 
           scale: [1, 1.03, 1],
-          transition: { type: "spring", stiffness: 400, damping: 15 }
+          transition: { duration: 0.6, ease: "easeInOut" }
         }
       }}
     >

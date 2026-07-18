@@ -49,7 +49,7 @@ export function Contact() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [highlightInquiry, setHighlightInquiry] = useState(false);
   
-  const selectedInquiry = useSyncExternalStore(inquiryStore.subscribe, inquiryStore.getSnapshot);
+  const selectedInquiry = useSyncExternalStore(inquiryStore.subscribe, inquiryStore.getSnapshot, inquiryStore.getSnapshot);
   const inquiryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
