@@ -40,9 +40,40 @@ export function Navbar() {
     }
   }, [pathname, spyActiveId]);
 
+  const [isHidden, setIsHidden] = useState(false);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 40);
+
+    // Smart Auto-Hide Logic
+    const previous = scrollY.getPrevious() || 0;
+    const diff = latest - previous;
+
+    if (latest < 120) {
+      // Top of page: always show
+      setIsHidden(false);
+    } else if (Math.abs(diff) > 10) {
+      // Intentional scroll
+      if (diff > 0) {
+        // Scrolling down: hide
+        setIsHidden(true);
+      } else {
+        // Scrolling up: show
+        setIsHidden(false);
+      }
+    }
   });
+
+  // Smart Pinning (hover near top)
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (e.clientY < 60) {
+        setIsHidden(false);
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   // Prevent scrolling when mobile menu is open
   useEffect(() => {
@@ -78,8 +109,15 @@ export function Navbar() {
           isScrolled ? 'top-4' : 'top-0 pt-8 lg:pt-12'
         }`}
         initial="initial"
-        animate="animate"
-        variants={animations.navbar}
+        animate={isHidden && !shouldReduceMotion ? "hidden" : "animate"}
+        variants={{
+          ...animations.navbar,
+          hidden: { 
+            y: "-150%", 
+            opacity: 0.9, 
+            transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } 
+          }
+        }}
       >
         <div
           className={`flex items-center w-full max-w-[1200px] h-[72px] transition-all duration-300 ease-in-out ${
