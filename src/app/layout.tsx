@@ -15,33 +15,33 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "RNEXT.in | Boutique Digital Lab",
-  description: "We Build Smart Digital Experiences. A Boutique Digital Lab with Sharp Opinions.",
-  metadataBase: new URL('https://rnext.in'),
+  metadataBase: new URL('https://rnextin.netlify.app'),
+  title: "RNEXT | Boutique Digital Lab",
+  description: "Premium Websites, Web Apps & AI Solutions.",
   alternates: {
-    canonical: '/',
+    canonical: 'https://rnextin.netlify.app',
   },
   openGraph: {
-    title: "RNEXT.in | Boutique Digital Lab",
-    description: "We Build Smart Digital Experiences.",
-    url: 'https://rnext.in',
+    title: "RNEXT | Boutique Digital Lab",
+    description: "Premium Websites, Web Apps & AI Solutions.",
+    url: 'https://rnextin.netlify.app',
     siteName: 'RNEXT',
+    type: 'website',
     images: [
       {
-        url: '/og-image.png',
+        url: '/rnext.jpg',
         width: 1200,
         height: 630,
-        alt: 'RNEXT Digital Agency',
+        alt: 'RNEXT Logo',
       }
     ],
     locale: 'en_US',
-    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: "RNEXT.in | Boutique Digital Lab",
-    description: "We Build Smart Digital Experiences.",
-    images: ['/og-image.png'],
+    title: "RNEXT | Boutique Digital Lab",
+    description: "Premium Websites, Web Apps & AI Solutions.",
+    images: ['/rnext.jpg'],
   },
   robots: {
     index: true,
@@ -55,8 +55,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-icon.png',
+    icon: '/rnext.jpg',
+    shortcut: '/rnext.jpg',
+    apple: '/rnext.jpg',
   },
 };
 
