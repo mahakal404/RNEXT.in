@@ -14,6 +14,7 @@ const cspHeader = `
 `;
 
 const nextConfig: NextConfig = {
+  output: "export",
   async headers() {
     return [
       {
