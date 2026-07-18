@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, MapPin, Clock, Zap, CheckCircle2, Calendar, X, ChevronDown, ShieldCheck } from 'lucide-react';
 import { SectionHeader } from '../ui/SectionHeader';
 import { useMotionUtilities, variants, stagger, hover, transitions } from '../../lib/motion';
+import { useSyncExternalStore } from 'react';
+import { inquiryStore } from '../../store/inquiryStore';
 
 const WhatsAppIcon = ({ className, size }: { className?: string; size?: number | string }) => (
   <svg className={className} width={size || 24} height={size || 24} viewBox="0 0 24 24" fill="currentColor">
@@ -12,7 +14,7 @@ const WhatsAppIcon = ({ className, size }: { className?: string; size?: number |
   </svg>
 );
 
-const projectTypes = ["Website", "Web Application", "Mobile Application", "AI Solution", "UI/UX Design", "Other"];
+const projectTypes = ["Digital Presence", "Custom Platform Development", "E-Commerce Development", "AI Automation", "UI/UX Design", "Other"];
 const budgetRanges = ["Below ₹20K", "₹20K–50K", "₹50K–1L", "₹1L+"];
 const timelines = ["Immediately", "Within 1 Month", "2–3 Months", "Flexible"];
 
@@ -45,6 +47,30 @@ export function Contact() {
   const [submitState, setSubmitState] = useState<'idle' | 'preparing' | 'opening'>('idle');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [highlightInquiry, setHighlightInquiry] = useState(false);
+  
+  const selectedInquiry = useSyncExternalStore(inquiryStore.subscribe, inquiryStore.getSnapshot);
+  const inquiryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedInquiry) {
+      setFormData(prev => ({ ...prev, projectType: selectedInquiry }));
+      
+      const timer = setTimeout(() => {
+        setHighlightInquiry(true);
+        if (inquiryRef.current) {
+          // Move keyboard focus to dropdown trigger for accessibility
+          inquiryRef.current.focus();
+        }
+        
+        setTimeout(() => {
+          setHighlightInquiry(false);
+        }, 1500);
+      }, 800); 
+
+      return () => clearTimeout(timer);
+    }
+  }, [selectedInquiry]);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -113,7 +139,7 @@ export function Contact() {
     </div>
   );
 
-  const DropdownField = ({ label, id, options, value, onChange }: any) => {
+  const DropdownField = ({ label, id, options, value, onChange, highlight, containerRef }: any) => {
     const isOpen = activeDropdown === id;
     const ref = useRef<HTMLDivElement>(null);
     useOnClickOutside(ref, () => {
@@ -124,8 +150,16 @@ export function Contact() {
       <div className="flex flex-col relative group" ref={ref}>
         <label className="text-sm font-medium text-text-secondary group-focus-within:text-white mb-2 transition-colors duration-300">{label}</label>
         <div 
+          ref={containerRef}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setActiveDropdown(isOpen ? null : id);
+            }
+          }}
           onClick={() => setActiveDropdown(isOpen ? null : id)}
-          className={`w-full flex items-center justify-between bg-bg-primary border ${isOpen ? 'border-brand-primary ring-[4px] ring-brand-primary/15' : 'border-border-primary'} rounded-xl px-4 py-4 cursor-pointer transition-all duration-300`}
+          className={`w-full flex items-center justify-between bg-bg-primary border ${isOpen ? 'border-brand-primary ring-[4px] ring-brand-primary/15' : 'border-border-primary'} ${highlight ? 'border-brand-primary/80 ring-[4px] ring-brand-primary/20 shadow-[0_0_15px_rgba(0,212,255,0.3)]' : ''} rounded-xl px-4 py-4 cursor-pointer transition-all duration-500 focus-visible:outline-none focus-visible:border-brand-primary`}
         >
           <span className={value ? 'text-white' : 'text-text-muted/40'}>{value || `Select ${label}`}</span>
           <ChevronDown size={18} className={`text-text-muted transition-transform duration-300 ${isOpen ? 'rotate-180 text-brand-primary' : ''}`} />
@@ -297,7 +331,7 @@ export function Contact() {
                 </motion.div>
 
                 <motion.div variants={variants.fade} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <DropdownField label="Project Type" id="projectType" options={projectTypes} value={formData.projectType} onChange={(val: string) => setFormData({...formData, projectType: val})} />
+                  <DropdownField label="Project Type" id="projectType" options={projectTypes} value={formData.projectType} onChange={(val: string) => setFormData({...formData, projectType: val})} highlight={highlightInquiry} containerRef={inquiryRef} />
                   <DropdownField label="Estimated Budget" id="budget" options={budgetRanges} value={formData.budget} onChange={(val: string) => setFormData({...formData, budget: val})} />
                 </motion.div>
 

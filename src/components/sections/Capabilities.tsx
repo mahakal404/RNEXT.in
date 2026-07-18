@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Check, ArrowRight, Globe, LayoutDashboard, ShoppingBag, Cpu } from 'lucide-react';
 import { SectionHeader } from '../ui/SectionHeader';
 
@@ -10,6 +10,71 @@ import { PlatformsMockup } from '../ui/mockups/PlatformsMockup';
 import { ServicesCommerceMockup } from '../ui/mockups/ServicesCommerceMockup';
 import { AiMockup } from '../ui/mockups/AiMockup';
 import { useMotionUtilities, variants, stagger, hover, transitions } from '../../lib/motion';
+import { inquiryStore } from '../../store/inquiryStore';
+import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
+
+const CapabilityCTA = ({ ctaText, inquiryType }: { ctaText: string, inquiryType: string }) => {
+  const { handleNavClick } = useGlobalNavigation();
+  const [isPressed, setIsPressed] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (shouldReduceMotion) {
+      inquiryStore.setInquiry(inquiryType);
+      handleNavClick(e, 'Contact');
+      return;
+    }
+
+    setIsPressed(true);
+    setTimeout(() => {
+      setIsPressed(false);
+      inquiryStore.setInquiry(inquiryType);
+      handleNavClick(e, 'Contact');
+    }, 150);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick(e as any);
+    }
+  };
+
+  return (
+    <motion.div {...hover.button} className="mt-2 inline-block">
+      <motion.a 
+        href="#contact"
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        animate={isPressed ? { scale: 0.96 } : { scale: 1 }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+        className="group relative flex items-center gap-2 text-sm font-bold text-white transition-colors duration-300 outline-none focus-visible:ring-2 focus-visible:ring-brand-primary rounded-md px-2 py-1 -ml-2"
+      >
+        <span className="border-b border-transparent group-hover:border-brand-primary pb-0.5 relative z-10">{ctaText}</span>
+        <motion.div
+          animate={isPressed ? { x: 4 } : { x: 0 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+          className="relative z-10"
+        >
+          <ArrowRight size={16} className="text-brand-primary" />
+        </motion.div>
+        
+        <AnimatePresence>
+          {isPressed && (
+            <motion.div 
+              className="absolute inset-0 bg-brand-primary/30 blur-md rounded-md z-0"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1.1 }}
+              exit={{ opacity: 0, scale: 1 }}
+              transition={{ duration: 0.15 }}
+            />
+          )}
+        </AnimatePresence>
+      </motion.a>
+    </motion.div>
+  );
+};
 
 /* --- DATA --- */
 
@@ -23,6 +88,7 @@ const capabilities = [
     outcomes: ["Immediate brand authority", "Higher conversion rates", "Seamless mobile experience"],
     tech: ["Next.js", "React", "Tailwind CSS"],
     cta: "Discuss your digital presence",
+    inquiryType: "Digital Presence",
     visual: <PresenceMockup />,
     animatedLabel: (
       <>
@@ -40,6 +106,7 @@ const capabilities = [
     outcomes: ["Streamlined operational workflows", "Scalable cloud infrastructure", "Bank-grade security architecture"],
     tech: ["Node.js", "PostgreSQL", "TypeScript"],
     cta: "Discuss your platform needs",
+    inquiryType: "Custom Platform Development",
     visual: <PlatformsMockup />,
     animatedLabel: (
       <>
@@ -57,6 +124,7 @@ const capabilities = [
     outcomes: ["Increased Average Order Value (AOV)", "Reduced cart abandonment", "Lightning-fast page loads"],
     tech: ["Shopify Plus", "Next.js Commerce", "Stripe"],
     cta: "Discuss your commerce goals",
+    inquiryType: "E-Commerce Development",
     visual: <ServicesCommerceMockup />,
     animatedLabel: (
       <>
@@ -72,8 +140,9 @@ const capabilities = [
     problem: "Manual data entry and repetitive workflows drain resources, preventing your team from focusing on high-leverage growth.",
     solution: "We integrate smart automation and AI-driven solutions that handle repetitive tasks, intelligent routing, and complex data processing.",
     outcomes: ["Lower operational costs", "Intelligent data routing", "24/7 automated workflows"],
-    tech: ["OpenAI", "LangChain", "Python"],
+    tech: ["OpenAI", "Python", "Vector DBs"],
     cta: "Discuss AI integration",
+    inquiryType: "AI Automation",
     visual: <AiMockup />,
     animatedLabel: (
       <>
@@ -293,12 +362,7 @@ export function Capabilities() {
                     </div>
 
                     {/* CTA */}
-                    <motion.div {...hover.button} className="mt-2 inline-block">
-                      <button className="group flex items-center gap-2 text-sm font-bold text-white transition-colors duration-300">
-                        <span className="border-b border-transparent group-hover:border-brand-primary pb-0.5">{cap.cta}</span>
-                        <ArrowRight size={16} className="text-brand-primary" />
-                      </button>
-                    </motion.div>
+                    <CapabilityCTA ctaText={cap.cta} inquiryType={cap.inquiryType} />
 
                   </motion.div>
 
