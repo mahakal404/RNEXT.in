@@ -137,7 +137,7 @@ export function Capabilities() {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
   return (
-    <section id="capabilities" className="py-24 md:py-32 relative z-20 bg-bg-primary overflow-hidden">
+    <section id="capabilities" className="py-24 md:py-32 relative z-20 bg-bg-primary overflow-clip">
       {/* Slower Parallax Background */}
       <motion.div 
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
