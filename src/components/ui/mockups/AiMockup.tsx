@@ -35,10 +35,10 @@ export const AiMockup = () => (
     </motion.div>
 
     {/* AI Workflow Container (Original Structure, Enhanced UI) */}
-    <div className="w-full max-w-[400px] h-full max-h-[320px] relative z-10 flex items-center justify-center">
+    <div className="w-full max-w-[400px] aspect-[5/4] relative z-10 flex items-center justify-center">
       
       {/* SVG Connections */}
-      <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }} viewBox="0 0 400 320">
+      <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }} viewBox="0 0 400 320" preserveAspectRatio="none">
         <defs>
           <linearGradient id="ai-glow-1" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="rgba(255,255,255,0.1)" />
@@ -80,14 +80,14 @@ export const AiMockup = () => (
         ))}
       </svg>
 
-      {/* Nodes (Original Positioning) */}
+      {/* Nodes (Original Positioning, converted to percentages for responsive alignment) */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         
         {/* Left Input Node 1 */}
         <motion.div 
           animate={{ y: [-2, 2, -2] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[80px] left-[40px] w-12 h-12 bg-[#111]/80 backdrop-blur-md border border-white/10 rounded-xl shadow-lg flex items-center justify-center p-2"
+          className="absolute top-[25%] left-[10%] w-12 h-12 bg-[#111]/80 backdrop-blur-md border border-white/10 rounded-xl shadow-lg flex items-center justify-center p-2"
         >
           <div className="w-full h-1.5 bg-white/40 rounded-full" />
         </motion.div>
@@ -96,7 +96,7 @@ export const AiMockup = () => (
         <motion.div 
           animate={{ y: [2, -2, 2] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[200px] left-[40px] w-12 h-12 bg-[#111]/80 backdrop-blur-md border border-white/10 rounded-xl shadow-lg flex items-center justify-center p-2"
+          className="absolute top-[62.5%] left-[10%] w-12 h-12 bg-[#111]/80 backdrop-blur-md border border-white/10 rounded-xl shadow-lg flex items-center justify-center p-2"
         >
           <div className="flex flex-col gap-1 w-full">
             <div className="w-full h-1 bg-white/40 rounded-full" />
@@ -108,7 +108,7 @@ export const AiMockup = () => (
         <motion.div 
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[128px] left-[168px] w-16 h-16 rounded-2xl border-2 border-violet-500/50 bg-[#111]/60 backdrop-blur-lg flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.4),inset_0_0_15px_rgba(168,85,247,0.4)] relative"
+          className="absolute top-[40%] left-[42%] w-16 h-16 rounded-2xl border-2 border-violet-500/50 bg-[#111]/60 backdrop-blur-lg flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.4),inset_0_0_15px_rgba(168,85,247,0.4)] relative"
         >
           {/* Rotating Dashed Border */}
           <svg className="absolute inset-[-6px] w-[76px] h-[76px] -rotate-90">
@@ -125,14 +125,14 @@ export const AiMockup = () => (
         <motion.div 
           animate={{ y: [2, -2, 2] }}
           transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[80px] right-[40px] w-14 h-14 bg-brand-primary/10 backdrop-blur-md border border-brand-primary/30 rounded-xl shadow-[0_0_15px_rgba(0,212,255,0.2)] flex flex-col items-center justify-center gap-1.5 p-2 overflow-hidden relative"
+          className="absolute top-[25%] right-[10%] w-14 h-14 bg-brand-primary/10 backdrop-blur-md border border-brand-primary/30 rounded-xl shadow-[0_0_15px_rgba(0,212,255,0.2)] flex flex-col items-center justify-center gap-1.5 p-2 overflow-hidden relative"
         >
           <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/10 to-transparent pointer-events-none" />
           <div className="w-full flex items-end gap-0.5 h-6">
             {[1,2,3,4].map(bar => (
               <motion.div key={bar} 
                 animate={{ height: ["30%", "100%", "30%"] }}
-                transition={{ duration: 1 + Math.random(), repeat: Infinity, ease: "easeInOut", delay: bar * 0.1 }}
+                transition={{ duration: 1.2 + bar * 0.1, repeat: Infinity, ease: "easeInOut", delay: bar * 0.1 }}
                 className="flex-1 bg-brand-primary rounded-t-[1px]"
               />
             ))}
@@ -143,7 +143,7 @@ export const AiMockup = () => (
         <motion.div 
           animate={{ y: [-2, 2, -2] }}
           transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[200px] right-[40px] w-14 h-14 bg-violet-500/10 backdrop-blur-md border border-violet-500/30 rounded-xl shadow-[0_0_15px_rgba(168,85,247,0.2)] flex flex-col items-center justify-center p-2"
+          className="absolute top-[62.5%] right-[10%] w-14 h-14 bg-violet-500/10 backdrop-blur-md border border-violet-500/30 rounded-xl shadow-[0_0_15px_rgba(168,85,247,0.2)] flex flex-col items-center justify-center p-2"
         >
           <div className="w-5 h-5 rounded-full bg-violet-500/20 border border-violet-500/40 flex items-center justify-center mb-1">
              <div className="w-2 h-2 border-b-[1.5px] border-r-[1.5px] border-violet-400 rotate-45 transform -translate-y-[1px]" />
