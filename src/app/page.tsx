@@ -9,10 +9,12 @@ import { Footer } from "@/components/layout/Footer";
 import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 
 import { FinalCTA } from "@/components/sections/FinalCTA";
+import { BrandIntro } from "@/components/layout/BrandIntro";
 
 export default function Home() {
   return (
     <>
+      <BrandIntro />
       <Navbar />
       <ScrollIndicator />
       <div className="w-full flex flex-col items-center">

@@ -9,8 +9,10 @@ import { getHeroAnimations } from '../../lib/animations';
 import { useGlobalNavigation } from '../../hooks/useGlobalNavigation';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { BrandLogo } from '@/components/ui/BrandLogo';
+import { useIntroStore } from '../../store/introStore';
 
 export function Navbar() {
+  const introState = useIntroStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('Home');
@@ -130,10 +132,13 @@ export function Navbar() {
           <div className="flex-1 flex items-center">
             <Link 
               href="/" 
-              className="flex items-center" 
+              className="flex items-center w-[100px] h-[32px]" // Explicit sizing to prevent layout shift during morph
               onClick={(e) => onNavClick(e, 'Home')}
             >
-              <BrandLogo size="sm" />
+              {/* Only mount the Navbar logo when the intro starts transitioning or is completed */}
+              {(introState === 'TRANSITIONING' || introState === 'REVEALING_HERO' || introState === 'COMPLETED') && (
+                <BrandLogo size="sm" layoutId="rnext-brand-logo" />
+              )}
             </Link>
           </div>
 

@@ -7,8 +7,12 @@ import { HeroBackground } from '../ui/HeroBackground';
 import { HeroVisual } from '../ui/mockups/HeroVisual';
 import { SectionHeader } from '../ui/SectionHeader';
 import { useCinematicScroll, variants, floating, useMotionUtilities, stagger, hover } from '../../lib/motion';
+import { useIntroStore } from '../../store/introStore';
 
 export function Hero() {
+  const introState = useIntroStore();
+  const shouldReveal = introState === 'REVEALING_HERO' || introState === 'COMPLETED';
+  
   const scrollFX = useCinematicScroll();
   const { withReducedMotion, shouldReduceMotion } = useMotionUtilities();
 
@@ -87,7 +91,7 @@ export function Hero() {
             className="text-display-xl text-white mb-10 w-full max-w-3xl mx-auto leading-[1.2] md:leading-[1.25]"
             variants={stagger.slow.variants}
             initial="initial"
-            animate="animate"
+            animate={shouldReveal ? "animate" : "initial"}
           >
             <span className="inline-block pb-1 overflow-hidden">
               <motion.span className="inline-block" variants={wordReveal}>We </motion.span>
@@ -107,7 +111,9 @@ export function Hero() {
           {/* Description */}
           <motion.p 
             className="text-lg md:text-xl text-text-secondary mb-12 w-full max-w-[550px] mx-auto leading-relaxed md:leading-loose font-medium"
-            {...withReducedMotion(variants.blurReveal)}
+            variants={shouldReduceMotion ? undefined : variants.blurReveal}
+            initial="initial"
+            animate={shouldReveal ? "animate" : "initial"}
             transition={{ ...variants.blurReveal.transition, delay: 0.6 }}
           >
             Websites, Web Apps & AI Solutions for Modern Businesses. We transform complex problems into elegant digital products.
@@ -116,7 +122,9 @@ export function Hero() {
           {/* CTA Buttons - Premium Hover Springs */}
           <motion.div 
             className="flex flex-col sm:flex-row items-center justify-center gap-[12px] lg:gap-[16px] w-full sm:w-auto"
-            {...withReducedMotion(variants.fade)}
+            variants={shouldReduceMotion ? undefined : variants.fade}
+            initial="initial"
+            animate={shouldReveal ? "animate" : "initial"}
             transition={{ ...variants.fade.transition, delay: 0.9 }}
           >
             <motion.div {...hover.button}>
@@ -136,11 +144,9 @@ export function Hero() {
         {/* Hero Visual Showcase (Premium Parallax + Inner Interactions) */}
         <motion.div
           className="w-full flex justify-center mt-8"
-          {...withReducedMotion({
-            initial: { opacity: 0, scale: 0.9, y: 40 },
-            animate: { opacity: 1, scale: 1, y: 0 },
-            transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.2 }
-          })}
+          initial={shouldReduceMotion ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.9, y: 40 }}
+          animate={shouldReveal ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.9, y: 40 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.2 }}
           style={{ scale: scrollFX.deviceScale, y: scrollFX.deviceY }}
         >
           {/* We pass the motion values down for precise parallax */}
@@ -152,11 +158,9 @@ export function Hero() {
       {/* Scroll Indicator */}
       <motion.div 
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-text-muted cursor-default"
-        {...withReducedMotion({
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          transition: { duration: 0.8, delay: 2.4 }
-        })}
+        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+        animate={shouldReveal ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.8, delay: 2.4 }}
         aria-hidden="true"
       >
         <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Scroll</span>
