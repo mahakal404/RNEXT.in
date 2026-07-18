@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion, useTransform, MotionValue } from 'framer-motion';
 import { Laptop } from './Laptop';
 import { Tablet } from './Tablet';
 import { Phone } from './Phone';
+import { HERO_ECOSYSTEMS, TransitionPhase, GlobalEvent } from '../../../lib/hero-ecosystems';
 
 interface HeroVisualProps {
   mouseX?: MotionValue<number>;
@@ -26,34 +27,118 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
   const phoneX = useTransform(safeMouseX, [-1, 1], [-40, 40]);
   const phoneY = useTransform(safeMouseY, [-1, 1], [-40, 40]);
 
-  // Premium Entrance Easing
-  const premiumEase = [0.16, 1, 0.3, 1];
-
-  // We only render particles on client to avoid hydration mismatches
+  // Centralized Engine State
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [inView, setInView] = useState(true);
+  const [ecoIndex, setEcoIndex] = useState(0);
+  const [phase, setPhase] = useState<TransitionPhase>('entering');
+  const [activeEvent, setActiveEvent] = useState<GlobalEvent | undefined>();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const ecosystem = HERO_ECOSYSTEMS[ecoIndex];
+  const isPaused = !inView;
+
+  // 1. Mount & Observer
+  useEffect(() => {
+    setMounted(true);
+    // After 2.5s initial enter, go idle
+    const initTimer = setTimeout(() => setPhase('idle'), 2500);
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setInView(entry.isIntersecting);
+    }, { threshold: 0.1 });
+    
+    if (containerRef.current) observer.observe(containerRef.current);
+    
+    return () => {
+      clearTimeout(initTimer);
+      observer.disconnect();
+    };
+  }, []);
+
+  // 2. The Ecosystem Transition Engine
+  useEffect(() => {
+    if (isPaused || shouldReduceMotion) return;
+
+    let timeout1: NodeJS.Timeout;
+    let timeout2: NodeJS.Timeout;
+    let timeout3: NodeJS.Timeout;
+    let timeout4: NodeJS.Timeout;
+
+    // Cycle every 18 seconds for maximum appreciation
+    const interval = setInterval(() => {
+      // 1. Reflection Sweep
+      setPhase('sweep');
+      
+      // 2. Fade out current UI
+      timeout1 = setTimeout(() => setPhase('fading'), 1500);
+
+      // 3. Show Skeleton & Swap Data
+      timeout2 = setTimeout(() => {
+        setEcoIndex(prev => (prev + 1) % HERO_ECOSYSTEMS.length);
+        setPhase('skeleton');
+      }, 2000);
+
+      // 4. Enter new UI
+      timeout3 = setTimeout(() => setPhase('entering'), 2800);
+
+      // 5. Back to idle
+      timeout4 = setTimeout(() => setPhase('idle'), 4500);
+
+    }, 18000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
+      clearTimeout(timeout4);
+    };
+  }, [isPaused, shouldReduceMotion]);
+
+  // 3. The Random Event Engine
+  useEffect(() => {
+    // Only fire events when idle and visible
+    if (isPaused || shouldReduceMotion || phase !== 'idle' || activeEvent) return;
+
+    const timeout = setTimeout(() => {
+      const events: GlobalEvent[] = [
+        { id: Date.now().toString(), type: 'NEW_LEAD', message: 'New Lead Acquired' }
+      ];
+      setActiveEvent(events[0]);
+      
+      setTimeout(() => setActiveEvent(undefined), 3000);
+    }, 8000 + Math.random() * 4000);
+
+    return () => clearTimeout(timeout);
+  }, [isPaused, shouldReduceMotion, phase, activeEvent]);
+
+  const premiumEase = [0.16, 1, 0.3, 1];
 
   return (
     <motion.div 
+      ref={containerRef}
       className="relative w-full lg:w-[50%] mx-auto mt-12 lg:mt-16 flex items-center justify-center"
       whileHover={shouldReduceMotion ? {} : { scale: 1.01 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       
-      {/* Ambient Breathing Glow (Cyan & Purple) */}
+      {/* Ambient Breathing Glow (Dynamic based on ecosystem) */}
       <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-primary/10 blur-[100px] rounded-full pointer-events-none z-0"
-        animate={shouldReduceMotion ? {} : { opacity: [0.4, 0.7, 0.4], scale: [0.95, 1.05, 0.95] }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] blur-[100px] rounded-full pointer-events-none z-0 transition-colors duration-1000"
+        style={{ backgroundColor: ecosystem.theme.primary }}
+        animate={isPaused || shouldReduceMotion ? {} : { opacity: [0.15, 0.3, 0.15], scale: [0.95, 1.05, 0.95] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div 
-        className="absolute top-[40%] left-[60%] -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-purple-500/10 blur-[100px] rounded-full pointer-events-none z-0"
-        animate={shouldReduceMotion ? {} : { opacity: [0.3, 0.6, 0.3], scale: [1.05, 0.95, 1.05] }}
+        className="absolute top-[40%] left-[60%] -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] blur-[100px] rounded-full pointer-events-none z-0 transition-colors duration-1000"
+        style={{ backgroundColor: ecosystem.theme.secondary }}
+        animate={isPaused || shouldReduceMotion ? {} : { opacity: [0.1, 0.25, 0.1], scale: [1.05, 0.95, 1.05] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       />
 
       {/* Tiny Background Particles */}
-      {mounted && !shouldReduceMotion && (
+      {mounted && !shouldReduceMotion && !isPaused && (
         <div className="absolute inset-0 z-0 pointer-events-none">
           {[...Array(6)].map((_, i) => (
             <motion.div
@@ -93,17 +178,24 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
           <motion.div style={{ x: desktopX, y: desktopY }} className="w-full h-full relative">
             {/* Floating Wrapper */}
             <motion.div
-              animate={shouldReduceMotion ? {} : { y: [-6, 6, -6] }}
+              animate={isPaused || shouldReduceMotion ? {} : { y: [-6, 6, -6] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               className="w-full h-full relative"
             >
               {/* Dynamic Shadow */}
               <motion.div 
-                className="absolute inset-0 shadow-[0_0_80px_rgba(0,212,255,0.15)] rounded-2xl pointer-events-none"
-                animate={shouldReduceMotion ? {} : { opacity: [0.6, 1, 0.6] }}
+                className="absolute inset-0 rounded-2xl pointer-events-none transition-colors duration-1000"
+                style={{ boxShadow: `0 0 80px ${ecosystem.theme.primaryGlow}` }}
+                animate={isPaused || shouldReduceMotion ? {} : { opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               />
-              <Laptop />
+              <Laptop 
+                ecosystem={ecosystem} 
+                phase={phase} 
+                activeEvent={activeEvent}
+                isPaused={isPaused}
+                shouldReduceMotion={!!shouldReduceMotion}
+              />
               {/* Center Vertical Decorative Line */}
               <div className="absolute top-[100%] left-1/2 -translate-x-1/2 w-[1px] h-[300px] bg-gradient-to-b from-white/10 to-transparent pointer-events-none -z-10"></div>
             </motion.div>
@@ -121,17 +213,23 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
           <motion.div style={{ x: tabletX, y: tabletY }} className="w-full h-full relative">
             {/* Floating + Horizontal Drift Wrapper */}
             <motion.div
-              animate={shouldReduceMotion ? {} : { y: [8, -8, 8], x: [-3, 3, -3] }}
+              animate={isPaused || shouldReduceMotion ? {} : { y: [8, -8, 8], x: [-3, 3, -3] }}
               transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut" }}
               className="w-full h-full relative"
             >
               {/* Dynamic Shadow */}
               <motion.div 
                 className="absolute inset-0 shadow-[-15px_15px_40px_rgba(0,0,0,0.5)] rounded-2xl pointer-events-none"
-                animate={shouldReduceMotion ? {} : { opacity: [1, 0.6, 1] }} // Opposite to match opposite float
+                animate={isPaused || shouldReduceMotion ? {} : { opacity: [1, 0.6, 1] }} 
                 transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut" }}
               />
-              <Tablet />
+              <Tablet 
+                ecosystem={ecosystem} 
+                phase={phase} 
+                activeEvent={activeEvent}
+                isPaused={isPaused}
+                shouldReduceMotion={!!shouldReduceMotion}
+              />
             </motion.div>
           </motion.div>
         </motion.div>
@@ -147,7 +245,7 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
           <motion.div style={{ x: phoneX, y: phoneY }} className="w-full h-full relative">
             {/* Floating + Attention Rotation Wrapper */}
             <motion.div
-              animate={shouldReduceMotion ? {} : { 
+              animate={isPaused || shouldReduceMotion ? {} : { 
                 y: [-12, 12, -12],
                 rotate: [0, 0, 0, 0, 2, -1, 0, 0] 
               }}
@@ -160,10 +258,16 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
               {/* Dynamic Shadow */}
               <motion.div 
                 className="absolute inset-0 shadow-[15px_15px_40px_rgba(0,0,0,0.5)] rounded-xl pointer-events-none"
-                animate={shouldReduceMotion ? {} : { opacity: [0.5, 1, 0.5] }}
+                animate={isPaused || shouldReduceMotion ? {} : { opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
               />
-              <Phone />
+              <Phone 
+                ecosystem={ecosystem} 
+                phase={phase} 
+                activeEvent={activeEvent}
+                isPaused={isPaused}
+                shouldReduceMotion={!!shouldReduceMotion}
+              />
             </motion.div>
           </motion.div>
         </motion.div>
