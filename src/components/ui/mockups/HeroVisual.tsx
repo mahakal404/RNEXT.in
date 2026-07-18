@@ -113,7 +113,7 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
     return () => clearTimeout(timeout);
   }, [isPaused, shouldReduceMotion, phase, activeEvent]);
 
-  const premiumEase = [0.16, 1, 0.3, 1];
+  const premiumEase: any = [0.16, 1, 0.3, 1];
 
   return (
     <motion.div 

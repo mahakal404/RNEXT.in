@@ -30,7 +30,7 @@ export function Tablet({
   const itemVariants = {
     skeleton: { opacity: 0, x: -10 },
     fading: { opacity: 0, x: -10 },
-    entering: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 50, damping: 20 } },
+    entering: { opacity: 1, x: 0, transition: { type: "spring" as const, stiffness: 50, damping: 20 } },
     idle: { opacity: 1, x: 0 }
   };
 
