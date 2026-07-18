@@ -13,6 +13,8 @@ export function HeroVisual() {
         {/* Laptop (Center, Base Layer) */}
         <div className="absolute z-10 w-[75%] top-[10%] left-1/2 -translate-x-1/2 shadow-[0_0_80px_rgba(0,212,255,0.15)]">
            <Laptop />
+           {/* Center Vertical Decorative Line */}
+           <div className="absolute top-[100%] left-1/2 -translate-x-1/2 w-[1px] h-[300px] bg-gradient-to-b from-white/10 to-transparent pointer-events-none -z-10"></div>
         </div>
 
         {/* Tablet (Left, Overlapping) */}

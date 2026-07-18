@@ -89,14 +89,29 @@ export function Capabilities() {
   const { withReducedMotion } = useMotionUtilities();
   const { scrollYProgress } = useScroll();
 
+  const observerTargets = React.useRef(new Map<string, boolean>());
+
   React.useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        let hasChanges = false;
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+          const current = observerTargets.current.get(entry.target.id);
+          if (current !== entry.isIntersecting) {
+            observerTargets.current.set(entry.target.id, entry.isIntersecting);
+            hasChanges = true;
           }
         });
+
+        if (hasChanges) {
+          const visibleIds = capabilities
+            .map((cap) => cap.id)
+            .filter((id) => observerTargets.current.get(id));
+
+          if (visibleIds.length > 0) {
+            setActiveSection(visibleIds[0]);
+          }
+        }
       },
       {
         rootMargin: "-20% 0px -40% 0px"
