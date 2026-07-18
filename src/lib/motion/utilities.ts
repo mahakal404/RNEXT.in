@@ -8,7 +8,7 @@ export const useMotionUtilities = () => {
    * Applies the variant only if reduced motion is disabled.
    * If reduced motion is enabled, it returns a simple instant-opacity fade.
    */
-  const withReducedMotion = (variant: any) => {
+  const withReducedMotion = (variant: Record<string, unknown>) => {
     if (shouldReduceMotion) {
       return {
         initial: { opacity: 0 },

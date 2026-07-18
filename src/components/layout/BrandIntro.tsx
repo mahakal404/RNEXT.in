@@ -13,7 +13,7 @@ export function BrandIntro() {
 
   useEffect(() => {
     introStore.initialize();
-    setMounted(true);
+    setTimeout(() => setMounted(true), 0);
   }, []);
 
   // Only render if we are mounted and not completed

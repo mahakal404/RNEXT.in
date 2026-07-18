@@ -69,7 +69,17 @@ const workflowSteps = [
 
 // --- SUB-COMPONENTS ---
 
-function FeaturedCard({ service }: { service: any }) {
+interface ServiceType {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  color: string;
+  features: string[];
+  tech: string[];
+}
+
+function FeaturedCard({ service }: { service: ServiceType }) {
   const { withReducedMotion } = useMotionUtilities();
 
   return (

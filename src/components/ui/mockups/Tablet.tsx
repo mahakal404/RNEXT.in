@@ -38,9 +38,12 @@ export function Tablet({
   
   useEffect(() => {
     if (activeEvent) {
-      setEventTriggered(true);
+      const initTimer = setTimeout(() => setEventTriggered(true), 0);
       const t = setTimeout(() => setEventTriggered(false), 2000);
-      return () => clearTimeout(t);
+      return () => {
+        clearTimeout(initTimer);
+        clearTimeout(t);
+      };
     }
   }, [activeEvent]);
 

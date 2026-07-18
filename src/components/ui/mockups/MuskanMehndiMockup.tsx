@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star, Calendar, Award, CheckCircle, Globe, Users, Heart, BookOpen, Clock, ArrowRight, Phone, Mail, MapPin } from 'lucide-react';
+import { Star, Calendar, Award, CheckCircle, Globe, Heart, BookOpen, ArrowRight, Phone, Mail, MapPin } from 'lucide-react';
 
 export const MuskanMehndiMockup = () => {
   return (
@@ -367,7 +367,7 @@ export const MuskanMehndiMockup = () => {
                 <div className="flex gap-1 mb-6">
                   {[1,2,3,4,5].map(s => <Star key={s} size={14} className="text-amber-500 fill-amber-500" />)}
                 </div>
-                <p className="text-amber-100/70 text-sm leading-relaxed mb-8 italic">"{review.text}"</p>
+                <p className="text-amber-100/70 text-sm leading-relaxed mb-8 italic">&quot;{review.text}&quot;</p>
                 <div>
                   <h4 className="text-amber-50 font-serif">{review.name}</h4>
                   <p className="text-xs text-amber-500 uppercase tracking-widest mt-1">{review.role}</p>

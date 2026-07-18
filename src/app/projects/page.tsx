@@ -20,7 +20,7 @@ const getProjectIcon = (category: string) => {
 }
 
 export default function ProjectsPage() {
-  const shouldReduceMotion = useReducedMotion();
+  
   const [isVTryModalOpen, setIsVTryModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function ProjectsPage() {
     if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
     if (resolveTimerRef.current) clearTimeout(resolveTimerRef.current);
 
-    const simulatedLoadTime = Math.random() > 0.5 ? 120 : 320; 
+    const simulatedLoadTime = 120; 
 
     loadingTimerRef.current = setTimeout(() => {
       setShowSkeleton(true);

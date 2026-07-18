@@ -1,5 +1,4 @@
-import { transitions } from './transitions';
-import { easings } from './easings';
+
 
 // Parent stagger configurations
 export const stagger = {

@@ -1,7 +1,7 @@
 type Listener = () => void;
 
 let currentInquiry: string | null = null;
-let listeners: Set<Listener> = new Set();
+const listeners: Set<Listener> = new Set();
 
 export const inquiryStore = {
   getSnapshot: () => currentInquiry,

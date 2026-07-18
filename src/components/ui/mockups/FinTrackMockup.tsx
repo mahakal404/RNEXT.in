@@ -224,7 +224,7 @@ export const FinTrackMockup = () => (
                 
                 <div className="relative z-10 flex flex-col gap-1.5">
                   <h2 className="text-white text-[17px] font-bold tracking-wide">Monthly Snapshot</h2>
-                  <p className="text-white/50 text-[14px] font-medium leading-relaxed">You've saved <strong className="text-emerald-400">18% more</strong> this month compared to September. Keep it up!</p>
+                  <p className="text-white/50 text-[14px] font-medium leading-relaxed">You&apos;ve saved <strong className="text-emerald-400">18% more</strong> this month compared to September. Keep it up!</p>
                 </div>
                 
                 <div className="w-full h-[100px] flex items-end gap-2 mt-2 relative z-10">

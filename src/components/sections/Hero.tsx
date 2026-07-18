@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useVelocity, useSpring, useAnimation, useMotionValue } from 'framer-motion';
+import { motion, useScroll, useVelocity, useSpring, useMotionValue } from 'framer-motion';
 import { HeroBackground } from '../ui/HeroBackground';
 import { HeroVisual } from '../ui/mockups/HeroVisual';
 import { SectionHeader } from '../ui/SectionHeader';

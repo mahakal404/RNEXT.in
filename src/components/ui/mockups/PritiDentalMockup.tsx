@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Activity, ArrowRight, Award, Calendar, CheckCircle2, 
-  ChevronRight, Clock, Crosshair, Heart, MapPin, 
+  Activity, ArrowRight, Award, Calendar, 
+  ChevronRight, Clock, Crosshair, Heart, 
   Microscope, Monitor, Phone, Search, ShieldCheck, 
-  Smile, Sparkles, Star, User
+  Sparkles, Star, User
 } from 'lucide-react';
 
 export const PritiDentalMockup = () => {
@@ -380,7 +380,7 @@ export const PritiDentalMockup = () => {
                     <Star size={16} fill="currentColor" />
                     <Star size={16} fill="currentColor" />
                   </div>
-                  <p className="text-slate-600 font-medium italic flex-1">"{text}"</p>
+                  <p className="text-slate-600 font-medium italic flex-1">&quot;{text}&quot;</p>
                   <div className="mt-4 font-bold text-slate-900">Verified Patient</div>
                 </div>
               ))}

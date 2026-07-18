@@ -11,7 +11,7 @@ import { useSyncExternalStore } from 'react';
 export type IntroState = 'PENDING' | 'PLAYING' | 'TRANSITIONING' | 'REVEALING_HERO' | 'COMPLETED';
 
 let currentState: IntroState = 'PENDING';
-let listeners = new Set<() => void>();
+const listeners = new Set<() => void>();
 
 // In-memory runtime flag to prevent accidental replays on fast refresh/hydration
 let hasPlayedInMemory = false;

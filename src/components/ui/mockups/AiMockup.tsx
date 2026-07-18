@@ -75,7 +75,7 @@ export const AiMockup = () => (
           <motion.circle key={i} r="3" fill={packet.c} filter="url(#glow-effect-ai)"
             animate={{ offsetDistance: ["0%", "100%"], opacity: [0, 1, 1, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "linear", delay: packet.delay }}
-            style={{ offsetPath: `path("${packet.path}")` as any }}
+            style={{ offsetPath: `path("${packet.path}")` } as React.CSSProperties}
           />
         ))}
       </svg>

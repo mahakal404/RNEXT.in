@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { useMotionUtilities } from '../../lib/motion';
 
@@ -88,6 +88,7 @@ export function ScrollIndicator() {
               <motion.div
                 initial="hidden"
                 animate={labelVariant}
+                // @ts-ignore - framer motion type generic conflict
                 variants={withReducedMotion({
                   active: { x: 0, opacity: 1, filter: "blur(0px)" },
                   hovered: { x: 0, opacity: 0.5, filter: "blur(0px)" },

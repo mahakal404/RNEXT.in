@@ -41,9 +41,12 @@ export function Laptop({
   
   useEffect(() => {
     if (activeEvent && activeEvent.type === 'NEW_LEAD') {
-      setEventTriggered(true);
+      const initTimer = setTimeout(() => setEventTriggered(true), 0);
       const t = setTimeout(() => setEventTriggered(false), 2000);
-      return () => clearTimeout(t);
+      return () => {
+        clearTimeout(initTimer);
+        clearTimeout(t);
+      };
     }
   }, [activeEvent]);
 
@@ -90,8 +93,8 @@ export function Laptop({
                    <div className="h-16 bg-white/5 rounded-xl animate-pulse" />
                 </div>
                 <div className="flex-1 flex items-end gap-[2%]">
-                  {[...Array(9)].map((_, i) => (
-                    <div key={i} className="flex-1 bg-white/5 rounded-t-sm animate-pulse" style={{ height: `${20 + Math.random() * 60}%` }} />
+                  {[25, 60, 45, 80, 30, 75, 40, 55, 70].map((height, i) => (
+                    <div key={i} className="flex-1 bg-white/5 rounded-t-sm animate-pulse" style={{ height: `${height}%` }} />
                   ))}
                 </div>
               </motion.div>

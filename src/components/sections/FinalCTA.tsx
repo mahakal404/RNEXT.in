@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Check, Phone, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
@@ -18,7 +18,7 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 export function FinalCTA() {
   const { withReducedMotion, shouldReduceMotion } = useMotionUtilities();
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-10%" });
+
 
   return (
     <section 
@@ -100,7 +100,7 @@ export function FinalCTA() {
                 variants={variants.fade}
                 className="text-body-xl text-text-secondary max-w-lg font-medium leading-relaxed"
               >
-                We engineer high-performance digital infrastructure for brands that refuse to blend in. Let's build something unforgettable.
+                We engineer high-performance digital infrastructure for brands that refuse to blend in. Let&apos;s build something unforgettable.
               </motion.p>
             </div>
 

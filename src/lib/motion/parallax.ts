@@ -1,4 +1,4 @@
-import { useScroll, useTransform, MotionValue } from 'framer-motion';
+import { useTransform, MotionValue } from 'framer-motion';
 
 /**
  * Creates a slow, premium parallax effect. 

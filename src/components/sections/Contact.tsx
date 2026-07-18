@@ -18,16 +18,102 @@ const projectTypes = ["Digital Presence", "Custom Platform Development", "E-Comm
 const budgetRanges = ["Below ₹20K", "₹20K–50K", "₹50K–1L", "₹1L+"];
 const timelines = ["Immediately", "Within 1 Month", "2–3 Months", "Flexible"];
 
-function useOnClickOutside(ref: any, handler: any) {
+function useOnClickOutside(ref: React.RefObject<HTMLElement | null>, handler: (event: MouseEvent | TouchEvent) => void) {
   useEffect(() => {
-    const listener = (event: any) => {
-      if (!ref.current || ref.current.contains(event.target)) return;
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) return;
       handler(event);
     };
     document.addEventListener("mousedown", listener);
     return () => document.removeEventListener("mousedown", listener);
   }, [ref, handler]);
 }
+
+const InputField = ({ label, id, error, required, ...props }: React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> & { label: string; id: string; error?: string; required?: boolean; type?: string; rows?: number }) => (
+  <div className="flex flex-col group">
+    <label htmlFor={id} className={`text-sm font-medium mb-2 transition-colors duration-300 ${error ? 'text-red-400' : 'text-text-secondary group-focus-within:text-white'}`}>
+      {label} {required && <span className="text-brand-primary">*</span>}
+    </label>
+    <div className="relative">
+      {props.type === 'textarea' ? (
+        <textarea
+          id={id}
+          className={`w-full bg-bg-primary border ${error ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/15' : 'border-border-primary focus:border-brand-primary focus:ring-brand-primary/15'} rounded-xl px-4 py-4 text-white focus:outline-none focus:ring-[4px] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] placeholder:text-text-muted/40 resize-none`}
+          {...props}
+        />
+      ) : (
+        <input 
+          id={id} 
+          className={`w-full bg-bg-primary border ${error ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/15' : 'border-border-primary focus:border-brand-primary focus:ring-brand-primary/15'} rounded-xl px-4 py-4 text-white focus:outline-none focus:ring-[4px] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] placeholder:text-text-muted/40`}
+          {...props} 
+        />
+      )}
+    </div>
+    <AnimatePresence>
+      {error && (
+        <motion.span 
+          initial={{ opacity: 0, height: 0, y: -5 }} 
+          animate={{ opacity: 1, height: 'auto', y: 0 }} 
+          exit={{ opacity: 0, height: 0, y: -5 }} 
+          className="text-red-400 text-xs mt-2 block"
+        >
+          {error}
+        </motion.span>
+      )}
+    </AnimatePresence>
+  </div>
+);
+
+const DropdownField = ({ label, options, value, onChange, highlight, containerRef, isOpen, onToggle, onClose }: { label: string; options: string[]; value: string; onChange: (v: string) => void; highlight?: boolean; containerRef?: React.RefObject<HTMLDivElement | null>; isOpen: boolean; onToggle: () => void; onClose: () => void; id?: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useOnClickOutside(ref, () => {
+    if (isOpen) onClose();
+  });
+
+  return (
+    <div className="flex flex-col relative group" ref={ref}>
+      <label className="text-sm font-medium text-text-secondary group-focus-within:text-white mb-2 transition-colors duration-300">{label}</label>
+      <div 
+        ref={containerRef}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onToggle();
+          }
+        }}
+        onClick={() => onToggle()}
+        className={`w-full flex items-center justify-between bg-bg-primary border ${isOpen ? 'border-brand-primary ring-[4px] ring-brand-primary/15' : 'border-border-primary'} ${highlight ? 'border-brand-primary/80 ring-[4px] ring-brand-primary/20 shadow-[0_0_15px_rgba(0,212,255,0.3)]' : ''} rounded-xl px-4 py-4 cursor-pointer transition-all duration-500 focus-visible:outline-none focus-visible:border-brand-primary`}
+      >
+        <span className={value ? 'text-white' : 'text-text-muted/40'}>{value || `Select ${label}`}</span>
+        <ChevronDown size={18} className={`text-text-muted transition-transform duration-300 ${isOpen ? 'rotate-180 text-brand-primary' : ''}`} />
+      </div>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="absolute z-50 top-[calc(100%+8px)] left-0 w-full bg-bg-elevated border border-border-primary rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.4)] overflow-hidden"
+          >
+            <div className="max-h-60 overflow-y-auto py-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-border-primary [&::-webkit-scrollbar-track]:bg-transparent">
+              {options.map((opt: string) => (
+                <div 
+                  key={opt}
+                  onClick={() => { onChange(opt); onClose(); }}
+                  className={`px-4 py-3 text-sm cursor-pointer transition-colors ${value === opt ? 'text-brand-primary bg-brand-primary/10' : 'text-text-secondary hover:text-white hover:bg-white/5'}`}
+                >
+                  {opt}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export function Contact() {
   const { withReducedMotion } = useMotionUtilities();
@@ -54,7 +140,7 @@ export function Contact() {
 
   useEffect(() => {
     if (selectedInquiry) {
-      setFormData(prev => ({ ...prev, projectType: selectedInquiry }));
+      setTimeout(() => setFormData(prev => ({ ...prev, projectType: selectedInquiry })), 0);
       
       const timer = setTimeout(() => {
         setHighlightInquiry(true);
@@ -104,92 +190,10 @@ export function Contact() {
     }, 1500);
   };
 
-  const InputField = ({ label, id, error, required, ...props }: any) => (
-    <div className="flex flex-col group">
-      <label htmlFor={id} className={`text-sm font-medium mb-2 transition-colors duration-300 ${error ? 'text-red-400' : 'text-text-secondary group-focus-within:text-white'}`}>
-        {label} {required && <span className="text-brand-primary">*</span>}
-      </label>
-      <div className="relative">
-        {props.type === 'textarea' ? (
-          <textarea
-            id={id}
-            className={`w-full bg-bg-primary border ${error ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/15' : 'border-border-primary focus:border-brand-primary focus:ring-brand-primary/15'} rounded-xl px-4 py-4 text-white focus:outline-none focus:ring-[4px] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] placeholder:text-text-muted/40 resize-none`}
-            {...props}
-          />
-        ) : (
-          <input 
-            id={id} 
-            className={`w-full bg-bg-primary border ${error ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/15' : 'border-border-primary focus:border-brand-primary focus:ring-brand-primary/15'} rounded-xl px-4 py-4 text-white focus:outline-none focus:ring-[4px] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] placeholder:text-text-muted/40`}
-            {...props} 
-          />
-        )}
-      </div>
-      <AnimatePresence>
-        {error && (
-          <motion.span 
-            initial={{ opacity: 0, height: 0, y: -5 }} 
-            animate={{ opacity: 1, height: 'auto', y: 0 }} 
-            exit={{ opacity: 0, height: 0, y: -5 }} 
-            className="text-red-400 text-xs mt-2 block"
-          >
-            {error}
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </div>
-  );
 
-  const DropdownField = ({ label, id, options, value, onChange, highlight, containerRef }: any) => {
-    const isOpen = activeDropdown === id;
-    const ref = useRef<HTMLDivElement>(null);
-    useOnClickOutside(ref, () => {
-      if (isOpen) setActiveDropdown(null);
-    });
 
-    return (
-      <div className="flex flex-col relative group" ref={ref}>
-        <label className="text-sm font-medium text-text-secondary group-focus-within:text-white mb-2 transition-colors duration-300">{label}</label>
-        <div 
-          ref={containerRef}
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              setActiveDropdown(isOpen ? null : id);
-            }
-          }}
-          onClick={() => setActiveDropdown(isOpen ? null : id)}
-          className={`w-full flex items-center justify-between bg-bg-primary border ${isOpen ? 'border-brand-primary ring-[4px] ring-brand-primary/15' : 'border-border-primary'} ${highlight ? 'border-brand-primary/80 ring-[4px] ring-brand-primary/20 shadow-[0_0_15px_rgba(0,212,255,0.3)]' : ''} rounded-xl px-4 py-4 cursor-pointer transition-all duration-500 focus-visible:outline-none focus-visible:border-brand-primary`}
-        >
-          <span className={value ? 'text-white' : 'text-text-muted/40'}>{value || `Select ${label}`}</span>
-          <ChevronDown size={18} className={`text-text-muted transition-transform duration-300 ${isOpen ? 'rotate-180 text-brand-primary' : ''}`} />
-        </div>
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="absolute z-50 top-[calc(100%+8px)] left-0 w-full bg-bg-elevated border border-border-primary rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.4)] overflow-hidden"
-            >
-              <div className="max-h-60 overflow-y-auto py-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-border-primary [&::-webkit-scrollbar-track]:bg-transparent">
-                {options.map((opt: string) => (
-                  <div 
-                    key={opt}
-                    onClick={() => { onChange(opt); setActiveDropdown(null); }}
-                    className={`px-4 py-3 text-sm cursor-pointer transition-colors ${value === opt ? 'text-brand-primary bg-brand-primary/10' : 'text-text-secondary hover:text-white hover:bg-white/5'}`}
-                  >
-                    {opt}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    );
-  };
+
+
 
   const infoItems = [
     { icon: Mail, label: 'Email', value: 'hello.rnext@gmail.com', href: 'mailto:hello.rnext@gmail.com' },
@@ -307,8 +311,8 @@ export function Contact() {
               <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-6">
                 
                 <motion.div variants={variants.fade} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <InputField label="Full Name" id="name" placeholder="John Doe" required value={formData.name} onChange={(e: any) => setFormData({...formData, name: e.target.value})} error={errors.name} />
-                  <InputField label="Mobile Number" id="mobile" placeholder="+91 98765 43210" type="tel" required value={formData.mobile} onChange={(e: any) => setFormData({...formData, mobile: e.target.value})} error={errors.mobile} />
+                  <InputField label="Full Name" id="name" placeholder="John Doe" required value={formData.name} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setFormData({...formData, name: e.target.value})} error={errors.name} />
+                  <InputField label="Mobile Number" id="mobile" placeholder="+91 98765 43210" type="tel" required value={formData.mobile} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setFormData({...formData, mobile: e.target.value})} error={errors.mobile} />
                 </motion.div>
 
                 <motion.div variants={variants.fade} className="flex items-center gap-3">
@@ -321,26 +325,26 @@ export function Contact() {
                 <AnimatePresence>
                   {!formData.sameAsMobile && (
                     <motion.div initial={{ opacity: 0, height: 0, overflow: 'hidden' }} animate={{ opacity: 1, height: 'auto', overflow: 'visible' }} exit={{ opacity: 0, height: 0, overflow: 'hidden' }} transition={{ duration: 0.3 }}>
-                      <InputField label="WhatsApp Number" id="whatsapp" placeholder="+91 98765 43210" type="tel" required value={formData.whatsapp} onChange={(e: any) => setFormData({...formData, whatsapp: e.target.value})} error={errors.whatsapp} />
+                      <InputField label="WhatsApp Number" id="whatsapp" placeholder="+91 98765 43210" type="tel" required value={formData.whatsapp} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setFormData({...formData, whatsapp: e.target.value})} error={errors.whatsapp} />
                     </motion.div>
                   )}
                 </AnimatePresence>
 
                 <motion.div variants={variants.fade}>
-                  <InputField label="Email Address" id="email" placeholder="john@example.com" type="email" required value={formData.email} onChange={(e: any) => setFormData({...formData, email: e.target.value})} error={errors.email} />
+                  <InputField label="Email Address" id="email" placeholder="john@example.com" type="email" required value={formData.email} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setFormData({...formData, email: e.target.value})} error={errors.email} />
                 </motion.div>
 
                 <motion.div variants={variants.fade} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <DropdownField label="Project Type" id="projectType" options={projectTypes} value={formData.projectType} onChange={(val: string) => setFormData({...formData, projectType: val})} highlight={highlightInquiry} containerRef={inquiryRef} />
-                  <DropdownField label="Estimated Budget" id="budget" options={budgetRanges} value={formData.budget} onChange={(val: string) => setFormData({...formData, budget: val})} />
+                  <DropdownField label="Project Type" id="projectType" options={projectTypes} value={formData.projectType} onChange={(val: string) => setFormData({...formData, projectType: val})} highlight={highlightInquiry} containerRef={inquiryRef} isOpen={activeDropdown === 'projectType'} onToggle={() => setActiveDropdown(activeDropdown === 'projectType' ? null : 'projectType')} onClose={() => setActiveDropdown(null)} />
+                  <DropdownField label="Estimated Budget" id="budget" options={budgetRanges} value={formData.budget} onChange={(val: string) => setFormData({...formData, budget: val})} isOpen={activeDropdown === 'budget'} onToggle={() => setActiveDropdown(activeDropdown === 'budget' ? null : 'budget')} onClose={() => setActiveDropdown(null)} />
                 </motion.div>
 
                 <motion.div variants={variants.fade}>
-                  <DropdownField label="Timeline" id="timeline" options={timelines} value={formData.timeline} onChange={(val: string) => setFormData({...formData, timeline: val})} />
+                  <DropdownField label="Timeline" id="timeline" options={timelines} value={formData.timeline} onChange={(val: string) => setFormData({...formData, timeline: val})} isOpen={activeDropdown === 'timeline'} onToggle={() => setActiveDropdown(activeDropdown === 'timeline' ? null : 'timeline')} onClose={() => setActiveDropdown(null)} />
                 </motion.div>
 
                 <motion.div variants={variants.fade}>
-                  <InputField label="Project Description" id="description" placeholder="Tell us about what you want to build..." type="textarea" rows={4} required value={formData.description} onChange={(e: any) => setFormData({...formData, description: e.target.value})} error={errors.description} />
+                  <InputField label="Project Description" id="description" placeholder="Tell us about what you want to build..." type="textarea" rows={4} required value={formData.description} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setFormData({...formData, description: e.target.value})} error={errors.description} />
                 </motion.div>
                 
                 <motion.div variants={variants.fade} className="mt-4 flex flex-col gap-4">

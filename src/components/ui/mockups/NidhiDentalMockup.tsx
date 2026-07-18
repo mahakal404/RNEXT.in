@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Calendar, CheckCircle2, ChevronRight, Clock, MapPin, 
+  Calendar, CheckCircle2, Clock, MapPin, 
   Phone, Star, Activity, Heart, Smile, User, 
   ChevronDown, ArrowRight, ShieldCheck, Stethoscope 
 } from 'lucide-react';
@@ -196,7 +196,7 @@ export const NidhiDentalMockup = () => {
               ].map((service, i) => (
                 <div key={i} className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 hover:-translate-y-1.5 transition-all duration-300 group cursor-pointer">
                   <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                    {React.cloneElement(service.icon as React.ReactElement<any>, { size: 28 })}
+                    {React.cloneElement(service.icon as React.ReactElement<{ size?: number }>, { size: 28 })}
                   </div>
                   <h3 className="text-xl font-extrabold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">{service.title}</h3>
                   <p className="text-slate-500 font-medium leading-relaxed mb-6">{service.desc}</p>
@@ -245,7 +245,7 @@ export const NidhiDentalMockup = () => {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 blur-2xl rounded-full" />
                   <div className="relative z-10">
                     <h4 className="text-white font-bold mb-4 flex items-center gap-2">
-                      <Calendar size={18} className="text-blue-400" /> Today's Appointments
+                      <Calendar size={18} className="text-blue-400" /> Today&apos;s Appointments
                     </h4>
                     <div className="flex gap-4">
                       <div className="bg-white/10 rounded-xl p-3 flex-1 border border-white/10">
@@ -269,7 +269,7 @@ export const NidhiDentalMockup = () => {
               <div className="flex-1 w-full max-w-lg lg:ml-auto">
                 <div className="bg-white rounded-[32px] border border-slate-200 shadow-2xl shadow-slate-200/50 p-8 md:p-10">
                   <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Book Your Visit</h3>
-                  <p className="text-slate-500 font-medium text-sm mb-8">Fill out the form below and we'll get back to you immediately.</p>
+                  <p className="text-slate-500 font-medium text-sm mb-8">Fill out the form below and we&apos;ll get back to you immediately.</p>
                   
                   <div className="flex flex-col gap-5">
                     <div className="flex flex-col gap-2">
@@ -319,7 +319,7 @@ export const NidhiDentalMockup = () => {
           <section className="py-24 px-6 max-w-[1200px] mx-auto">
             <div className="flex flex-col items-center text-center mb-16">
               <span className="text-blue-600 font-extrabold uppercase tracking-[0.2em] text-xs mb-4 block">Testimonials</span>
-              <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">Smiles We've Restored</h2>
+              <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">Smiles We&apos;ve Restored</h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -336,7 +336,7 @@ export const NidhiDentalMockup = () => {
                     <Star size={16} fill="currentColor" />
                     <Star size={16} fill="currentColor" />
                   </div>
-                  <p className="text-slate-600 font-medium leading-relaxed italic flex-1">"{review.text}"</p>
+                  <p className="text-slate-600 font-medium leading-relaxed italic flex-1">&quot;{review.text}&quot;</p>
                   <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
                     <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold">
                       {review.name.charAt(0)}

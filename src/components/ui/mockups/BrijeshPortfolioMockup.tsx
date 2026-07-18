@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Camera, Film, Video, PlayCircle, Star, Clock, Heart, Shield, ArrowRight, Aperture } from 'lucide-react';
+import { Camera, Film, Video, PlayCircle, Star, Clock, Shield, ArrowRight, Aperture } from 'lucide-react';
 
 export const BrijeshPortfolioMockup = () => {
   return (

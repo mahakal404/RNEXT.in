@@ -1,4 +1,4 @@
-import { transitions } from './transitions';
+
 
 // Extremely subtle floating motion for Hero devices and background shapes
 export const floating = {

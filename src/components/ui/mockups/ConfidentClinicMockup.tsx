@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Calendar, CheckCircle2, ChevronRight, Clock, MapPin, 
+  CheckCircle2, Clock, MapPin, 
   Phone, Star, Activity, Heart, Smile, User, 
-  ChevronDown, ArrowRight, ShieldCheck, Stethoscope,
+  ChevronDown, ArrowRight, ShieldCheck,
   Sparkles, Camera, Award
 } from 'lucide-react';
 
@@ -213,7 +213,7 @@ export const ConfidentClinicMockup = () => {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="w-16 h-16 rounded-2xl bg-slate-50 text-slate-800 flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-500 shadow-sm border border-slate-100 group-hover:border-blue-600">
-                    {React.cloneElement(service.icon as React.ReactElement<any>, { size: 28 })}
+                    {React.cloneElement(service.icon as React.ReactElement<{ size?: number }>, { size: 28 })}
                   </div>
                   <h3 className="text-2xl font-extrabold text-slate-900 mb-4">{service.title}</h3>
                   <p className="text-slate-500 font-medium leading-relaxed mb-8">Precision crafted treatments designed to restore function and deliver a flawless, natural appearance.</p>
@@ -380,7 +380,7 @@ export const ConfidentClinicMockup = () => {
                       <Star size={18} fill="currentColor" />
                       <Star size={18} fill="currentColor" />
                     </div>
-                    <p className="text-slate-600 font-medium leading-relaxed flex-1 text-lg">"{review.text}"</p>
+                    <p className="text-slate-600 font-medium leading-relaxed flex-1 text-lg">&quot;{review.text}&quot;</p>
                     <div className="flex items-center gap-4 pt-6 border-t border-slate-100">
                       <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-extrabold text-lg">
                         {review.name.charAt(0)}

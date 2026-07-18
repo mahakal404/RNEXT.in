@@ -40,7 +40,7 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
 
   // 1. Mount & Observer
   useEffect(() => {
-    setMounted(true);
+    setTimeout(() => setMounted(true), 0);
     // After 2.5s initial enter, go idle
     const initTimer = setTimeout(() => setPhase('idle'), 2500);
 
@@ -113,7 +113,7 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
     return () => clearTimeout(timeout);
   }, [isPaused, shouldReduceMotion, phase, activeEvent]);
 
-  const premiumEase: any = [0.16, 1, 0.3, 1];
+  const premiumEase: number[] = [0.16, 1, 0.3, 1];
 
   return (
     <motion.div 
@@ -140,24 +140,28 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
       {/* Tiny Background Particles */}
       {mounted && !shouldReduceMotion && !isPaused && (
         <div className="absolute inset-0 z-0 pointer-events-none">
-          {[...Array(6)].map((_, i) => (
+          {[
+            { top: '35%', left: '25%', yEnd: -25, dur: 5.5, del: 1.2 },
+            { top: '65%', left: '75%', yEnd: -35, dur: 7.0, del: 3.4 },
+            { top: '45%', left: '55%', yEnd: -20, dur: 4.8, del: 0.5 },
+            { top: '75%', left: '35%', yEnd: -40, dur: 6.2, del: 2.1 },
+            { top: '25%', left: '65%', yEnd: -30, dur: 5.9, del: 4.0 },
+            { top: '55%', left: '45%', yEnd: -22, dur: 4.5, del: 1.8 }
+          ].map((p, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-white/30 rounded-full blur-[1px]"
-              style={{
-                top: `${20 + Math.random() * 60}%`,
-                left: `${20 + Math.random() * 60}%`,
-              }}
+              style={{ top: p.top, left: p.left }}
               animate={{
-                y: [0, -20 - Math.random() * 20, 0],
+                y: [0, p.yEnd, 0],
                 opacity: [0, 0.8, 0],
                 scale: [0, 1.5, 0]
               }}
               transition={{
-                duration: 4 + Math.random() * 4,
+                duration: p.dur,
                 repeat: Infinity,
                 ease: "easeInOut",
-                delay: Math.random() * 5
+                delay: p.del
               }}
             />
           ))}
@@ -172,7 +176,7 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
           className="absolute z-10 w-[75%] top-[10%] left-1/2 ml-[-37.5%]"
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.2, ease: premiumEase }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Parallax Wrapper */}
           <motion.div style={{ x: desktopX, y: desktopY }} className="w-full h-full relative">
@@ -207,7 +211,7 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
           className="absolute z-20 w-[32%] bottom-[-5%] left-[5%]"
           initial={{ opacity: 0, y: 40, x: -10, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.4, ease: premiumEase }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Parallax Wrapper */}
           <motion.div style={{ x: tabletX, y: tabletY }} className="w-full h-full relative">
@@ -239,7 +243,7 @@ export function HeroVisual({ mouseX, mouseY }: HeroVisualProps) {
           className="absolute z-30 w-[14%] bottom-[-10%] right-[12%]"
           initial={{ opacity: 0, y: 40, x: 10, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.6, ease: premiumEase }}
+          transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Parallax Wrapper */}
           <motion.div style={{ x: phoneX, y: phoneY }} className="w-full h-full relative">

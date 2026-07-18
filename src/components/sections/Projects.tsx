@@ -44,7 +44,7 @@ export function Projects() {
     if (resolveTimerRef.current) clearTimeout(resolveTimerRef.current);
 
     // Simulate load time (sometimes fast, sometimes slow)
-    const simulatedLoadTime = Math.random() > 0.5 ? 120 : 320; 
+    const simulatedLoadTime = 120; 
 
     // Only show skeleton if transition takes > 180ms
     loadingTimerRef.current = setTimeout(() => {

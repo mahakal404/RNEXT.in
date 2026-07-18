@@ -23,7 +23,7 @@ export function useScrollSpy(ids: string[], offset: string = "-30% 0px -55% 0px"
     });
 
     return () => observer.disconnect();
-  }, [ids.join(','), offset]); // Safe to join for dependency array
+  }, [ids, offset]);
 
   return activeId;
 }

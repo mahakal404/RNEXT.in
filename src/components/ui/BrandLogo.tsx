@@ -11,7 +11,7 @@ const orbitron = Orbitron({
 interface BrandLogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'custom';
-  bgColor?: string;
+
   layoutId?: string;
   animateSequence?: boolean;
   onSequenceComplete?: () => void;
@@ -28,7 +28,6 @@ const sizeClasses = {
 export const BrandLogo: React.FC<BrandLogoProps> = ({ 
   className = '', 
   size = 'md',
-  bgColor = '#030811',
   layoutId,
   animateSequence = false,
   onSequenceComplete
@@ -36,7 +35,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   const { shouldReduceMotion } = useMotionUtilities();
   const controls = useAnimation();
   const pulseControls = useAnimation();
-  const [sequenceDone, setSequenceDone] = useState(false);
+  const [, setSequenceDone] = useState(false);
 
   useEffect(() => {
     if (!animateSequence || shouldReduceMotion) {

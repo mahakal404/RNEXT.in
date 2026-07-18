@@ -276,7 +276,7 @@ export const HariniDentalMockup = () => {
                     <Star size={18} fill="currentColor" />
                     <Star size={18} fill="currentColor" />
                   </div>
-                  <p className="text-slate-600 font-medium leading-relaxed italic">"{review.text}"</p>
+                  <p className="text-slate-600 font-medium leading-relaxed italic">&quot;{review.text}&quot;</p>
                   <div className="font-bold text-slate-900 mt-auto">{review.name}</div>
                 </div>
               ))}

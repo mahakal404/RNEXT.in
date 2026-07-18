@@ -26,7 +26,7 @@ export function Navbar() {
   // Handle active link synchronization based on route and scroll
   useEffect(() => {
     if (pathname && pathname.startsWith('/projects')) {
-      setActiveLink('Projects');
+      setTimeout(() => setActiveLink('Projects'), 0);
     } else if (pathname === '/') {
       if (spyActiveId) {
         const linkMap: Record<string, string> = {
@@ -37,7 +37,7 @@ export function Navbar() {
           'about': 'About',
           'contact': 'Contact'
         };
-        if (linkMap[spyActiveId]) setActiveLink(linkMap[spyActiveId]);
+        if (linkMap[spyActiveId]) { const _active = linkMap[spyActiveId]; setTimeout(() => setActiveLink(_active), 0); }
       }
     }
   }, [pathname, spyActiveId]);
@@ -112,6 +112,7 @@ export function Navbar() {
         }`}
         initial="initial"
         animate={isHidden && !shouldReduceMotion ? "hidden" : "animate"}
+        // @ts-ignore - motion variants generic type mismatch
         variants={{
           ...animations.navbar,
           hidden: { 

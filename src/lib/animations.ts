@@ -2,8 +2,8 @@ import { useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 export const getHeroAnimations = (shouldReduceMotion: boolean | null) => {
-  const getInitial = (props: any) => (shouldReduceMotion ? { opacity: 0 } : props);
-  const getAnimate = (props: any) => (shouldReduceMotion ? { opacity: 1 } : props);
+  const getInitial = (props: Record<string, unknown>) => (shouldReduceMotion ? { opacity: 0 } : props);
+  const getAnimate = (props: Record<string, unknown>) => (shouldReduceMotion ? { opacity: 1 } : props);
 
   return {
     background: {

@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Search, PenTool, Code, Rocket, TrendingUp, Cpu, Zap, Target, Wrench } from 'lucide-react';
+import { Search, PenTool, Code, Rocket, TrendingUp, Zap, Target, Wrench } from 'lucide-react';
 import { SectionHeader } from '../ui/SectionHeader';
 import { useMotionUtilities, variants, stagger, hover, transitions } from '../../lib/motion';
 
